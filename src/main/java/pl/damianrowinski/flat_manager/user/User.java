@@ -1,10 +1,15 @@
 package pl.damianrowinski.flat_manager.user;
 
+import lombok.Getter;
+import lombok.Setter;
 import pl.damianrowinski.flat_manager.personal_details.PersonalDetails;
+import pl.damianrowinski.flat_manager.security.Role;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -17,4 +22,8 @@ public class User {
     private long NIP;
     private String login;
     private String password;
+    private int enabled;
+
+    @ManyToOne
+    private Role role;
 }
