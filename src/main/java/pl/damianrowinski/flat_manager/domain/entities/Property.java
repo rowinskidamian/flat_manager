@@ -1,7 +1,4 @@
-package pl.damianrowinski.flat_manager.property;
-
-import pl.damianrowinski.flat_manager.owner.Owner;
-import pl.damianrowinski.flat_manager.room.Room;
+package pl.damianrowinski.flat_manager.domain.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;

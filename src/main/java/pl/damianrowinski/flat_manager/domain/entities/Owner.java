@@ -1,7 +1,4 @@
-package pl.damianrowinski.flat_manager.owner;
-
-import pl.damianrowinski.flat_manager.personal_details.PersonalDetails;
-import pl.damianrowinski.flat_manager.property.Property;
+package pl.damianrowinski.flat_manager.domain.entities;
 
 import javax.persistence.*;
 import java.util.List;

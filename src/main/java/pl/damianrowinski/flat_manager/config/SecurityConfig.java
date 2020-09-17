@@ -1,4 +1,4 @@
-package pl.damianrowinski.flat_manager;
+package pl.damianrowinski.flat_manager.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,8 +1,8 @@
-package pl.damianrowinski.flat_manager.tenant;
+package pl.damianrowinski.flat_manager.domain.entities;
 
-import pl.damianrowinski.flat_manager.payment.Payment;
-import pl.damianrowinski.flat_manager.personal_details.PersonalDetails;
-import pl.damianrowinski.flat_manager.room.Room;
+import pl.damianrowinski.flat_manager.domain.entities.Payment;
+import pl.damianrowinski.flat_manager.domain.entities.PersonalDetails;
+import pl.damianrowinski.flat_manager.domain.entities.Room;
 
 import javax.persistence.*;
 import java.time.LocalDate;

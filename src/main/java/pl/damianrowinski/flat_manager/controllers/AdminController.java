@@ -1,11 +1,11 @@
-package pl.damianrowinski.flat_manager.admin;
+package pl.damianrowinski.flat_manager.controllers;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.damianrowinski.flat_manager.security.ApplicationUser;
-import pl.damianrowinski.flat_manager.user.User;
+import pl.damianrowinski.flat_manager.domain.entities.User;
 
 @Controller
 public class AdminController {

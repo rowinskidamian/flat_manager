@@ -1,12 +1,12 @@
-package pl.damianrowinski.flat_manager.layout;
+package pl.damianrowinski.flat_manager.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class FirstLookBulmaController {
+public class HomeController {
     @RequestMapping("/")
-    public String firstLook() {
-        return "/layout/firstLook";
+    public String home() {
+        return "home";
     }
 }

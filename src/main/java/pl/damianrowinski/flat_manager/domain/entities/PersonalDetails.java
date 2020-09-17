@@ -1,4 +1,4 @@
-package pl.damianrowinski.flat_manager.personal_details;
+package pl.damianrowinski.flat_manager.domain.entities;
 
 import lombok.Getter;
 import lombok.Setter;

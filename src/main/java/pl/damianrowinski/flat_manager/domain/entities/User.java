@@ -1,8 +1,8 @@
-package pl.damianrowinski.flat_manager.user;
+package pl.damianrowinski.flat_manager.domain.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.damianrowinski.flat_manager.personal_details.PersonalDetails;
+import pl.damianrowinski.flat_manager.domain.entities.PersonalDetails;
 import pl.damianrowinski.flat_manager.security.Role;
 
 import javax.persistence.*;

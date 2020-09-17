@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.damianrowinski.flat_manager.user.User;
-import pl.damianrowinski.flat_manager.user.UserService;
+import pl.damianrowinski.flat_manager.domain.entities.User;
+import pl.damianrowinski.flat_manager.services.UserService;
 
 import java.util.HashSet;
 import java.util.Set;
