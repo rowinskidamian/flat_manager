@@ -1,14 +1,18 @@
 package pl.damianrowinski.flat_manager.domain.entities;
 
-import pl.damianrowinski.flat_manager.domain.entities.Payment;
-import pl.damianrowinski.flat_manager.domain.entities.PersonalDetails;
-import pl.damianrowinski.flat_manager.domain.entities.Room;
+import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@Transactional
 public class Tenant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,4 +36,8 @@ public class Tenant {
 
     @OneToMany(mappedBy = "tenant")
     private List<Payment> paymentList;
+
+    @ManyToOne
+    @NotNull
+    private User user;
 }

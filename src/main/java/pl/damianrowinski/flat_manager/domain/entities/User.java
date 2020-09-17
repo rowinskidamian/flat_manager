@@ -3,7 +3,6 @@ package pl.damianrowinski.flat_manager.domain.entities;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import pl.damianrowinski.flat_manager.domain.entities.PersonalDetails;
 import pl.damianrowinski.flat_manager.security.Role;
 
 import javax.persistence.*;
@@ -21,12 +20,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne
-    private PersonalDetails personalDetails;
-
-    private String companyName;
-    private long NIP;
-
     @NotNull
     private String login;
 
@@ -35,6 +28,9 @@ public class User {
 
     @Column(nullable = false)
     private Boolean active;
+
+    @OneToOne
+    private PersonalDetails personalDetails;
 
     @ManyToOne
     private Role role;

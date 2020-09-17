@@ -1,8 +1,16 @@
 package pl.damianrowinski.flat_manager.domain.entities;
 
+import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
 @Entity
+@Getter
+@Setter
+@Transactional
 public class Room {
 
     @Id
@@ -16,4 +24,8 @@ public class Room {
 
     @OneToOne
     private Tenant tenant;
+
+    @ManyToOne
+    @NotNull
+    private User user;
 }

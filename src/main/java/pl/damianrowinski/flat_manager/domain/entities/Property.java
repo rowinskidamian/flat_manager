@@ -1,10 +1,18 @@
 package pl.damianrowinski.flat_manager.domain.entities;
 
+import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@Transactional
 public class Property {
 
     @Id
@@ -24,6 +32,10 @@ public class Property {
     private LocalDate contractBeginningDate;
 
     private LocalDate contractEndingDate;
+
+    @ManyToOne
+    @NotNull
+    private User user;
 
 
 }
