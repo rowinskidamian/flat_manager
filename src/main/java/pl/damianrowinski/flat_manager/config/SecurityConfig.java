@@ -1,5 +1,6 @@
 package pl.damianrowinski.flat_manager.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -7,25 +8,47 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.damianrowinski.flat_manager.security.SpringDataUserDetailsService;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final DataSource dataSource;
+
+    private String[] staticResources = {
+            "/css/**",
+            "/images/**",
+            "/fonts/**",
+            "/scripts/**",
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers(staticResources).permitAll()
                 .antMatchers("/").permitAll()
-                .antMatchers("/logged").authenticated()
-                .antMatchers("/admin/**").hasRole("USER")
-                .and().formLogin()
-                .and().logout().logoutSuccessUrl("/");
+                .antMatchers("/register").permitAll()
+                .antMatchers("/login").anonymous()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService())
-                .passwordEncoder(passwordEncoder());
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .passwordEncoder(passwordEncoder())
+                .usersByUsernameQuery("SELECT login, password, active FROM users WHERE username = ?")
+                .authoritiesByUsernameQuery("SELECT login, 'ROLE_USER' FROM users WHERE username = ?");
     }
 
     @Bean
@@ -33,8 +56,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public SpringDataUserDetailsService customUserDetailsService() {
-        return new SpringDataUserDetailsService();
-    }
 }

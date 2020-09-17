@@ -1,12 +1,21 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<html>
+<head>
+    <title>Website Navbar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
+<body>
+
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="images" href="https://bulma.io">
             <img src="/images/flat_manager_logo.png" width="160" height="160">
         </a>
 
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+           data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -23,38 +32,52 @@
                 Moje mieszkania
             </a>
 
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">
-                    Rozwiń
-                </a>
 
-                <div class="navbar-dropdown">
-                    <a class="navbar-item">
-                        O nas
+            <sec:authorize access="isAuthenticated()">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        Rozwiń
                     </a>
-                    <a class="navbar-item">
-                        Kontakt
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item">
-                        Zgłoś problem
-                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item">
+                            O nas
+                        </a>
+                        <a class="navbar-item">
+                            Kontakt
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                            Zgłoś problem
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </sec:authorize>
 
         </div>
 
         <div class="navbar-end">
             <div class="navbar-item">
+
                 <div class="buttons">
-                    <a class="button is-primary is-info">
-                        <strong>Zarejestruj się</strong>
-                    </a>
-                    <a class="button is-light">
-                        Zaloguj się
-                    </a>
+                    <sec:authorize access="isAnonymous()">
+                        <a class="button is-primary is-info" href="/register">
+                            <strong>Zarejestruj się</strong>
+                        </a>
+                        <a class="button is-light" href="/login">
+                            Zaloguj się
+                        </a>
+                    </sec:authorize>
+                    <sec:authorize access="isAuthenticated()">
+                        <a class="button is-primary is-info" href="/logout">
+                            <strong>Wyloguj się</strong>
+                        </a>
+
+                    </sec:authorize>
                 </div>
             </div>
         </div>
     </div>
 </nav>
+</body>
+</html>
