@@ -13,11 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Transactional
-public class Property {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class Property extends BaseEntityLoggedUser {
 
     @ManyToOne
     private Owner owner;
@@ -32,10 +28,4 @@ public class Property {
     private LocalDate contractBeginningDate;
 
     private LocalDate contractEndingDate;
-
-    @ManyToOne
-    @NotNull
-    private User user;
-
-
 }

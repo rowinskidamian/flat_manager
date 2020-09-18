@@ -1,6 +1,5 @@
 package pl.damianrowinski.flat_manager.domain.entities;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,21 +11,13 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Transactional
-public class Payment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class Payment extends BaseEntityLoggedUser {
 
     private LocalDate paymentIncomeDate;
-
     private Double amount;
 
     @ManyToOne
     private Tenant tenant;
 
-    @ManyToOne
-    @NotNull
-    private User user;
 
 }

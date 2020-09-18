@@ -11,14 +11,15 @@ import javax.transaction.Transactional;
 @Getter
 @Setter
 @Transactional
-public class Room extends BaseEntityLoggedUser{
+
+@Inheritance(strategy = InheritanceType.JOINED)
+public class BaseEntityPersonalDetails extends BaseEntityLoggedUser {
 
     @NotNull
-    private Double catalogRent;
+    private String firstName;
+    @NotNull
+    private String lastName;
+    @NotNull
+    private String email;
 
-    @ManyToOne
-    private Property property;
-
-    @OneToOne
-    private Tenant tenant;
 }

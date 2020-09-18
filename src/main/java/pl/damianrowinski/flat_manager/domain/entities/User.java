@@ -30,7 +30,7 @@ public class User {
     private Boolean active;
 
     @OneToOne
-    private PersonalDetails personalDetails;
+    private BaseEntityPersonalDetails personalDetails;
 
     @ManyToOne
     private Role role;

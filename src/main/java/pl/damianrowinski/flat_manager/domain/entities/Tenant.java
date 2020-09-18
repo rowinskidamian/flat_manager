@@ -13,31 +13,24 @@ import java.util.List;
 @Getter
 @Setter
 @Transactional
-public class Tenant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class Tenant extends BaseEntityPersonalDetails{
 
-    @OneToOne
-    private PersonalDetails personalDetails;
-
+    @NotNull
     private LocalDate leaseDateBeginning;
-
+    @NotNull
     private LocalDate leaseDateEnding;
 
     @OneToOne
     private Room room;
 
-    private Double rent;
+    private Double rentDiscount;
 
+    @NotNull
     private LocalDate paymentDeadline;
-
+    @NotNull
     private Double accountPaymentBalance;
 
     @OneToMany(mappedBy = "tenant")
     private List<Payment> paymentList;
 
-    @ManyToOne
-    @NotNull
-    private User user;
 }

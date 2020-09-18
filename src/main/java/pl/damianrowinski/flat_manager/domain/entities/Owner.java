@@ -1,6 +1,5 @@
 package pl.damianrowinski.flat_manager.domain.entities;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,20 +12,9 @@ import java.util.List;
 @Setter
 @Transactional
 
-public class Owner {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    @OneToOne
-    private PersonalDetails personalDetails;
+public class Owner extends BaseEntityPersonalDetails {
 
     @OneToMany(mappedBy = "owner")
     private List<Property> propertyList;
-
-    @ManyToOne
-    @NotNull
-    private User user;
 
 }
