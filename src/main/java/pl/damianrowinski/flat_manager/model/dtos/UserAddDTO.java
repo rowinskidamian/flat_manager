@@ -7,6 +7,14 @@ public class UserAddDTO {
 
     private String login;
     private String password;
+    private String passwordCheck;
+    private String email;
+
     private String firstName;
     private String lastName;
+    private String cityName;
+    private String streetName;
+    private Integer streetNumber;
+    private Integer apartmentNumber;
+
 }

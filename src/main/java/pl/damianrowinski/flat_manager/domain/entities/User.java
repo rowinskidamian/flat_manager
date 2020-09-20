@@ -14,6 +14,11 @@ import javax.transaction.Transactional;
 @Transactional
 @Table(name = User.TABLE_NAME)
 public class User extends BaseEntity {
+
+    public User() {
+        personalDetails = new PersonalDetails();
+    }
+
     final static String TABLE_NAME = "users";
 
     @Column(nullable = false)

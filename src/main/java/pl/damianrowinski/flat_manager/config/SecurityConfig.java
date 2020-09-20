@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(staticResources).permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/register").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/login").anonymous()
                 .anyRequest().authenticated()
                 .and()
@@ -47,8 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("SELECT login, password, active FROM users WHERE username = ?")
-                .authoritiesByUsernameQuery("SELECT login, 'ROLE_USER' FROM users WHERE username = ?");
+                .usersByUsernameQuery("SELECT login, password, active FROM users WHERE login = ?")
+                .authoritiesByUsernameQuery("SELECT login, role FROM users WHERE login = ?");
     }
 
     @Bean

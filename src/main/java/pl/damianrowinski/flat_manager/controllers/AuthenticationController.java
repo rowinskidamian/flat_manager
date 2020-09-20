@@ -20,7 +20,7 @@ public class AuthenticationController {
     public String getRegistration(Model model) {
         UserAddDTO userAddDTO = new UserAddDTO();
         model.addAttribute("userData", userAddDTO);
-        return "/login/registration-form";
+        return "/login/registration";
     }
 
     @PostMapping("/register")

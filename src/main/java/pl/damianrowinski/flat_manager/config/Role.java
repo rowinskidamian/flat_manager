@@ -1,5 +1,5 @@
 package pl.damianrowinski.flat_manager.config;
 
-enum Role {
+public enum Role {
     ADMIN, USER;
 }
