@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Flat Manager - Twój program do zarządzania najmem mieszkań</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
-<%--    <script src="https://kit.fontawesome.com/a1834f9866.js" crossorigin="anonymous"></script>--%>
+    <script src="https://kit.fontawesome.com/a1834f9866.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <section>
@@ -44,7 +44,7 @@
                 <div class="control has-icons-left">
                     <form:password path="password" cssClass="input"/>
                     <span class="icon is-small is-left">
-                        <i class="fas fa-lock"/>
+                        <i class="fas fa-lock"></i>
                     </span>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                 <div class="control has-icons-left has-icons-right">
                     <form:input path="firstName" cssClass="input"/>
                     <span class="icon is-small is-left">
-                        <i class="fas fa-user"/>
+                        <i class="fas fa-user"></i>
                     </span>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                 <div class="control has-icons-left has-icons-right">
                     <form:input path="lastName" cssClass="input"/>
                     <span class="icon is-small is-left">
-                        <i class="fas fa-user"/>
+                        <i class="fas fa-user"></i>
                     </span>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 <div class="control has-icons-left has-icons-right">
                     <form:input path="email" cssClass="input"/>
                     <span class="icon is-small is-left">
-                        <i class="fas fa-envelope"/>
+                        <i class="fas fa-envelope"></i>
                     </span>
                 </div>
             </div>
