@@ -15,17 +15,12 @@ import java.util.List;
 @Transactional
 public class Property extends BaseEntityLoggedUser {
 
-    @ManyToOne
-    private Owner owner;
-
-    @OneToMany
+    @OneToMany (mappedBy = "property")
     private List<Room> rooms;
 
     private Double rent;
+    private Double billsAmount;
 
     private LocalDate paymentDate;
 
-    private LocalDate contractBeginningDate;
-
-    private LocalDate contractEndingDate;
 }

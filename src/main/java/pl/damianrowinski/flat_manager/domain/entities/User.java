@@ -13,12 +13,9 @@ import javax.transaction.Transactional;
 @Setter
 @Transactional
 @Table(name = User.TABLE_NAME)
-public class User {
+public class User extends BaseEntityPersonalDetails {
     final static String TABLE_NAME = "users";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
     @NotNull
     private String login;
@@ -28,9 +25,6 @@ public class User {
 
     @Column(nullable = false)
     private Boolean active;
-
-    @OneToOne
-    private BaseEntityPersonalDetails personalDetails;
 
     @ManyToOne
     private Role role;

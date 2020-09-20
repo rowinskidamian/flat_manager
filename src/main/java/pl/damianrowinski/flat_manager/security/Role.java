@@ -1,5 +1,6 @@
 package pl.damianrowinski.flat_manager.security;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,9 @@ import javax.persistence.Id;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotNull
     private String name;
 }

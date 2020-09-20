@@ -11,9 +11,11 @@ import javax.transaction.Transactional;
 @Getter
 @Setter
 @Transactional
+@Table(name = BaseEntityPersonalDetails.TABLE_NAME)
+@MappedSuperclass
+public abstract class BaseEntityPersonalDetails extends BaseEntityLoggedUser {
 
-@Inheritance(strategy = InheritanceType.JOINED)
-public class BaseEntityPersonalDetails extends BaseEntityLoggedUser {
+    final static String TABLE_NAME = "personal_details";
 
     @NotNull
     private String firstName;
