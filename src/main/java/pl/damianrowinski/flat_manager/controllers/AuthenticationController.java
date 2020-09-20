@@ -36,7 +36,7 @@ public class AuthenticationController {
 
     @GetMapping("/logout-confirm")
     public String confirmLogout() {
-        return "/login/logout-confirm";
+        return "/login/logout-confirmation";
     }
 
 }

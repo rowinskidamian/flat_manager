@@ -10,7 +10,7 @@
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="images" href="https://bulma.io">
+        <a class="images" href="/">
             <img src="/images/flat_manager_logo.png" width="160" height="160">
         </a>
 
@@ -24,7 +24,7 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item">
+            <a class="navbar-item" href="/">
                 Strona główna
             </a>
 
@@ -69,7 +69,7 @@
                         </a>
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">
-                        <a class="button is-primary is-info" href="/logout">
+                        <a class="button is-primary is-info" href="/logout-confirm">
                             <strong>Wyloguj się</strong>
                         </a>
 
