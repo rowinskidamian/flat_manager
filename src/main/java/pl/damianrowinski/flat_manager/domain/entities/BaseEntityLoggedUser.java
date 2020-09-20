@@ -8,13 +8,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @MappedSuperclass
 @Getter
 @Setter
 @ToString
 
-public abstract class BaseEntityLoggedUser{
+public abstract class BaseEntityLoggedUser extends BaseEntity {
 
     @NotNull
     private String loggedUserName;
@@ -31,6 +32,17 @@ public abstract class BaseEntityLoggedUser{
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        BaseEntityLoggedUser that = (BaseEntityLoggedUser) o;
+        return Objects.equals(loggedUserName, that.loggedUserName);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), loggedUserName);
+    }
 }

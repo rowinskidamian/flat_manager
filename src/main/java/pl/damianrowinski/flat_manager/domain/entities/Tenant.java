@@ -13,22 +13,29 @@ import java.util.List;
 @Getter
 @Setter
 @Transactional
-public class Tenant extends BaseEntityPersonalDetails{
+@Table(name = Tenant.TABLE_NAME)
+public class Tenant extends BaseEntityLoggedUser {
 
-    @NotNull
-    private LocalDate leaseDateBeginning;
-    @NotNull
-    private LocalDate leaseDateEnding;
+    final static String TABLE_NAME = "tenants";
+
+    @Column(name = "lease_date_start", nullable = false)
+    private LocalDate leaseDateStart;
+
+    @Column(name = "lease_date_end", nullable = false)
+    private LocalDate leaseDateEnd;
 
     @OneToOne
     private Room room;
 
     private Double rentDiscount;
 
-    @NotNull
+    @Column(name = "payment_deadline", nullable = false)
     private LocalDate paymentDeadline;
-    @NotNull
+
+    @Column(name = "account_payment_balance", nullable = false)
     private Double accountPaymentBalance;
+
+    private PersonalDetails personalDetails;
 
     @OneToMany(mappedBy = "tenant")
     private List<Payment> paymentList;

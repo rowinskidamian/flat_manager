@@ -3,7 +3,6 @@ package pl.damianrowinski.flat_manager.domain.entities;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import pl.damianrowinski.flat_manager.security.Role;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -13,9 +12,8 @@ import javax.transaction.Transactional;
 @Setter
 @Transactional
 @Table(name = User.TABLE_NAME)
-public class User extends BaseEntityPersonalDetails {
+public class User extends BaseEntity {
     final static String TABLE_NAME = "users";
-
 
     @NotNull
     private String login;
@@ -26,6 +24,8 @@ public class User extends BaseEntityPersonalDetails {
     @Column(nullable = false)
     private Boolean active;
 
-    @ManyToOne
-    private Role role;
+    @NotNull
+    private String role;
+
+    private PersonalDetails personalDetails;
 }

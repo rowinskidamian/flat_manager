@@ -11,7 +11,10 @@ import javax.transaction.Transactional;
 @Getter
 @Setter
 @Transactional
-public class Room extends BaseEntityLoggedUser{
+@Table(name = Room.TABLE_NAME)
+public class Room extends BaseEntityLoggedUser {
+
+    final static String TABLE_NAME = "rooms";
 
     @NotNull
     private Double catalogRent;
