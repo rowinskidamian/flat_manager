@@ -3,6 +3,7 @@ package pl.damianrowinski.flat_manager.domain.entities;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import pl.damianrowinski.flat_manager.model.common.PersonalDetails;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -15,17 +16,26 @@ import javax.transaction.Transactional;
 public class User extends BaseEntity {
     final static String TABLE_NAME = "users";
 
-    @NotNull
+    @Column(nullable = false)
     private String login;
 
-    @NotNull
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
     private Boolean active;
 
-    @NotNull
+    @Column(nullable = false)
     private String role;
 
     private PersonalDetails personalDetails;
+
+    @Override
+    public String toString() {
+        return "User{ id= " + getId() +
+                "login='" + login + '\'' +
+                ", active=" + active +
+                ", role='" + role + '\'' +
+                "}";
+    }
 }

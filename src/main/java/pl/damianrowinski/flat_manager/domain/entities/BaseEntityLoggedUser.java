@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public abstract class BaseEntityLoggedUser extends BaseEntity {
 
-    @NotNull
+    @Column(name="logged_user_name", nullable = false)
     private String loggedUserName;
 
     @PrePersist
@@ -32,17 +32,4 @@ public abstract class BaseEntityLoggedUser extends BaseEntity {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        BaseEntityLoggedUser that = (BaseEntityLoggedUser) o;
-        return Objects.equals(loggedUserName, that.loggedUserName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), loggedUserName);
-    }
 }

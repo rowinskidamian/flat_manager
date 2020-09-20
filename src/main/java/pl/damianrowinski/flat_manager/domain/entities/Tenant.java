@@ -1,8 +1,8 @@
 package pl.damianrowinski.flat_manager.domain.entities;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import pl.damianrowinski.flat_manager.model.common.PersonalDetails;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -40,4 +40,16 @@ public class Tenant extends BaseEntityLoggedUser {
     @OneToMany(mappedBy = "tenant")
     private List<Payment> paymentList;
 
+    @Override
+    public String toString() {
+        return "Tenant{ id " + getId() +
+                ", leaseDateStart=" + leaseDateStart +
+                ", leaseDateEnd=" + leaseDateEnd +
+                ", room=" + room +
+                ", rentDiscount=" + rentDiscount +
+                ", paymentDeadline=" + paymentDeadline +
+                ", accountPaymentBalance=" + accountPaymentBalance +
+                ", personalDetails=" + personalDetails +
+                '}';
+    }
 }

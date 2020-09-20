@@ -16,7 +16,7 @@ public class Room extends BaseEntityLoggedUser {
 
     final static String TABLE_NAME = "rooms";
 
-    @NotNull
+    @Column(nullable = false)
     private Double catalogRent;
 
     @ManyToOne
@@ -24,4 +24,13 @@ public class Room extends BaseEntityLoggedUser {
 
     @OneToOne
     private Tenant tenant;
+
+    @Override
+    public String toString() {
+        return "Room{ id=" + getId() +
+                ", catalogRent=" + catalogRent +
+                ", property=" + property +
+                ", tenant=" + tenant +
+                '}';
+    }
 }

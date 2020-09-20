@@ -1,36 +1,32 @@
-package pl.damianrowinski.flat_manager.domain.entities;
+package pl.damianrowinski.flat_manager.model.common;
 
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Embeddable
-
 public class PersonalDetails {
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
-    @NotNull
+    @Column(nullable = false)
     private String email;
 
-    @Column(name = "city_name", nullable = false)
+    @Column(name = "city_name")
     private String cityName;
 
-    @Column(name = "street_name", nullable = false)
+    @Column(name = "street_name")
     private String streetName;
 
-    @Column(name = "street_number", nullable = false)
+    @Column(name = "street_number")
     private Integer streetNumber;
 
-    @Column(name = "apartment_number", nullable = false)
+    @Column(name = "apartment_number")
     private Integer apartmentNumber;
-
 }

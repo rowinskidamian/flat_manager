@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -19,40 +18,24 @@ public class Property extends BaseEntityLoggedUser {
 
     final static String TABLE_NAME = "properties";
 
-    @OneToMany (mappedBy = "property")
+    @OneToMany(mappedBy = "property")
     private List<Room> rooms;
 
-    @NotNull
+    @Column(nullable = false)
     private Double rent;
 
-    @NotNull
+    @Column(nullable = false)
     private Double billsAmount;
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDate paymentDate;
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Property property = (Property) o;
-        return Objects.equals(rent, property.rent) &&
-                Objects.equals(billsAmount, property.billsAmount) &&
-                Objects.equals(paymentDate, property.paymentDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), rent, billsAmount, paymentDate);
-    }
-
-    @Override
     public String toString() {
-        return "Property{" +
-                "rent=" + rent +
+        return "Property{ id= " + getId() +
+                ", rent=" + rent +
                 ", billsAmount=" + billsAmount +
                 ", paymentDate=" + paymentDate +
-                '}';
+                "}";
     }
 }
