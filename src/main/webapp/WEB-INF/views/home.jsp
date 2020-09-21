@@ -38,5 +38,10 @@
         </p>
     </div>
 </section>
+
+<footer class="footer">
+    <jsp:include page="layout/footer.jsp"/>
+</footer>
+
 </body>
 </html>

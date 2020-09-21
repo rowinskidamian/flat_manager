@@ -7,7 +7,6 @@ import pl.damianrowinski.flat_manager.model.common.PersonalDetails;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Getter
@@ -32,13 +31,12 @@ public class Tenant extends BaseEntityLoggedUser {
     @Column(name = "payment_deadline", nullable = false)
     private LocalDate paymentDeadline;
 
-    @Column(name = "account_payment_balance", nullable = false)
-    private Double accountPaymentBalance;
+//    @Column(name = "account_payment_balance", nullable = false)
+
+    @OneToOne
+    private AccountBalance accountPaymentBalance;
 
     private PersonalDetails personalDetails;
-
-    @OneToMany(mappedBy = "tenant")
-    private List<Payment> paymentList;
 
     @Override
     public String toString() {

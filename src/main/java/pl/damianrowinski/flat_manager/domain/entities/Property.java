@@ -21,21 +21,21 @@ public class Property extends BaseEntityLoggedUser {
     @OneToMany(mappedBy = "property")
     private List<Room> rooms;
 
-    @Column(nullable = false)
-    private Double rent;
+    @Column(nullable = false, name = "bills_rent")
+    private Double billsRent;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "bills_utility")
     private Double billsAmount;
 
-    @Column(nullable = false)
-    private LocalDate paymentDate;
+    @Column(nullable = false, name = "bills_payment_date")
+    private LocalDate billsPaymentDate;
 
     @Override
     public String toString() {
         return "Property{ id= " + getId() +
-                ", rent=" + rent +
+                ", rent=" + billsRent +
                 ", billsAmount=" + billsAmount +
-                ", paymentDate=" + paymentDate +
+                ", paymentDate=" + billsPaymentDate +
                 "}";
     }
 }
