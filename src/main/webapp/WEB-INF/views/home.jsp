@@ -1,3 +1,4 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -29,13 +30,13 @@
 
 
 <section class="section">
-    <div class="container">
-        <h1 class="title">
-            Hello World
-        </h1>
-        <p class="subtitle">
-            My first website with <strong>Bulma</strong>!
-        </p>
+    <div class="container is-fluid">
+        <sec:authorize access="isAnonymous()">
+            <jsp:include page="layout/main_public.jsp"/>
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+            <jsp:include page="layout/main_authorized.jsp"/>
+        </sec:authorize>
     </div>
 </section>
 

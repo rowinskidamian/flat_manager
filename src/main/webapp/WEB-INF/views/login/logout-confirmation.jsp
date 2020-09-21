@@ -38,6 +38,10 @@
     </div>
 </section>
 
+<footer class="footer">
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+</footer>
+
 
 </body>
 </html>

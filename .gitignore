@@ -5,6 +5,7 @@
 mvnw
 mvnw.cmd
 HELP.md
+*.orig
 
 
 ### Eclipse template
