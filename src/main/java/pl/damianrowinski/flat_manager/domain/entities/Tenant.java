@@ -27,18 +27,13 @@ public class Tenant extends BaseEntityLoggedUser {
     @OneToOne
     private Room room;
 
+    @Column(name = "rent_discount", nullable = true)
     private Double rentDiscount;
 
-    @Column(name = "payment_deadline", nullable = false)
+    @Column(name = "rent_payment_deadline", nullable = false)
     private LocalDate paymentDeadline;
 
-    @Column(name = "account_payment_balance", nullable = false)
-    private Double accountPaymentBalance;
-
     private PersonalDetails personalDetails;
-
-    @OneToMany(mappedBy = "tenant")
-    private List<Payment> paymentList;
 
     @Override
     public String toString() {
@@ -48,7 +43,6 @@ public class Tenant extends BaseEntityLoggedUser {
                 ", room=" + room +
                 ", rentDiscount=" + rentDiscount +
                 ", paymentDeadline=" + paymentDeadline +
-                ", accountPaymentBalance=" + accountPaymentBalance +
                 ", personalDetails=" + personalDetails +
                 '}';
     }
