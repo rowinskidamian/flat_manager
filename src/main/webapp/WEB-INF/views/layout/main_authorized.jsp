@@ -8,10 +8,10 @@
 <div class="box has-text-centered">
     <p class="title is-4">Przejdź do wybranej sekcji</p>
     <div class="buttons is-centered">
-        <button class="button is-link is-large">Mieszkania</button>
-        <button class="button is-info is-large">Pokoje</button>
-        <button class="button is-success is-large">Najemcy</button>
-        <button class="button is-warning is-large">Płatności</button>
+        <a class="button is-link is-large" href="/properties">Mieszkania</a>
+        <a class="button is-info is-large" href="/rooms">Pokoje</a>
+        <a class="button is-success is-large" href="/tenants">Najemcy</a>
+        <a class="button is-warning is-large" href="/payments">Płatności</a>
     </div>
 </div>
 

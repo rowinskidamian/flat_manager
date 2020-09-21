@@ -77,8 +77,9 @@
                     </sec:authorize>
 
                     <sec:authorize access="isAuthenticated()">
-                        <button class="button is-white">Zalogowany: &nbsp; <strong> ${userLogin} </strong>
-                        </button>
+                        <a class="button is-white" href="/user/details/${userLogin}">Zalogowany: &nbsp;
+                            <strong> ${userLogin} </strong>
+                        </a>
                         <a class="button is-primary is-info" href="/logout-confirm">
                             <strong>Wyloguj się</strong>
                         </a>
