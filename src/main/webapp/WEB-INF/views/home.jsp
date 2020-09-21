@@ -33,7 +33,7 @@
         <div class="tile is-ancestor">
             <div class="tile is-4 is-vertical is-parent">
                 <div class="tile is-child box">
-                    <p class="subtitle">Co możesz robić w aplikacji?</p>
+                    <p class="title is-4">Co możesz robić w aplikacji?</p>
 
                     <div class="content">
                         <ol type="1">
@@ -41,12 +41,13 @@
                             <li>Dodawać mieszkania i pokoje (jednostki najmu)</li>
                             <li>Dodawać najemców i ich dane</li>
                             <li>Dodawać płatności od najemców</li>
+                            <li>Przeglądać, edytować, usuwać wpisy</li>
                         </ol>
                     </div>
 
                 </div>
                 <div class="tile is-child box">
-                    <p class="subtitle ">Co aplikacja może zrobić dla Ciebie?</p>
+                    <p class="title is-4">Co aplikacja może zrobić dla Ciebie?</p>
 
                     <div class="content">
                         <ol type="1">
@@ -61,8 +62,8 @@
             </div>
             <div class="tile is-parent">
                 <div class="tile is-child box">
-                    <p class="subtitle">Zaloguj się i zacznij pracę</p>
-                    <jsp:include page="/login"/>
+                    <p class="title is-4">Zaloguj się i zacznij pracę</p>
+                    <jsp:include page="/WEB-INF/views/login/login-form.jsp"/>
                 </div>
             </div>
         </div>

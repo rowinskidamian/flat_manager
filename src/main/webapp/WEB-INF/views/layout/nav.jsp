@@ -24,16 +24,15 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item" href="/">
-                Strona główna
-            </a>
-
-            <a class="navbar-item">
-                Moje mieszkania
-            </a>
-
-
             <sec:authorize access="isAuthenticated()">
+                <a class="navbar-item" href="/">
+                    Strona główna
+                </a>
+
+                <a class="navbar-item">
+                    Moje mieszkania
+                </a>
+                
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         Rozwiń

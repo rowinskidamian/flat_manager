@@ -59,6 +59,9 @@
             </div>
             <sec:csrfInput/>
         </form>
+        <p class="has-text is-centered">
+            Nie masz konta? <a href="/register">Zarejestruj się</a>
+        </p>
     </div>
 </section>
 
