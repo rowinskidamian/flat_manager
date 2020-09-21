@@ -25,14 +25,22 @@
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
             <sec:authorize access="isAuthenticated()">
-                <a class="navbar-item" href="/">
-                    Strona główna
+                <a class="navbar-item" href="/properties">
+                    Mieszkania
                 </a>
 
-                <a class="navbar-item">
-                    Moje mieszkania
+                <a class="navbar-item" href="/rooms">
+                    Pokoje
                 </a>
-                
+
+                <a class="navbar-item" href="/tenants">
+                    Najemcy
+                </a>
+
+                <a class="navbar-item" href="/payments">
+                    Płatności
+                </a>
+
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         Rozwiń
@@ -68,6 +76,9 @@
                         </a>
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">
+                        <p>
+                            Zalogowano: ${userFirstName}.
+                        </p>
                         <a class="button is-primary is-info" href="/logout-confirm">
                             <strong>Wyloguj się</strong>
                         </a>
