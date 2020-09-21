@@ -30,12 +30,42 @@
 
 <section class="section">
     <div class="container">
-        <h1 class="title">
-            Hello World
-        </h1>
-        <p class="subtitle">
-            My first website with <strong>Bulma</strong>!
-        </p>
+        <div class="tile is-ancestor">
+            <div class="tile is-4 is-vertical is-parent">
+                <div class="tile is-child box">
+                    <p class="subtitle">Co możesz robić w aplikacji?</p>
+
+                    <div class="content">
+                        <ol type="1">
+                            <li>Założyć konto i zbudować swoją prywantą bazę</li>
+                            <li>Dodawać mieszkania i pokoje (jednostki najmu)</li>
+                            <li>Dodawać najemców i ich dane</li>
+                            <li>Dodawać płatności od najemców</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <div class="tile is-child box">
+                    <p class="subtitle ">Co aplikacja może zrobić dla Ciebie?</p>
+
+                    <div class="content">
+                        <ol type="1">
+                            <li>Wyliczy wynik finansowy Twojego biznesu</li>
+                            <li>Pokaże Ci historię przepływów finansowych</li>
+                            <li>Przedstawi Ci listę dłużników</li>
+                            <li>Przedstawi Ci statystyki najmu</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box">
+                    <p class="subtitle">Zaloguj się i zacznij pracę</p>
+                    <jsp:include page="/login"/>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

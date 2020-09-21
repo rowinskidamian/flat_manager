@@ -11,10 +11,6 @@
     <script src="https://kit.fontawesome.com/a1834f9866.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<section class="navbar">
-    <jsp:include page="/WEB-INF/views/layout/nav.jsp"/>
-</section>
-
 
 <section class="section">
     <div class="container">
