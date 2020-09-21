@@ -75,16 +75,16 @@
                             Zaloguj się
                         </a>
                     </sec:authorize>
+
                     <sec:authorize access="isAuthenticated()">
-                        <p>
-                            Zalogowano: ${userFirstName}.
-                        </p>
+                        <button class="button is-white">Zalogowany: &nbsp; <strong> ${userLogin} </strong>
+                        </button>
                         <a class="button is-primary is-info" href="/logout-confirm">
                             <strong>Wyloguj się</strong>
                         </a>
-
                     </sec:authorize>
                 </div>
+
             </div>
         </div>
     </div>
