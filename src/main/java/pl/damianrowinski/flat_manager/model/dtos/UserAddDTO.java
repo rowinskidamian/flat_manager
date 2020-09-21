@@ -1,8 +1,6 @@
 package pl.damianrowinski.flat_manager.model.dtos;
 
-import com.sun.istack.NotNull;
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
 import pl.damianrowinski.flat_manager.validation.constraints.UniqueLogin;
 
 import javax.validation.constraints.Email;
