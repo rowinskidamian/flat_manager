@@ -7,6 +7,7 @@ import pl.damianrowinski.flat_manager.model.common.PersonalDetails;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,15 +27,11 @@ public class Tenant extends BaseEntityLoggedUser {
     @OneToOne
     private Room room;
 
+    @Column(name = "rent_discount", nullable = true)
     private Double rentDiscount;
 
-    @Column(name = "payment_deadline", nullable = false)
+    @Column(name = "rent_payment_deadline", nullable = false)
     private LocalDate paymentDeadline;
-
-//    @Column(name = "account_payment_balance", nullable = false)
-
-    @OneToOne
-    private AccountBalance accountPaymentBalance;
 
     private PersonalDetails personalDetails;
 
@@ -46,7 +43,6 @@ public class Tenant extends BaseEntityLoggedUser {
                 ", room=" + room +
                 ", rentDiscount=" + rentDiscount +
                 ", paymentDeadline=" + paymentDeadline +
-                ", accountPaymentBalance=" + accountPaymentBalance +
                 ", personalDetails=" + personalDetails +
                 '}';
     }
