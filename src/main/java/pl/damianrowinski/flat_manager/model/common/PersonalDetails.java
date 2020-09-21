@@ -14,7 +14,7 @@ public class PersonalDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(name = "city_name")
