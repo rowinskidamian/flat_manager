@@ -18,8 +18,6 @@
     </section>
 </section>
 
-
-
 <section class="section">
     <div class="container">
         <h1 class="title">
@@ -37,6 +35,7 @@
                 <div class="control">
                     <form:input path="login" cssClass="input"/>
                 </div>
+                <form:errors path="login" cssClass="has-text-danger"/>
             </div>
 
             <div class="field">
@@ -47,7 +46,9 @@
                         <i class="fas fa-lock"></i>
                     </span>
                 </div>
+                <form:errors path="password" cssClass="has-text-danger"/>
             </div>
+
 
             <div class="field">
                 <label class="label">Imię</label>
@@ -57,6 +58,7 @@
                         <i class="fas fa-user"></i>
                     </span>
                 </div>
+                <form:errors path="firstName" cssClass="has-text-danger"/>
             </div>
 
             <div class="field">
@@ -77,7 +79,9 @@
                         <i class="fas fa-envelope"></i>
                     </span>
                 </div>
+                <form:errors path="email" cssClass="has-text-danger"/>
             </div>
+
 
             <div class="field is-grouped">
                 <div class="control">
@@ -87,10 +91,13 @@
                     <button class="button is-link is-light" type="reset">Wyczyść</button>
                 </div>
             </div>
+
             <sec:csrfInput/>
         </form:form>
 
     </div>
+
+    <script src="/scripts/notification.js" type="text/javascript"></script>
 
 </section>
 </body>

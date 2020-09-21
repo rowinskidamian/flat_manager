@@ -1,6 +1,8 @@
 package pl.damianrowinski.flat_manager.model.dtos;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import pl.damianrowinski.flat_manager.validation.constraints.UniqueLogin;
 
 import javax.validation.constraints.Email;
@@ -14,12 +16,13 @@ public class UserAddDTO {
     private String login;
     @NotBlank
     private String password;
-    @NotBlank
     private String passwordCheck;
 
     @Email
+    @NotBlank
     private String email;
 
+    @NotBlank
     private String firstName;
     private String lastName;
     private String cityName;

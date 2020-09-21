@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.damianrowinski.flat_manager.model.dtos.UserAddDTO;
@@ -20,13 +21,12 @@ public class AuthenticationController {
 
     @GetMapping("/register")
     public String getRegistration(Model model) {
-        UserAddDTO userAddDTO = new UserAddDTO();
-        model.addAttribute("userData", userAddDTO);
+        model.addAttribute("userData", new UserAddDTO());
         return "/login/registration";
     }
 
     @PostMapping("/register")
-    public String processRegistration(@Valid UserAddDTO userData, BindingResult bindingResult) {
+    public String processRegistration(@ModelAttribute("userData") @Valid UserAddDTO userData, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "/login/registration";
         }

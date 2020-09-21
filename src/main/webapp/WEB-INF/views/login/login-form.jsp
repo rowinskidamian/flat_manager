@@ -65,18 +65,7 @@
     </div>
 </section>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-            $notification = $delete.parentNode;
-
-            $delete.addEventListener('click', () => {
-                $notification.parentNode.removeChild($notification);
-            });
-        });
-    });
-</script>
-
+<script src="/scripts/notification.js" type="text/javascript"></script>
 
 </body>
 </html>

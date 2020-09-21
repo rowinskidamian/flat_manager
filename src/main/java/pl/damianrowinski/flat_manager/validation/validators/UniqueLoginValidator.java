@@ -25,6 +25,6 @@ public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin, St
     @Override
     public boolean isValid(String valueToValid, ConstraintValidatorContext context) {
         log.info("Attempt to valid unique login: " + valueToValid);
-        return userRepository.existsByLogin(valueToValid);
+        return !userRepository.existsByLogin(valueToValid);
     }
 }
