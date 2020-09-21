@@ -3,17 +3,20 @@ package pl.damianrowinski.flat_manager.model.dtos;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.UniqueElements;
+import pl.damianrowinski.flat_manager.validation.constraints.UniqueLogin;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Data
 public class UserAddDTO {
 
-    @NotNull
+    @NotBlank
+    @UniqueLogin
     private String login;
-    @NotNull
+    @NotBlank
     private String password;
-    @NotNull
+    @NotBlank
     private String passwordCheck;
 
     @Email
