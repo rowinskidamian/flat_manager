@@ -17,10 +17,6 @@ public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin, St
 
     private final UserRepository userRepository;
 
-    @Override
-    public void initialize(UniqueLogin constraintAnnotation) {
-
-    }
 
     @Override
     public boolean isValid(String valueToValid, ConstraintValidatorContext context) {

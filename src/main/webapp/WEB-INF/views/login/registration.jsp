@@ -49,6 +49,17 @@
                 <form:errors path="password" cssClass="has-text-danger"/>
             </div>
 
+            <div class="field">
+                <label class="label">Powtórz Hasło</label>
+                <div class="control has-icons-left">
+                    <form:password path="passwordCheck" cssClass="input"/>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </div>
+                <form:errors path="passwordCheck" cssClass="has-text-danger"/>
+            </div>
+
 
             <div class="field">
                 <label class="label">Imię</label>

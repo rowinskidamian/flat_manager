@@ -1,6 +1,7 @@
 package pl.damianrowinski.flat_manager.validation.constraints;
 
-import pl.damianrowinski.flat_manager.validation.validators.UniqueLoginValidator;
+
+import pl.damianrowinski.flat_manager.validation.validators.CheckPasswordValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,11 +10,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = UniqueLoginValidator.class)
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Constraint(validatedBy = CheckPasswordValidator.class)
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueLogin {
-    String message() default "{uniqueLogin.validation.message}";
+public @interface CheckPassword {
+    String message() default "{checkPassword.validation.message}";
 
     Class<?>[] groups() default {};
 
