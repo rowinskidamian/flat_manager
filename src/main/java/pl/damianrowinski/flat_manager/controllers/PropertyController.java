@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyAddDTO;
+import pl.damianrowinski.flat_manager.model.dtos.RoomAddDTO;
 import pl.damianrowinski.flat_manager.services.PropertyService;
+import pl.damianrowinski.flat_manager.services.RoomService;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,6 +22,7 @@ import pl.damianrowinski.flat_manager.services.PropertyService;
 public class PropertyController {
 
     private final PropertyService propertyService;
+    private final RoomService roomService;
 
     @GetMapping("/add")
     public String generateAddForm(Model model) {
@@ -26,8 +31,9 @@ public class PropertyController {
     }
 
     @PostMapping("/add")
-    public String addProperty(@ModelAttribute("propertyData") PropertyAddDTO propertyData) {
+    public String addProperty(@ModelAttribute("propertyData") PropertyAddDTO propertyData, List<RoomAddDTO> roomsToAdd) {
         propertyService.save(propertyData);
+        roomService.addRoomsToProperty(roomsToAdd);
         return "/property/list";
     }
 
