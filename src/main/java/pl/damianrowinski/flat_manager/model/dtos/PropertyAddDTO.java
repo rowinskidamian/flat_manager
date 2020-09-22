@@ -9,8 +9,19 @@ import java.util.List;
 @Data
 public class PropertyAddDTO {
 
+    private String workingName;
     private Double billsRentAmount;
     private Double billsUtilityAmount;
     private LocalDate billsPaymentDate;
     private List<Room> rooms;
+
+    private String cityName;
+    private String streetName;
+    private Integer streetNumber;
+    private Integer apartmentNumber;
+
+    private String firstName;
+    private String lastName;
+    private String email;
+
 }

@@ -24,7 +24,7 @@
         <div class="columns is-vcentered">
 
             <div class="column is-three-quarters">
-                <div class="container has-text-centered">
+                <div class="block has-text-centered">
                     <h1 class="title">
                         Formularz Dodawania mieszkania
                     </h1>
@@ -36,71 +36,59 @@
                 <form:form modelAttribute="propertyData" method="post">
 
                     <div class="field">
-                        <label class="label">Nazwa użytkownika</label>
+                        <label class="label">Nazwa mieszkania</label>
                         <div class="control">
-                            <form:input path="login" cssClass="input"/>
+                            <form:input path="workingName" cssClass="input"/>
                         </div>
-                        <form:errors path="login" cssClass="has-text-danger"/>
+                        <form:errors path="workingName" cssClass="has-text-danger"/>
                     </div>
 
-                    <div class="field">
-                        <label class="label">Hasło</label>
-                        <div class="control has-icons-left">
-                            <form:password path="password" cssClass="input"/>
-                            <span class="icon is-small is-left">
-                        <i class="fas fa-lock"></i>
-                    </span>
+                    <div id="payment-details" class="field">
+
+                        <div class="notification is-light">
+                            <strong>Płatności</strong>
                         </div>
-                        <form:errors path="password" cssClass="has-text-danger"/>
+
+                        <div class="block">
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Czynsz</th>
+                                    <th>Opłaty miesięczne</th>
+                                    <th>Termin płatności</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="control">
+                                            <input type="number" name="billsRentAmount" class="input">
+                                        </div>
+                                        <form:errors path="billsRentAmount" cssClass="has-text-danger"/>
+                                    </td>
+                                    <td>
+                                        <div class="control">
+                                            <input type="number" name="billsUtilityAmount" class="input">
+                                        </div>
+                                        <form:errors path="billsUtilityAmount" cssClass="has-text-danger"/>
+                                    </td>
+                                    <td>
+                                        <div class="control">
+                                            <input type="date" name="billsPaymentDate" class="input">
+                                        </div>
+                                        <form:errors path="billsPaymentDate" cssClass="has-text-danger"/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label">Powtórz Hasło</label>
-                        <div class="control has-icons-left">
-                            <form:password path="passwordCheck" cssClass="input"/>
-                            <span class="icon is-small is-left">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                        </div>
-                        <form:errors path="passwordCheck" cssClass="has-text-danger"/>
-                    </div>
+                    <div id="adress-details" class="field">
 
-
-                    <div class="field">
-                        <label class="label">Imię</label>
-                        <div class="control has-icons-left has-icons-right">
-                            <form:input path="firstName" cssClass="input"/>
-                            <span class="icon is-small is-left">
-                        <i class="fas fa-user"></i>
-                    </span>
-                        </div>
-                        <form:errors path="firstName" cssClass="has-text-danger"/>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Nazwisko</label>
-                        <div class="control has-icons-left has-icons-right">
-                            <form:input path="lastName" cssClass="input"/>
-                            <span class="icon is-small is-left">
-                        <i class="fas fa-user"></i>
-                    </span>
-                        </div>
-                        <form:errors path="lastName" cssClass="has-text-danger"/>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Email</label>
-                        <div class="control has-icons-left has-icons-right">
-                            <form:input path="email" cssClass="input"/>
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-envelope"></i>
-                            </span>
-                        </div>
-                        <form:errors path="email" cssClass="has-text-danger"/>
-                    </div>
-
-                    <div id="adress-details">
-                        <div class="notification is-primary">
+                        <div class="notification is-light">
                             <strong>Dane adresowe</strong>
                         </div>
 
@@ -140,7 +128,6 @@
                                         <td>
                                             <div class="control">
                                                 <input type="number" name="streetNumber" class="input">
-                                                    <%--                                                <form:input path="streetNumber" cssClass="input"/>--%>
                                             </div>
                                             <form:errors path="streetNumber" cssClass="has-text-danger"/>
                                         </td>
@@ -159,6 +146,59 @@
 
                     </div>
 
+                    <div id="contact-details" class="field">
+                        <div class="notification is-light">
+                            <strong>Dane kontaktowe - właściciel</strong>
+                        </div>
+
+                        <div class="block">
+
+                            <div class="field">
+                                <label class="label">Imię</label>
+                                <div class="control has-icons-left has-icons-right">
+                                    <form:input path="firstName" cssClass="input"/>
+                                    <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                </div>
+                                <form:errors path="firstName" cssClass="has-text-danger"/>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">Nazwisko</label>
+                                <div class="control has-icons-left has-icons-right">
+                                    <form:input path="lastName" cssClass="input"/>
+                                    <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                </div>
+                                <form:errors path="lastName" cssClass="has-text-danger"/>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control has-icons-left has-icons-right">
+                                    <form:input path="email" cssClass="input"/>
+                                    <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                </div>
+                                <form:errors path="email" cssClass="has-text-danger"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="rooms-details" class="field">
+                        <div class="notification is-light">
+                            <strong>Pokoje</strong>
+                        </div>
+
+                        <div class="control">
+                            <button class="button is-link is-warning" type="button">Dodaj pokój</button>
+                        </div>
+
+                    </div>
+
 
                     <div class="field is-grouped">
                         <div class="control">
@@ -167,11 +207,7 @@
                         <div class="control">
                             <button class="button is-link is-light" type="reset">Wyczyść</button>
                         </div>
-                        <div class="control">
-                            <button class="button is-link is-light" type="button" id="showAdress">Dodaj adres</button>
-                        </div>
                     </div>
-                    <input type="hidden" name="validAddress" id="validAddress" value="${validAddress}">
                     <sec:csrfInput/>
                 </form:form>
             </div>
@@ -179,7 +215,8 @@
 
     </div>
 
-    <script src="/scripts/adress_in_registration.js" type="text/javascript"></script>
+    </div>
+
 
 </section>
 </body>

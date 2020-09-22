@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import pl.damianrowinski.flat_manager.model.common.Address;
+import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -33,7 +34,9 @@ public class Property extends BaseEntityLoggedUser {
 
     @Column(nullable = false, name = "bills_payment_date")
     private LocalDate billsPaymentDate;
+
     private Address address;
+    private PersonNameContact ownerDetails;
 
     @Override
     public String toString() {
@@ -42,6 +45,7 @@ public class Property extends BaseEntityLoggedUser {
                 ", billsAmount=" + billsUtilityAmount +
                 ", paymentDate=" + billsPaymentDate +
                 ", address=" + address +
+                ", ownerDetails=" + ownerDetails +
                 "}";
     }
 }
