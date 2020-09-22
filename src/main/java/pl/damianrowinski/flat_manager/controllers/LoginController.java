@@ -20,7 +20,7 @@ import javax.validation.groups.Default;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class AuthenticationController {
+public class LoginController {
 
     private final AuthenticationService authenticationService;
 
