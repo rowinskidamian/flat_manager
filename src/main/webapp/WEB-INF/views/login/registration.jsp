@@ -80,6 +80,7 @@
                         <i class="fas fa-user"></i>
                     </span>
                 </div>
+                <form:errors path="lastName" cssClass="has-text-danger"/>
             </div>
 
             <div class="field">
