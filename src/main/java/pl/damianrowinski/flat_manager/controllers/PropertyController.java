@@ -26,8 +26,8 @@ public class PropertyController {
     }
 
     @PostMapping("/add")
-    public String addProperty(@ModelAttribute PropertyAddDTO propertyAddDTO) {
-        propertyService.save(propertyAddDTO);
+    public String addProperty(@ModelAttribute("propertyData") PropertyAddDTO propertyData) {
+        propertyService.save(propertyData);
         return "/property/list";
     }
 
