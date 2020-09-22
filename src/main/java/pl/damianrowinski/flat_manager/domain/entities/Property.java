@@ -3,6 +3,7 @@ package pl.damianrowinski.flat_manager.domain.entities;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import pl.damianrowinski.flat_manager.model.common.Address;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -18,6 +19,9 @@ public class Property extends BaseEntityLoggedUser {
 
     final static String TABLE_NAME = "properties";
 
+    @Column(nullable = false, name="working_name")
+    private String workingName;
+
     @OneToMany(mappedBy = "property")
     private List<Room> rooms;
 
@@ -25,17 +29,20 @@ public class Property extends BaseEntityLoggedUser {
     private Double billsRent;
 
     @Column(nullable = false, name = "bills_utility")
-    private Double billsAmount;
+    private Double billsUtilityAmount;
 
     @Column(nullable = false, name = "bills_payment_date")
     private LocalDate billsPaymentDate;
+
+    private Address address;
 
     @Override
     public String toString() {
         return "Property{ id= " + getId() +
                 ", rent=" + billsRent +
-                ", billsAmount=" + billsAmount +
+                ", billsAmount=" + billsUtilityAmount +
                 ", paymentDate=" + billsPaymentDate +
+                ", address=" + address +
                 "}";
     }
 }

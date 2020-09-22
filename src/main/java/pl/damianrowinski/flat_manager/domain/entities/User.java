@@ -1,9 +1,9 @@
 package pl.damianrowinski.flat_manager.domain.entities;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import pl.damianrowinski.flat_manager.model.common.PersonalDetails;
+import pl.damianrowinski.flat_manager.model.common.Address;
+import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -16,7 +16,8 @@ import javax.transaction.Transactional;
 public class User extends BaseEntity {
 
     public User() {
-        personalDetails = new PersonalDetails();
+        address = new Address();
+        nameContact = new PersonNameContact();
     }
 
     final static String TABLE_NAME = "users";
@@ -33,7 +34,9 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String role;
 
-    private PersonalDetails personalDetails;
+    private PersonNameContact nameContact;
+
+    private Address address;
 
     @Override
     public String toString() {
@@ -41,6 +44,10 @@ public class User extends BaseEntity {
                 "login='" + login + '\'' +
                 ", active=" + active +
                 ", role='" + role + '\'' +
+                ", firstName='" + role + '\'' +
+                ", lastName='" + role + '\'' +
+                getNameContact().toString() + '\'' +
+                getAddress().toString() + '\'' +
                 "}";
     }
 }

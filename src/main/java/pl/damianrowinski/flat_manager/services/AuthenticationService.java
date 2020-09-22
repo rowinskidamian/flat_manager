@@ -6,7 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.damianrowinski.flat_manager.config.Role;
 import pl.damianrowinski.flat_manager.domain.entities.User;
-import pl.damianrowinski.flat_manager.model.common.PersonalDetails;
+import pl.damianrowinski.flat_manager.model.common.Address;
+import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 import pl.damianrowinski.flat_manager.model.dtos.UserAddDTO;
 import pl.damianrowinski.flat_manager.model.repositories.UserRepository;
 
@@ -30,20 +31,23 @@ public class AuthenticationService {
         user.setActive(true);
         user.setRole(Role.USER.toString());
 
-        PersonalDetails personalDetails = user.getPersonalDetails();;
+        PersonNameContact personalDetails = user.getNameContact();
 
         personalDetails.setFirstName(userAddDTO.getFirstName());
         personalDetails.setLastName(userAddDTO.getLastName());
         personalDetails.setEmail(userAddDTO.getEmail());
-        personalDetails.setCityName(userAddDTO.getCityName());
-        personalDetails.setStreetName(userAddDTO.getStreetName());
-        personalDetails.setStreetNumber(userAddDTO.getStreetNumber());
-        personalDetails.setApartmentNumber(userAddDTO.getApartmentNumber());
 
-        user.setPersonalDetails(personalDetails);
+        Address address = user.getAddress();
+
+        address.setCityName(userAddDTO.getCityName());
+        address.setStreetName(userAddDTO.getStreetName());
+        address.setStreetNumber(userAddDTO.getStreetNumber());
+        address.setApartmentNumber(userAddDTO.getApartmentNumber());
+
+        user.setNameContact(personalDetails);
+        user.setAddress(address);
 
         log.info("Attempt to save user: " + user);
-        log.info("User personal details: " + personalDetails);
         userRepository.save(user);
     }
 }

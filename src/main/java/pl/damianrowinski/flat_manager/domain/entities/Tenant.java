@@ -2,12 +2,12 @@ package pl.damianrowinski.flat_manager.domain.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.damianrowinski.flat_manager.model.common.PersonalDetails;
+import pl.damianrowinski.flat_manager.model.common.Address;
+import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Getter
@@ -33,7 +33,9 @@ public class Tenant extends BaseEntityLoggedUser {
     @Column(name = "rent_payment_deadline", nullable = false)
     private LocalDate paymentDeadline;
 
-    private PersonalDetails personalDetails;
+    private PersonNameContact personalDetails;
+
+    private Address contactAddress;
 
     @Override
     public String toString() {
@@ -44,6 +46,7 @@ public class Tenant extends BaseEntityLoggedUser {
                 ", rentDiscount=" + rentDiscount +
                 ", paymentDeadline=" + paymentDeadline +
                 ", personalDetails=" + personalDetails +
+                ", address=" + contactAddress +
                 '}';
     }
 }
