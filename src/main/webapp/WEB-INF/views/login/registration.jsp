@@ -19,97 +19,162 @@
 </section>
 
 <section class="section">
-    <div class="container">
-        <h1 class="title">
-            Formularz Rejestracyjny
-        </h1>
-        <p class="subtitle">
-            Wpisz swoje dane, aby się zarejestrować.
-        </p>
-    </div>
-    <div class="container">
-        <form:form modelAttribute="userData" action="/register" method="post">
+    <div class="container is-fluid">
 
-            <div class="field">
-                <label class="label">Nazwa użytkownika</label>
-                <div class="control">
-                    <form:input path="login" cssClass="input"/>
+        <div class="columns is-vcentered">
+
+            <div class="column is-three-quarters">
+                <div class="container has-text-centered">
+                    <h1 class="title">
+                        Formularz Rejestracyjny
+                    </h1>
+                    <p class="subtitle">
+                        Wpisz swoje dane, aby się zarejestrować.
+                    </p>
                 </div>
-                <form:errors path="login" cssClass="has-text-danger"/>
-            </div>
 
-            <div class="field">
-                <label class="label">Hasło</label>
-                <div class="control has-icons-left">
-                    <form:password path="password" cssClass="input"/>
-                    <span class="icon is-small is-left">
+                <form:form modelAttribute="userData" action="/register" method="post">
+
+                    <div class="field">
+                        <label class="label">Nazwa użytkownika</label>
+                        <div class="control">
+                            <form:input path="login" cssClass="input"/>
+                        </div>
+                        <form:errors path="login" cssClass="has-text-danger"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Hasło</label>
+                        <div class="control has-icons-left">
+                            <form:password path="password" cssClass="input"/>
+                            <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
-                </div>
-                <form:errors path="password" cssClass="has-text-danger"/>
-            </div>
+                        </div>
+                        <form:errors path="password" cssClass="has-text-danger"/>
+                    </div>
 
-            <div class="field">
-                <label class="label">Powtórz Hasło</label>
-                <div class="control has-icons-left">
-                    <form:password path="passwordCheck" cssClass="input"/>
-                    <span class="icon is-small is-left">
+                    <div class="field">
+                        <label class="label">Powtórz Hasło</label>
+                        <div class="control has-icons-left">
+                            <form:password path="passwordCheck" cssClass="input"/>
+                            <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
-                </div>
-                <form:errors path="passwordCheck" cssClass="has-text-danger"/>
-            </div>
+                        </div>
+                        <form:errors path="passwordCheck" cssClass="has-text-danger"/>
+                    </div>
 
 
-            <div class="field">
-                <label class="label">Imię</label>
-                <div class="control has-icons-left has-icons-right">
-                    <form:input path="firstName" cssClass="input"/>
-                    <span class="icon is-small is-left">
+                    <div class="field">
+                        <label class="label">Imię</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <form:input path="firstName" cssClass="input"/>
+                            <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
-                </div>
-                <form:errors path="firstName" cssClass="has-text-danger"/>
-            </div>
+                        </div>
+                        <form:errors path="firstName" cssClass="has-text-danger"/>
+                    </div>
 
-            <div class="field">
-                <label class="label">Nazwisko</label>
-                <div class="control has-icons-left has-icons-right">
-                    <form:input path="lastName" cssClass="input"/>
-                    <span class="icon is-small is-left">
+                    <div class="field">
+                        <label class="label">Nazwisko</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <form:input path="lastName" cssClass="input"/>
+                            <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
-                </div>
-                <form:errors path="lastName" cssClass="has-text-danger"/>
+                        </div>
+                        <form:errors path="lastName" cssClass="has-text-danger"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <form:input path="email" cssClass="input"/>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
+                        <form:errors path="email" cssClass="has-text-danger"/>
+                    </div>
+
+                    <div id="adress-details">
+                        <div class="notification is-primary">
+                            <strong>Dane adresowe</strong>
+                        </div>
+
+                        <div class="block">
+
+                            <div class="field">
+                                <label class="label">Miasto</label>
+                                <div class="control has-icons-left has-icons-right">
+                                    <form:input path="cityName" cssClass="input"/>
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-envelope"></i>
+                                     </span>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ulica</th>
+                                            <th>Numer mieszkania</th>
+                                            <th>Numer domu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="control has-icons-left">
+                                                    <form:input path="streetName" cssClass="input"/>
+                                                    <span class="icon is-small is-left">
+                                                        <i class="fas fa-envelope"></i>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="control">
+                                                <form:input path="streetNumber" cssClass="input"/>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="control">
+                                                    <form:input path="apartmentNumber" cssClass="input"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button class="button is-link" type="submit">Wyślij</button>
+                        </div>
+                        <div class="control">
+                            <button class="button is-link is-light" type="reset">Wyczyść</button>
+                        </div>
+                        <div class="control">
+                            <button class="button is-link is-light" type="button" id="showAdress">Dodaj adres</button>
+                        </div>
+                    </div>
+
+                    <sec:csrfInput/>
+                </form:form>
             </div>
-
-            <div class="field">
-                <label class="label">Email</label>
-                <div class="control has-icons-left has-icons-right">
-                    <form:input path="email" cssClass="input"/>
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-envelope"></i>
-                    </span>
-                </div>
-                <form:errors path="email" cssClass="has-text-danger"/>
-            </div>
-
-
-            <div class="field is-grouped">
-                <div class="control">
-                    <button class="button is-link" type="submit">Wyślij</button>
-                </div>
-                <div class="control">
-                    <button class="button is-link is-light" type="reset">Wyczyść</button>
-                </div>
-            </div>
-
-            <sec:csrfInput/>
-        </form:form>
+        </div>
 
     </div>
 
-    <script src="/scripts/notification.js" type="text/javascript"></script>
+    <script src="/scripts/adress_in_registration.js" type="text/javascript"></script>
 
 </section>
 </body>
