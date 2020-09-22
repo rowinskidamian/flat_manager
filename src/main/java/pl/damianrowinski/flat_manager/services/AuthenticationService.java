@@ -31,11 +31,19 @@ public class AuthenticationService {
         user.setRole(Role.USER.toString());
 
         PersonalDetails personalDetails = user.getPersonalDetails();;
+
+        personalDetails.setFirstName(userAddDTO.getFirstName());
+        personalDetails.setLastName(userAddDTO.getLastName());
         personalDetails.setEmail(userAddDTO.getEmail());
+        personalDetails.setCityName(userAddDTO.getCityName());
+        personalDetails.setStreetName(userAddDTO.getStreetName());
+        personalDetails.setStreetNumber(userAddDTO.getStreetNumber());
+        personalDetails.setApartmentNumber(userAddDTO.getApartmentNumber());
 
         user.setPersonalDetails(personalDetails);
 
-        log.info("Próba zapisu użytkownika do bazy" + user);
+        log.info("Attempt to save user: " + user);
+        log.info("User personal details: " + personalDetails);
         userRepository.save(user);
     }
 }

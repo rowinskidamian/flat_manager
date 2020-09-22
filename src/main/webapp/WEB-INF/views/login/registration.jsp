@@ -114,6 +114,7 @@
                                         <i class="fas fa-envelope"></i>
                                      </span>
                                 </div>
+                                <form:errors path="cityName" cssClass="has-text-danger"/>
                             </div>
 
                             <div class="field">
@@ -134,16 +135,20 @@
                                                         <i class="fas fa-envelope"></i>
                                                     </span>
                                                 </div>
+                                                <form:errors path="streetName" cssClass="has-text-danger"/>
                                             </td>
                                             <td>
                                                 <div class="control">
-                                                <form:input path="streetNumber" cssClass="input"/>
+                                                    <input type="number" name="streetNumber" class="input">
+<%--                                                <form:input path="streetNumber" cssClass="input"/>--%>
                                                 </div>
+                                                <form:errors path="streetNumber" cssClass="has-text-danger"/>
                                             </td>
                                             <td>
                                                 <div class="control">
-                                                    <form:input path="apartmentNumber" cssClass="input"/>
+                                                    <input type="number" name="apartmentNumber" class="input">
                                                 </div>
+                                                <form:errors path="apartmentNumber" cssClass="has-text-danger"/>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -166,7 +171,7 @@
                             <button class="button is-link is-light" type="button" id="showAdress">Dodaj adres</button>
                         </div>
                     </div>
-
+                    <input type="hidden" name="validAddress" id="validAddress" value="${validAddress}">
                     <sec:csrfInput/>
                 </form:form>
             </div>
