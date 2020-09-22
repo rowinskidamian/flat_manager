@@ -22,10 +22,10 @@ public class Property extends BaseEntityLoggedUser {
     private List<Room> rooms;
 
     @Column(nullable = false, name = "bills_rent")
-    private Double billsRent;
+    private Double billsRentAmount;
 
     @Column(nullable = false, name = "bills_utility")
-    private Double billsAmount;
+    private Double billsUtilityAmount;
 
     @Column(nullable = false, name = "bills_payment_date")
     private LocalDate billsPaymentDate;
@@ -33,8 +33,8 @@ public class Property extends BaseEntityLoggedUser {
     @Override
     public String toString() {
         return "Property{ id= " + getId() +
-                ", rent=" + billsRent +
-                ", billsAmount=" + billsAmount +
+                ", rent=" + billsRentAmount +
+                ", billsAmount=" + billsUtilityAmount +
                 ", paymentDate=" + billsPaymentDate +
                 "}";
     }
