@@ -21,7 +21,7 @@ public class User extends BaseEntity {
 
     final static String TABLE_NAME = "users";
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String login;
 
     @Column(nullable = false)
