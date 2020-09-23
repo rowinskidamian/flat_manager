@@ -188,18 +188,6 @@
                         </div>
                     </div>
 
-                    <div id="rooms-details" class="field">
-                        <div class="notification is-light">
-                            <strong>Pokoje</strong>
-                        </div>
-
-                        <div class="control">
-                            <button class="button is-link is-warning" type="button">Dodaj pokój</button>
-                        </div>
-
-                    </div>
-
-
                     <div class="field is-grouped">
                         <div class="control">
                             <button class="button is-link" type="submit">Wyślij</button>

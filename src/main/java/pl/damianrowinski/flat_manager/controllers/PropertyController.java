@@ -6,7 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.domain.entities.Property;
-import pl.damianrowinski.flat_manager.model.dtos.PropertyDTO;
+import pl.damianrowinski.flat_manager.model.dtos.PropertyEditDTO;
+import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
 import pl.damianrowinski.flat_manager.services.PropertyService;
 
 @Controller
@@ -19,19 +20,19 @@ public class PropertyController {
 
     @GetMapping("/add")
     public String generateAddForm(Model model) {
-        model.addAttribute("propertyData", new PropertyDTO());
+        model.addAttribute("propertyData", new PropertyEditDTO());
         return "/property/form";
     }
 
     @PostMapping("/add")
-    public String addProperty(@ModelAttribute("propertyData") PropertyDTO propertyData) {
+    public String addProperty(@ModelAttribute("propertyData") PropertyEditDTO propertyData) {
         Property savedProperty = propertyService.save(propertyData);
         return "/property/show_saved/" + savedProperty.getId();
     }
 
     @RequestMapping("/show/{id}")
     public String showProperty(@PathVariable Long id, Model model) {
-        PropertyDTO propertyData = propertyService.findById(id);
+        PropertyShowDTO propertyData = propertyService.findByIdWithRooms(id);
         model.addAttribute("propertyData", propertyData);
         return "/property/show";
     }

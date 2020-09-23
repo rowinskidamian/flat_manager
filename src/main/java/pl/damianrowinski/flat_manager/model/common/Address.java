@@ -18,4 +18,12 @@ public class Address {
 
     @Column(name = "apartment_number")
     private Integer apartmentNumber;
+
+    public String getCombinedAddressNumber() {
+        if (apartmentNumber != null) {
+            return streetNumber + "/" + apartmentNumber;
+        } else {
+            return "" + streetNumber;
+        }
+    }
 }

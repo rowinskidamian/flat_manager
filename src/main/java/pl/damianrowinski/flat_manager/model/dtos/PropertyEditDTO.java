@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class PropertyDTO {
+public class PropertyEditDTO {
 
     private String workingName;
     private Double billsRentAmount;

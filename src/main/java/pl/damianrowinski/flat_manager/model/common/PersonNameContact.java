@@ -16,4 +16,9 @@ public class PersonNameContact {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
 }

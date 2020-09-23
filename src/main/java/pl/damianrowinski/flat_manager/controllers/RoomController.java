@@ -30,16 +30,10 @@ public class RoomController {
         return "/room/list";
     }
 
-    @GetMapping("/add_by_property")
-    public String generateFormByProperty(Model model) {
-        model.addAttribute("roomData", new RoomAddDTO());
-        return "/room/form_by_property";
-    }
 
     @PostMapping("/add_by_property")
-    public String addRoomByProperty(@ModelAttribute("roomData") RoomAddDTO roomData) {
-        roomService.save(roomData);
-        Long propertyId = roomData.getProperty().getId();
-        return "/property/show/" + propertyId;
+    public String addRoomByProperty(Double rent, Long propertyId) {
+        roomService.addNewToProperty(rent, propertyId);
+        return "redirect:/property/show/" + propertyId;
     }
 }
