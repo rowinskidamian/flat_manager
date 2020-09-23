@@ -8,8 +8,7 @@ import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.model.common.Address;
 import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
-import pl.damianrowinski.flat_manager.model.dtos.PropertyAddDTO;
-import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.PropertyDTO;
 import pl.damianrowinski.flat_manager.model.repositories.PropertyRepository;
 
 import javax.transaction.Transactional;
@@ -25,7 +24,7 @@ public class PropertyService {
     private final PropertyRepository propertyRepository;
     private final ModelMapper modelMapper;
 
-    public Property save(PropertyAddDTO propertyAddDTO) {
+    public Property save(PropertyDTO propertyAddDTO) {
         Property property = modelMapper.map(propertyAddDTO, Property.class);
         Address address = modelMapper.map(propertyAddDTO, Address.class);
         property.setAddress(address);
@@ -36,10 +35,27 @@ public class PropertyService {
         return propertyRepository.save(property);
     }
 
-    public PropertyShowDTO findById(Long id) {
+    public PropertyDTO findById(Long id) {
         Optional<Property> optionalProperty = propertyRepository.findById(id);
         if (optionalProperty.isEmpty())
             throw new ElementNotFoundException("Nie znalazłem mieszkania o podanym id.");
+
+        Property propertyToShow = optionalProperty.get();
+        PropertyDTO propertyData = modelMapper.map(propertyToShow, PropertyDTO.class);
+
+        PersonNameContact ownerDetails = propertyToShow.getOwnerDetails();
+        propertyData.setFirstName(ownerDetails.getFirstName());
+        propertyData.setLastName(ownerDetails.getLastName());
+        propertyData.setEmail(ownerDetails.getEmail());
+
+        Address propertyAddress = propertyToShow.getAddress();
+
+        propertyData.setCityName(propertyAddress.getCityName());
+        propertyData.setStreetName(propertyAddress.getStreetName());
+        propertyData.setStreetNumber(propertyAddress.getStreetNumber());
+        propertyData.setApartmentNumber(propertyAddress.getApartmentNumber());
+
+        return propertyData;
     }
 
 }
