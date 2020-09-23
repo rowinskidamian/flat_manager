@@ -20,6 +20,15 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
 
+    public void save(RoomAddDTO roomToAdd) {
+        Room room = new Room();
+        room.setCatalogRent(roomToAdd.getCatalogRent());
+        room.setProperty(roomToAdd.getProperty());
+        room.setTenant(roomToAdd.getTenant());
+        log.info("Adding room to apartment: " + room.getProperty().getWorkingName() + " room: " + room);
+        roomRepository.save(room);
+    }
+
     public void addRoomsToProperty(List<RoomAddDTO> listOfRoomsToAdd) {
 
         List<Room> roomsList = new ArrayList<>();
