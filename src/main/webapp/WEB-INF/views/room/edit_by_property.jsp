@@ -112,9 +112,17 @@
                                     <td>${counter.count}</td>
                                     <td>${room.catalogRent}</td>
                                     <td>
-                                        <div class="control">
-                                            <a class="button is-link is-light" href="/room/delete/${room.id}">
-                                                Usuń pokój</a>
+                                        <div class="field is-grouped">
+                                            <div class="control">
+                                                <a class="button is-link is-light" href="/room/delete/${room.id}">
+                                                    Usuń</a>
+                                            </div>
+                                            <c:if test="${room.tenantId eq null}">
+                                                <div class="control">
+                                                    <a class="button is-link is-warning" href="/tenant/add_to_room/${room.id}">
+                                                        Dodaj najemcę</a>
+                                                </div>
+                                            </c:if>
                                         </div>
                                     </td>
                                 </tr>
@@ -132,19 +140,21 @@
 
                         <div id="rooms-form" class="field">
 
-                            <form action="/room/add_by_property" method="post">
+
+                            <form:form action="/room/edit_by_property" method="post" modelAttribute="roomData">
                                 <label class="label">Wprowadź czynsz:</label>
                                 <div class="field is-grouped">
                                     <p class="control is-expanded">
-                                        <input class="input" type="number" name="rent" placeholder="Podaj kwotę">
+                                        <input class="input" type="number" name="catalogRent" placeholder="Podaj kwotę">
                                     </p>
                                     <p class="control">
                                         <button class="button is-link" type="submit">Dodaj</button>
                                     </p>
                                 </div>
+                                <form:errors path="catalogRent" cssClass="has-text-danger"/>
                                 <input type="hidden" name="propertyId" value="${propertyData.id}">
                                 <sec:csrfInput/>
-                            </form>
+                            </form:form>
 
                         </div>
 
@@ -162,7 +172,6 @@
             </div>
 
         </div>
-
 
 
     </div>

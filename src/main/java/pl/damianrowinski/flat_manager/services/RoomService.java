@@ -24,27 +24,18 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final PropertyRepository propertyRepository;
 
-    public void save(RoomAddDTO roomToAdd) {
-        Room room = new Room();
-        room.setCatalogRent(roomToAdd.getCatalogRent());
-        room.setProperty(roomToAdd.getProperty());
-        room.setTenant(roomToAdd.getTenant());
-        log.info("Adding room to apartment: " + room.getProperty().getWorkingName() + " room: " + room);
-        roomRepository.save(room);
-    }
-
     public List<Room> findAllByPropertyId(Long id) {
         List<Room> roomsByPropertyId = roomRepository.findAllByPropertyId(id);
         log.info("For apartment id: " + id + ", found no of rooms: " + roomsByPropertyId.size());
         return roomsByPropertyId;
     }
 
-    public void addNewToProperty(Double rent, Long propertyId) {
-        Optional<Property> optionalProperty = propertyRepository.findById(propertyId);
+    public void addNewToProperty(RoomAddDTO roomData) {
+        Optional<Property> optionalProperty = propertyRepository.findById(roomData.getPropertyId());
         if (optionalProperty.isEmpty())
             throw new ElementNotFoundException("Nie znalazłem mieszkania o podanym id.");
         Room room = new Room();
-        room.setCatalogRent(rent);
+        room.setCatalogRent(roomData.getCatalogRent());
         room.setProperty(optionalProperty.get());
         log.info("Adding room to apartment: " + room.getProperty().getWorkingName() + " room: " + room);
         roomRepository.save(room);

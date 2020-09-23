@@ -11,10 +11,12 @@ import pl.damianrowinski.flat_manager.model.common.Address;
 import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.RoomShowDTO;
 import pl.damianrowinski.flat_manager.model.repositories.PropertyRepository;
 import pl.damianrowinski.flat_manager.model.repositories.RoomRepository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +61,21 @@ public class PropertyService {
         propertyData.setAddressFullNumber(propertyAddress.getCombinedAddressNumber());
 
         List<Room> propertyRooms = roomRepository.findAllByPropertyId(id);
-        propertyData.setRooms(propertyRooms);
+        List<RoomShowDTO> roomsToShowList = new ArrayList<>();
+
+        for (Room room : propertyRooms) {
+            RoomShowDTO roomData = new RoomShowDTO();
+            roomData.setId(room.getId());
+            roomData.setCatalogRent(room.getCatalogRent());
+            roomData.setPropertyId(room.getProperty().getId());
+            if (room.getTenant() != null) {
+                roomData.setTenantId(room.getTenant().getId());
+                roomData.setTenatFullName(room.getTenant().getPersonalDetails().getFullName());
+            }
+            roomsToShowList.add(roomData);
+        }
+
+        propertyData.setRooms(roomsToShowList);
         propertyData.setRoomsNumber(propertyRooms.size());
 
         log.info("Object loaded from database: " + propertyData);

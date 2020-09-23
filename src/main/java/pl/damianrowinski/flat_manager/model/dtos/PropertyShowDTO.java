@@ -7,15 +7,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 public class PropertyShowDTO {
 
     private Long id;
     private Integer roomsNumber;
-    private List<Room> rooms;
+    private List<RoomShowDTO> rooms;
     private LocalDateTime createdDate;
     private String workingName;
     private Double billsRentAmount;

@@ -100,18 +100,30 @@
                             <tr>
                                 <th>Lp.</th>
                                 <th>Czynsz</th>
+                                <th>Najemca</th>
                             </tr>
                             </thead>
                             <tbody>
 
                             <c:set var="totalIncomeFromRooms" value="${0}" scope="page"/>
+                            <c:set var="actualIncomeFromRooms" value="${0}" scope="page"/>
 
                             <c:forEach items="${propertyData.rooms}" var="room" varStatus="counter">
                                 <tr>
                                     <td>${counter.count}</td>
                                     <td>${room.catalogRent}</td>
+                                    <td>
+                                        <c:if test="${room.tenatFullName eq null}">
+                                            brak
+                                        </c:if>
+                                            ${room.tenatFullName}
+                                    </td>
                                 </tr>
                                 <c:set var="totalIncomeFromRooms" value="${totalIncomeFromRooms + room.catalogRent}"/>
+                                <c:if test="${room.tenatFullName != null}">
+                                    <c:set var="actualIncomeFromRooms" value="${actualIncomeFromRooms + room.catalogRent}"/>
+                                </c:if>
+
                             </c:forEach>
                             </tbody>
                         </table>
@@ -130,9 +142,13 @@
                             <strong>Wynik finansowy</strong>
                         </div>
 
+                        <div class="block">
+                            <h3 class="subtitle">Aktualny wynik:</h3>
+                        </div>
+
                         <c:set var="billsForApartment"
                                value="${propertyData.billsRentAmount + propertyData.billsUtilityAmount}"/>
-                        <c:set var="profit" value="${totalIncomeFromRooms - billsForApartment}"/>
+                        <c:set var="profit" value="${actualIncomeFromRooms - billsForApartment}"/>
 
                         <table class="table">
                             <thead>
@@ -144,9 +160,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>${totalIncomeFromRooms}</td>
+                                <td>${actualIncomeFromRooms}</td>
                                 <td>
-                                    <c:out value="${pageScope.billsForApartment}"/>
+                                    <c:out value="${billsForApartment}"/>
                                 </td>
                                 <td>
                                     <c:if test="${profit >= 0}">
@@ -164,6 +180,46 @@
                             </tr>
                             </tbody>
                         </table>
+
+                        <div class="block">
+                            <h3 class="subtitle">Potencjalny wynik:</h3>
+                        </div>
+
+                        <c:set var="billsForApartment"
+                               value="${propertyData.billsRentAmount + propertyData.billsUtilityAmount}"/>
+                        <c:set var="profit" value="${totalIncomeFromRooms - billsForApartment}"/>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Przychód</th>
+                                <th>Wydatki</th>
+                                <th>Wynik</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>${totalIncomeFromRooms}</td>
+                                <td>
+                                    <c:out value="${billsForApartment}"/>
+                                </td>
+                                <td>
+                                    <c:if test="${profit >= 0}">
+                                        <div class="notification is-success">
+                                            Zysk: <c:out value="${profit}"/>
+                                        </div>
+                                    </c:if>
+
+                                    <c:if test="${profit < 0}">
+                                        <div class="notification is-danger">
+                                            Strata: <c:out value="${profit}"/>
+                                        </div>
+                                    </c:if>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
 
                     </div>
 
