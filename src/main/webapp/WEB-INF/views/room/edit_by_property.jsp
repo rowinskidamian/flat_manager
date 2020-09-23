@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Flat Manager - wyświetlanie mieszkania</title>
+    <title>Flat Manager - edycja pokoi w mieszkaniu</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <script src="https://kit.fontawesome.com/a1834f9866.js" crossorigin="anonymous"></script>
 </head>
@@ -25,7 +25,7 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    Przegląd mieszkania
+                    Edycja pokoi
                 </h1>
                 <h2 class="subtitle">
                     Nazwa obiektu: <strong>${propertyData.workingName} </strong>
@@ -100,6 +100,7 @@
                             <tr>
                                 <th>Lp.</th>
                                 <th>Czynsz</th>
+                                <th>Akcja</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -110,68 +111,59 @@
                                 <tr>
                                     <td>${counter.count}</td>
                                     <td>${room.catalogRent}</td>
+                                    <td>
+                                        <div class="control">
+                                            <a class="button is-link is-light" href="/room/delete/${room.id}">
+                                                Usuń pokój</a>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <c:set var="totalIncomeFromRooms" value="${totalIncomeFromRooms + room.catalogRent}"/>
                             </c:forEach>
                             </tbody>
                         </table>
 
-                        <div class="field is-grouped">
-                            <div class="control">
-                                <a class="button is-link" href="/room/edit_by_property/${propertyData.id}">
-                                    Edytuj pokoje</a>
-                            </div>
-                        </div>
-
                     </div>
 
                     <div class="column is-two-third">
                         <div class="notification is-light">
-                            <strong>Wynik finansowy</strong>
+                            <strong>Dodaj pokój</strong>
                         </div>
 
-                        <c:set var="billsForApartment"
-                               value="${propertyData.billsRentAmount + propertyData.billsUtilityAmount}"/>
-                        <c:set var="profit" value="${totalIncomeFromRooms - billsForApartment}"/>
+                        <div id="rooms-form" class="field">
 
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Przychód</th>
-                                <th>Wydatki</th>
-                                <th>Wynik</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>${totalIncomeFromRooms}</td>
-                                <td>
-                                    <c:out value="${pageScope.billsForApartment}"/>
-                                </td>
-                                <td>
-                                    <c:if test="${profit >= 0}">
-                                        <div class="notification is-success">
-                                            Zysk: <c:out value="${profit}"/>
-                                        </div>
-                                    </c:if>
+                            <form action="/room/add_by_property" method="post">
+                                <label class="label">Wprowadź czynsz:</label>
+                                <div class="field is-grouped">
+                                    <p class="control is-expanded">
+                                        <input class="input" type="number" name="rent" placeholder="Podaj kwotę">
+                                    </p>
+                                    <p class="control">
+                                        <button class="button is-link" type="submit">Dodaj</button>
+                                    </p>
+                                </div>
+                                <input type="hidden" name="propertyId" value="${propertyData.id}">
+                                <sec:csrfInput/>
+                            </form>
 
-                                    <c:if test="${profit < 0}">
-                                        <div class="notification is-danger">
-                                            Strata: <c:out value="${profit}"/>
-                                        </div>
-                                    </c:if>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        </div>
 
                     </div>
 
                 </div>
 
+                <div class="field is-grouped">
+                    <div class="control">
+                        <a class="button is-success" href="/property/show/${propertyData.id}">
+                            Zapisz zmiany</a>
+                    </div>
+                </div>
+
             </div>
 
         </div>
+
+
 
     </div>
 

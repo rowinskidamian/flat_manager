@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomAddDTO;
+import pl.damianrowinski.flat_manager.services.PropertyService;
 import pl.damianrowinski.flat_manager.services.RoomService;
 
 @Controller
@@ -18,6 +17,7 @@ import pl.damianrowinski.flat_manager.services.RoomService;
 public class RoomController {
 
     private final RoomService roomService;
+    private final PropertyService propertyService;
 
     @GetMapping("/add")
     public String generateAddingRoom(Model model) {
@@ -30,10 +30,16 @@ public class RoomController {
         return "/room/list";
     }
 
-
     @PostMapping("/add_by_property")
     public String addRoomByProperty(Double rent, Long propertyId) {
         roomService.addNewToProperty(rent, propertyId);
-        return "redirect:/property/show/" + propertyId;
+        return "redirect:/room/edit_by_property/" + propertyId;
+    }
+
+    @RequestMapping("/edit_by_property/{propertyId}")
+    public String showProperty(@PathVariable Long propertyId, Model model) {
+        PropertyShowDTO propertyData = propertyService.findByIdWithRooms(propertyId);
+        model.addAttribute("propertyData", propertyData);
+        return "/room/edit_by_property";
     }
 }
