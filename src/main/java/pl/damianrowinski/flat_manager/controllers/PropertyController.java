@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyAddDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomAddDTO;
 import pl.damianrowinski.flat_manager.services.PropertyService;
@@ -22,7 +20,6 @@ import java.util.List;
 public class PropertyController {
 
     private final PropertyService propertyService;
-    private final RoomService roomService;
 
     @GetMapping("/add")
     public String generateAddForm(Model model) {
@@ -31,10 +28,15 @@ public class PropertyController {
     }
 
     @PostMapping("/add")
-    public String addProperty(@ModelAttribute("propertyData") PropertyAddDTO propertyData, List<RoomAddDTO> roomsToAdd) {
-        propertyService.save(propertyData);
-        roomService.addRoomsToProperty(roomsToAdd);
-        return "/property/list";
+    public String addProperty(@ModelAttribute("propertyData") PropertyAddDTO propertyData) {
+        Property savedProperty = propertyService.save(propertyData);
+        return "/property/show_saved/" + savedProperty.getId();
+    }
+
+    @RequestMapping("/show/{id}")
+    public String showProperty(@PathVariable Long id) {
+        propertyService.
+
     }
 
 
