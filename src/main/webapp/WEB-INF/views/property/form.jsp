@@ -215,7 +215,9 @@
 
     </div>
 
-    </div>
+    <footer class="footer">
+        <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+    </footer>
 
 
 </section>
