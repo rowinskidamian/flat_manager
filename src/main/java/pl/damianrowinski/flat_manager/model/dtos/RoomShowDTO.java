@@ -9,6 +9,6 @@ public class RoomShowDTO {
     private Double catalogRent;
     private Long propertyId;
     private Long tenantId;
-    private String tenatFullName;
+    private String tenantFullName;
 
 }

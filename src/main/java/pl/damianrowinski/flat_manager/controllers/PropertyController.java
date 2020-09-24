@@ -8,8 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
+import pl.damianrowinski.flat_manager.model.dtos.PropertyDeleteDTO;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.RoomDeleteDTO;
 import pl.damianrowinski.flat_manager.services.PropertyService;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
@@ -43,10 +45,32 @@ public class PropertyController {
     }
 
     @PostMapping("/add")
-    public String addProperty(@ModelAttribute("propertyData") PropertyEditDTO propertyData) {
+    public String addProperty(@ModelAttribute("propertyData") @Valid PropertyEditDTO propertyData,
+                              BindingResult result, Model model) {
+        if(result.hasErrors()){
+            model.addAttribute("propertyData", propertyData);
+            return "/property/form";
+        }
+
         Property savedProperty = propertyService.save(propertyData);
         return "redirect:/property/show/" + savedProperty.getId();
     }
+
+    @GetMapping("/delete/{propertyId}")
+    public String generateConfirmationPage(@PathVariable Long propertyId, Model model) {
+        PropertyDeleteDTO propertyToDelete = propertyService.findPropertyToDelete(propertyId);
+        model.addAttribute("propertyDeleteData", propertyToDelete);
+        return "/property/delete-confirmation";
+    }
+
+    @PostMapping("/delete")
+    public String deleteConfirmed(@ModelAttribute("propertyDeleteData") PropertyDeleteDTO propertyDeleteData) {
+        log.info("roomData: " + roomDeleteData.toString());
+
+        roomService.delete(roomDeleteData.getId());
+        return "redirect:/room/edit_by_property/" + roomDeleteData.getPropertyId();
+    }
+
 
     @GetMapping("/edit/{propertyId}")
     public String generateEditForm(@PathVariable Long propertyId, Model model) {

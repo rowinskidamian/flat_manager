@@ -32,8 +32,6 @@ public class RoomController {
 
     @PostMapping("/delete_by_property")
     public String deleteConfirmed(@ModelAttribute("roomDeleteData") RoomDeleteDTO roomDeleteData) {
-        log.info("roomData: " + roomDeleteData.toString());
-
         roomService.delete(roomDeleteData.getId());
         return "redirect:/room/edit_by_property/" + roomDeleteData.getPropertyId();
     }
