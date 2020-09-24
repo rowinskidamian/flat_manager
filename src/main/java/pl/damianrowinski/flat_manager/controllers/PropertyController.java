@@ -63,12 +63,10 @@ public class PropertyController {
         return "/property/delete-confirmation";
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/delete/{propertyId}")
     public String deleteConfirmed(@ModelAttribute("propertyDeleteData") PropertyDeleteDTO propertyDeleteData) {
-        log.info("roomData: " + roomDeleteData.toString());
-
-        roomService.delete(roomDeleteData.getId());
-        return "redirect:/room/edit_by_property/" + roomDeleteData.getPropertyId();
+        propertyService.delete(propertyDeleteData);
+        return "redirect:/property";
     }
 
 

@@ -192,6 +192,10 @@
                         <div class="control">
                             <button class="button is-link" type="submit">Wyślij</button>
                         </div>
+                        <div class="control">
+                            <a class="button is-link is-light" href="/property/delete/${propertyData.id}">
+                                Usuń mieszkanie</a>
+                        </div>
                     </div>
                     <input type="hidden" name="loggedUserName" value="${propertyData.loggedUserName}">
                     <input type="hidden" name="id" value="${propertyData.id}">

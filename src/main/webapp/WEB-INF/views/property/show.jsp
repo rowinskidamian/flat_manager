@@ -113,14 +113,14 @@
                                     <td>${counter.count}</td>
                                     <td>${room.catalogRent}</td>
                                     <td>
-                                        <c:if test="${room.tenatFullName eq null}">
+                                        <c:if test="${room.tenantFullName eq null}">
                                             brak
                                         </c:if>
-                                            ${room.tenatFullName}
+                                            ${room.tenantFullName}
                                     </td>
                                 </tr>
                                 <c:set var="totalIncomeFromRooms" value="${totalIncomeFromRooms + room.catalogRent}"/>
-                                <c:if test="${room.tenatFullName != null}">
+                                <c:if test="${room.tenantFullName != null}">
                                     <c:set var="actualIncomeFromRooms" value="${actualIncomeFromRooms + room.catalogRent}"/>
                                 </c:if>
 

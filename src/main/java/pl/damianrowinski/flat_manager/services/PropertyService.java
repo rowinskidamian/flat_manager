@@ -8,8 +8,10 @@ import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.domain.entities.Room;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
+import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
 import pl.damianrowinski.flat_manager.model.common.Address;
 import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
+import pl.damianrowinski.flat_manager.model.dtos.PropertyDeleteDTO;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomShowDTO;
@@ -21,6 +23,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -72,7 +75,6 @@ public class PropertyService {
     }
 
 
-
     public PropertyShowDTO findByIdWithRooms(Long id) {
         Optional<Property> optionalProperty = propertyRepository.findById(id);
         if (optionalProperty.isEmpty())
@@ -101,7 +103,7 @@ public class PropertyService {
             roomData.setPropertyId(room.getProperty().getId());
             if (room.getTenant() != null) {
                 roomData.setTenantId(room.getTenant().getId());
-                roomData.setTenatFullName(room.getTenant().getPersonalDetails().getFullName());
+                roomData.setTenantFullName((room.getTenant().getPersonalDetails().getFullName()));
             }
             roomsToShowList.add(roomData);
         }
@@ -140,5 +142,47 @@ public class PropertyService {
 
         return listOfPropertiesToShow;
 
+    }
+
+    public PropertyDeleteDTO findPropertyToDelete(Long propertyId) {
+
+        Optional<Property> optionalProperty = propertyRepository.findById(propertyId);
+        if (optionalProperty.isEmpty()) throw new ElementNotFoundException("Brak mieszkania o podanym id");
+
+        List<Room> propertyRoomsList = roomRepository.findAllByPropertyId(propertyId);
+
+        for (Room room : propertyRoomsList) {
+            if (room.getTenant() != null)
+                throw new ObjectInRelationshipException("Mieszkanie ma najemców, opróżnij mieszkanie, przed usunięciem");
+        }
+
+        Property property = optionalProperty.get();
+        String loggedUserName = property.getLoggedUserName();
+
+        if (!loggedUserName.equals(LoggedUsername.get()))
+            throw new FrobiddenAccessException("Nie możesz usunąć obiektu, który nie należy do Twojego konta");
+
+        PropertyDeleteDTO propertyDeleteDTO = new PropertyDeleteDTO();
+        propertyDeleteDTO.setPropertyId(propertyId);
+        propertyDeleteDTO.setLoggedUserName(loggedUserName);
+
+        return propertyDeleteDTO;
+    }
+
+    public void delete(PropertyDeleteDTO propertyDeleteDTO) {
+
+        Optional<Property> optionalProperty = propertyRepository.findById(propertyDeleteDTO.getPropertyId());
+        if (optionalProperty.isEmpty()) throw new ElementNotFoundException("Brak mieszkania o podanym id");
+
+        String loggedUserName = propertyDeleteDTO.getLoggedUserName();
+        if (!loggedUserName.equals(LoggedUsername.get()))
+            throw new FrobiddenAccessException("Nie możesz usunąć obiektu, który nie należy do Twojego konta");
+
+        log.info("Deleting property with id:" + propertyDeleteDTO.getPropertyId());
+
+        List<Room> propertyRooms = roomRepository.findAllByPropertyId(propertyDeleteDTO.getPropertyId());
+        propertyRooms.forEach(room -> roomRepository.delete(room));
+
+        propertyRepository.delete(optionalProperty.get());
     }
 }
