@@ -93,13 +93,29 @@ public class PropertyService {
         if (!loggedUsername.equals(LoggedUsername.get()))
             throw new FrobiddenAccessException("Nie masz dostępu do tych danych.");
 
+        List<PropertyShowDTO> listOfPropertiesToShow = new ArrayList<>();
+
         List<Property> propertyList = propertyRepository.findAllByLoggedUserName(loggedUsername);
 
         for (Property property : propertyList) {
             PropertyShowDTO propertyToShowData = modelMapper.map(property, PropertyShowDTO.class);
 
+            PersonNameContact ownerDetails = property.getOwnerDetails();
+            propertyToShowData.setOwnerName(ownerDetails.getFullName());
+            propertyToShowData.setEmail(ownerDetails.getEmail());
+
+            Address address = property.getAddress();
+            propertyToShowData.setCityName(address.getCityName());
+            propertyToShowData.setStreetName(address.getStreetName());
+            propertyToShowData.setAddressFullNumber(address.getCombinedAddressNumber());
+
+            List<Room> allRoomsFromProperty = roomRepository.findAllByPropertyId(property.getId());
+
+            propertyToShowData.setRoomsNumber(allRoomsFromProperty.size());
+            listOfPropertiesToShow.add(propertyToShowData);
         }
 
+        return listOfPropertiesToShow;
 
     }
 }

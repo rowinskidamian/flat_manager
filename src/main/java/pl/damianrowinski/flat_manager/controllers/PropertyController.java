@@ -21,9 +21,16 @@ public class PropertyController {
 
     private final PropertyService propertyService;
 
+    @RequestMapping
+    public String welcomePage() {
+        return "redirect:/property/list";
+    }
+
     @RequestMapping("/list")
     public String showList(Model model) {
         List<PropertyShowDTO> propertyList = propertyService.findAllByUser(LoggedUsername.get());
+        model.addAttribute("propertyList", propertyList);
+        return "/property/list";
     }
 
     @GetMapping("/add")
@@ -35,7 +42,7 @@ public class PropertyController {
     @PostMapping("/add")
     public String addProperty(@ModelAttribute("propertyData") PropertyEditDTO propertyData) {
         Property savedProperty = propertyService.save(propertyData);
-        return "/property/show_saved/" + savedProperty.getId();
+        return "redirect:/property/show/" + savedProperty.getId();
     }
 
     @RequestMapping("/show/{id}")

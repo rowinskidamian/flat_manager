@@ -18,19 +18,19 @@
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
             <sec:authorize access="isAuthenticated()">
-                <a class="navbar-item" href="/properties">
+                <a class="navbar-item" href="/property">
                     Mieszkania
                 </a>
 
-                <a class="navbar-item" href="/rooms">
+                <a class="navbar-item" href="/room">
                     Pokoje
                 </a>
 
-                <a class="navbar-item" href="/tenants">
+                <a class="navbar-item" href="/tenant">
                     Najemcy
                 </a>
 
-                <a class="navbar-item" href="/payments">
+                <a class="navbar-item" href="/payment">
                     Płatności
                 </a>
 
@@ -70,7 +70,7 @@
                     </sec:authorize>
 
                     <sec:authorize access="isAuthenticated()">
-                        <a class="button is-white" href="/user/details/${userLogin}">Zalogowany: &nbsp;
+                        <a class="button is-white" href="/user/details/${userLogin}">Zalogowany &nbsp;
                             <strong> ${userLogin} </strong>
                         </a>
                         <a class="button is-primary is-info" href="/logout-confirm">
