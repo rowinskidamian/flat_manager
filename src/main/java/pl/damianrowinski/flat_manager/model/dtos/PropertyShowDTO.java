@@ -1,7 +1,6 @@
 package pl.damianrowinski.flat_manager.model.dtos;
 
 import lombok.*;
-import pl.damianrowinski.flat_manager.domain.entities.Room;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

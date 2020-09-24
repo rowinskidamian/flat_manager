@@ -90,7 +90,7 @@
 
 
                 <div class="columns">
-                    <div class="column is-one-third">
+                    <div class="column is-two-fifth">
                         <div class="notification is-light">
                             <strong>Pokoje</strong>
                         </div>
@@ -115,14 +115,22 @@
                                         <div class="field is-grouped">
                                             <div class="control">
                                                 <a class="button is-link is-light" href="/room/delete_by_property/${room.id}">
-                                                    Usuń</a>
+                                                    Usuń pokój</a>
                                             </div>
                                             <c:if test="${room.tenantId eq null}">
                                                 <div class="control">
-                                                    <a class="button is-link is-warning" href="/tenant/add_to_room/${room.id}">
+                                                    <a class="button is-link is-success" href="/tenant/add_to_room/${room.id}">
                                                         Dodaj najemcę</a>
                                                 </div>
                                             </c:if>
+                                            <c:if test="${room.tenantId ne null}">
+                                                <div class="control">
+                                                    <a class="button is-link is-warning" href="/tenant/delete_by_room/${room.id}">
+                                                        Usuń najemcę</a>
+                                                </div>
+                                            </c:if>
+
+
                                         </div>
                                     </td>
                                 </tr>
@@ -133,7 +141,7 @@
 
                     </div>
 
-                    <div class="column is-two-third">
+                    <div class="column is-three-fifth">
                         <div class="notification is-light">
                             <strong>Dodaj pokój</strong>
                         </div>

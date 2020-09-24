@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.domain.entities.Room;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
+import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
 import pl.damianrowinski.flat_manager.model.common.Address;
 import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyEditDTO;
@@ -14,6 +15,7 @@ import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomShowDTO;
 import pl.damianrowinski.flat_manager.model.repositories.PropertyRepository;
 import pl.damianrowinski.flat_manager.model.repositories.RoomRepository;
+import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -87,4 +89,17 @@ public class PropertyService {
         return propertyRepository.findById(id);
     }
 
+    public List<PropertyShowDTO> findAllByUser(String loggedUsername) {
+        if (!loggedUsername.equals(LoggedUsername.get()))
+            throw new FrobiddenAccessException("Nie masz dostępu do tych danych.");
+
+        List<Property> propertyList = propertyRepository.findAllByLoggedUserName(loggedUsername);
+
+        for (Property property : propertyList) {
+            PropertyShowDTO propertyToShowData = modelMapper.map(property, PropertyShowDTO.class);
+
+        }
+
+
+    }
 }

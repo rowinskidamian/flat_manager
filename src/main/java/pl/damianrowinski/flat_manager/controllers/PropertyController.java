@@ -9,6 +9,9 @@ import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
 import pl.damianrowinski.flat_manager.services.PropertyService;
+import pl.damianrowinski.flat_manager.utils.LoggedUsername;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,6 +20,11 @@ import pl.damianrowinski.flat_manager.services.PropertyService;
 public class PropertyController {
 
     private final PropertyService propertyService;
+
+    @RequestMapping("/list")
+    public String showList(Model model) {
+        List<PropertyShowDTO> propertyList = propertyService.findAllByUser(LoggedUsername.get());
+    }
 
     @GetMapping("/add")
     public String generateAddForm(Model model) {
