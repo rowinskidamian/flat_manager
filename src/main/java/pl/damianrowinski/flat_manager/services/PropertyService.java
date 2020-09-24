@@ -33,16 +33,45 @@ public class PropertyService {
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
 
-    public Property save(PropertyEditDTO propertyAddDTO) {
-        Property property = modelMapper.map(propertyAddDTO, Property.class);
-        Address address = modelMapper.map(propertyAddDTO, Address.class);
+    public Property save(PropertyEditDTO propertyEditDTO) {
+        Property property = modelMapper.map(propertyEditDTO, Property.class);
+        Address address = modelMapper.map(propertyEditDTO, Address.class);
         property.setAddress(address);
-        PersonNameContact ownerDetails = modelMapper.map(propertyAddDTO, PersonNameContact.class);
+        PersonNameContact ownerDetails = modelMapper.map(propertyEditDTO, PersonNameContact.class);
         property.setOwnerDetails(ownerDetails);
 
         log.info("Attempt to save property: " + property);
         return propertyRepository.save(property);
     }
+
+    public PropertyEditDTO findToEditById(Long id) {
+
+        Optional<Property> optionalProperty = propertyRepository.findById(id);
+        if (optionalProperty.isEmpty())
+            throw new ElementNotFoundException("Nie znalazłem mieszkania o podanym id.");
+
+        Property property = optionalProperty.get();
+        String loggedUserName = property.getLoggedUserName();
+
+        if (!loggedUserName.equals(LoggedUsername.get()))
+            throw new FrobiddenAccessException("Nie masz dostępu do tych danych.");
+
+        PropertyEditDTO propertyToEditData = modelMapper.map(property, PropertyEditDTO.class);
+        Address address = property.getAddress();
+        propertyToEditData.setCityName(address.getCityName());
+        propertyToEditData.setStreetName(address.getStreetName());
+        propertyToEditData.setStreetNumber(address.getStreetNumber());
+        propertyToEditData.setApartmentNumber(address.getApartmentNumber());
+
+        PersonNameContact ownerDetails = property.getOwnerDetails();
+        propertyToEditData.setFirstName(ownerDetails.getFirstName());
+        propertyToEditData.setLastName(ownerDetails.getLastName());
+        propertyToEditData.setEmail(ownerDetails.getEmail());
+
+        return propertyToEditData;
+    }
+
+
 
     public PropertyShowDTO findByIdWithRooms(Long id) {
         Optional<Property> optionalProperty = propertyRepository.findById(id);
@@ -85,13 +114,7 @@ public class PropertyService {
         return propertyData;
     }
 
-    public Optional<Property> findById(Long id) {
-        return propertyRepository.findById(id);
-    }
-
     public List<PropertyShowDTO> findAllByUser(String loggedUsername) {
-        if (!loggedUsername.equals(LoggedUsername.get()))
-            throw new FrobiddenAccessException("Nie masz dostępu do tych danych.");
 
         List<PropertyShowDTO> listOfPropertiesToShow = new ArrayList<>();
 

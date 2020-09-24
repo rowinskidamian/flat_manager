@@ -4,13 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.domain.entities.Property;
+import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
 import pl.damianrowinski.flat_manager.services.PropertyService;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -43,6 +46,33 @@ public class PropertyController {
     public String addProperty(@ModelAttribute("propertyData") PropertyEditDTO propertyData) {
         Property savedProperty = propertyService.save(propertyData);
         return "redirect:/property/show/" + savedProperty.getId();
+    }
+
+    @GetMapping("/edit/{propertyId}")
+    public String generateEditForm(@PathVariable Long propertyId, Model model) {
+        PropertyEditDTO propertyData = propertyService.findToEditById(propertyId);
+        model.addAttribute("propertyData", propertyData);
+        return "/property/form";
+    }
+
+    @PostMapping("/edit/{propertyId}")
+    public String saveChanges(@PathVariable Long propertyId, @ModelAttribute("propertyData") @Valid PropertyEditDTO
+            propertyData, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("propertyData", propertyData);
+            return "/property/form";
+        }
+
+        String loggedUserName = propertyData.getLoggedUserName();
+        if (!loggedUserName.equals(LoggedUsername.get()))
+            throw new FrobiddenAccessException("Nie masz dostępu do tych danych.");
+
+        if(!propertyId.equals(propertyData.getId()))
+            throw new FrobiddenAccessException("Id obiektu z bazy i edytowanego nie zgadzają się.");
+
+        propertyService.save(propertyData);
+        return "redirect:/property/show/" + propertyId;
     }
 
     @RequestMapping("/show/{id}")

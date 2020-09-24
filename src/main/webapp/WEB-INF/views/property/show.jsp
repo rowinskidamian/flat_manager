@@ -63,7 +63,7 @@
                         <td>${propertyData.roomsNumber}</td>
                         <td>${propertyData.billsRentAmount}</td>
                         <td>${propertyData.billsUtilityAmount}</td>
-                        <td>${propertyData.billsPaymentDate}</td>
+                        <td>${propertyData.billsPaymentDay}</td>
                         <td>${propertyData.cityName}</td>
                         <td>${propertyData.streetName}</td>
                         <td>${propertyData.addressFullNumber}</td>

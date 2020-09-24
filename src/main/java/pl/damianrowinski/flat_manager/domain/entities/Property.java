@@ -8,7 +8,6 @@ import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -32,8 +31,8 @@ public class Property extends BaseEntityLoggedUser {
     @Column(nullable = false, name = "bills_utility")
     private Double billsUtilityAmount;
 
-    @Column(nullable = false, name = "bills_payment_date")
-    private LocalDate billsPaymentDate;
+    @Column(nullable = false, name = "bills_payment_day")
+    private Double billsPaymentDay;
 
     private Address address;
     private PersonNameContact ownerDetails;
@@ -43,7 +42,7 @@ public class Property extends BaseEntityLoggedUser {
         return "Property{ id= " + getId() +
                 ", rent=" + billsRentAmount +
                 ", billsAmount=" + billsUtilityAmount +
-                ", paymentDate=" + billsPaymentDate +
+                ", paymentDay=" + billsPaymentDay +
                 ", address=" + address +
                 ", ownerDetails=" + ownerDetails +
                 "}";

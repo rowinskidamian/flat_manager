@@ -16,7 +16,7 @@ public class PropertyShowDTO {
     private String workingName;
     private Double billsRentAmount;
     private Double billsUtilityAmount;
-    private LocalDate billsPaymentDate;
+    private Integer billsPaymentDay;
 
     private String cityName;
     private String streetName;

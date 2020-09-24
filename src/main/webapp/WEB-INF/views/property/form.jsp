@@ -26,10 +26,10 @@
             <div class="column is-three-quarters">
                 <div class="block has-text-centered">
                     <h1 class="title">
-                        Formularz Dodawania mieszkania
+                        Formularz edycji mieszkania
                     </h1>
                     <p class="subtitle">
-                        Wpisz swoje dane, aby dodać mieszkanie.
+                        Wprowadź dane mieszkania.
                     </p>
                 </div>
 
@@ -56,28 +56,28 @@
                                 <tr>
                                     <th>Czynsz</th>
                                     <th>Opłaty miesięczne</th>
-                                    <th>Termin płatności</th>
+                                    <th>Dzień płatności</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>
                                         <div class="control">
-                                            <input type="number" name="billsRentAmount" class="input">
+                                            <form:input path="billsRentAmount" cssClass="input"/>
                                         </div>
                                         <form:errors path="billsRentAmount" cssClass="has-text-danger"/>
                                     </td>
                                     <td>
                                         <div class="control">
-                                            <input type="number" name="billsUtilityAmount" class="input">
+                                            <form:input path="billsUtilityAmount" cssClass="input"/>
                                         </div>
                                         <form:errors path="billsUtilityAmount" cssClass="has-text-danger"/>
                                     </td>
                                     <td>
                                         <div class="control">
-                                            <input type="date" name="billsPaymentDate" class="input">
+                                            <form:input path="billsPaymentDay" cssClass="input"/>
                                         </div>
-                                        <form:errors path="billsPaymentDate" cssClass="has-text-danger"/>
+                                        <form:errors path="billsPaymentDay" cssClass="has-text-danger"/>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -127,13 +127,13 @@
                                         </td>
                                         <td>
                                             <div class="control">
-                                                <input type="number" name="streetNumber" class="input">
+                                                <form:input path="streetNumber" cssClass="input"/>
                                             </div>
                                             <form:errors path="streetNumber" cssClass="has-text-danger"/>
                                         </td>
                                         <td>
                                             <div class="control">
-                                                <input type="number" name="apartmentNumber" class="input">
+                                                <form:input path="apartmentNumber" cssClass="input"/>
                                             </div>
                                             <form:errors path="apartmentNumber" cssClass="has-text-danger"/>
                                         </td>
@@ -192,10 +192,9 @@
                         <div class="control">
                             <button class="button is-link" type="submit">Wyślij</button>
                         </div>
-                        <div class="control">
-                            <button class="button is-link is-light" type="reset">Wyczyść</button>
-                        </div>
                     </div>
+                    <input type="hidden" name="loggedUserName" value="${propertyData.loggedUserName}">
+                    <input type="hidden" name="id" value="${propertyData.id}">
                     <sec:csrfInput/>
                 </form:form>
             </div>
