@@ -24,7 +24,7 @@ public class Tenant extends BaseEntityLoggedUser {
     @Column(name = "lease_date_end", nullable = false)
     private LocalDate leaseDateEnd;
 
-    @OneToOne
+    @OneToOne(mappedBy = "tenant")
     private Room room;
 
     @Column(name = "rent_discount", nullable = true)
