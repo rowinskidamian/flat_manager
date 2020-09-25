@@ -68,6 +68,7 @@
                                         <form:select path="tenantId">
                                             <form:options items="${tenantListData}" itemValue="tenantId"
                                                           itemLabel="tenantFullName"/>
+                                            <form:option value="null" label="Bez najemcy"/>
                                         </form:select>
                                     </div>
                                 </div>
@@ -102,7 +103,7 @@
         </div>
 
     </div>
-    
+
 
 
 </section>

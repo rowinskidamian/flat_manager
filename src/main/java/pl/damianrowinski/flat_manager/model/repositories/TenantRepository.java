@@ -12,7 +12,7 @@ import java.util.List;
 @Transactional
 public interface TenantRepository extends JpaRepository<Tenant, Long> {
 
-    @Query("SELECT t FROM Tenant t WHERE t.loggedUserName = ?1 AND t.room IS NULL")
+    @Query(value = "SELECT * FROM tenants WHERE logged_user_name = ?1 AND room_id IS NULL", nativeQuery = true)
     List<Tenant> findByLoggedUserWithNoRoom(String LoggedUserName);
 
 }

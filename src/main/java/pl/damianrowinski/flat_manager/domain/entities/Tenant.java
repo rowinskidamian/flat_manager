@@ -42,7 +42,6 @@ public class Tenant extends BaseEntityLoggedUser {
         return "Tenant{ id " + getId() +
                 ", leaseDateStart=" + leaseDateStart +
                 ", leaseDateEnd=" + leaseDateEnd +
-                ", room=" + room.getId() +
                 ", rentDiscount=" + rentDiscount +
                 ", paymentDeadline=" + paymentDeadline +
                 ", personalDetails=" + personalDetails +
