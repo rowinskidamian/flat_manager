@@ -10,5 +10,6 @@ public class RoomShowDTO {
     private Long propertyId;
     private Long tenantId;
     private String tenantFullName;
+    private String apartmentWorkingName;
 
 }

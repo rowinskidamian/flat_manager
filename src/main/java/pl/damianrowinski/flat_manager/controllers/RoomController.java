@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomAddDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomDeleteDTO;
+import pl.damianrowinski.flat_manager.model.dtos.RoomShowDTO;
 import pl.damianrowinski.flat_manager.services.PropertyService;
 import pl.damianrowinski.flat_manager.services.RoomService;
+import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +25,18 @@ public class RoomController {
 
     private final RoomService roomService;
     private final PropertyService propertyService;
+
+    @RequestMapping
+    public String redirectToList() {
+        return "redirect:/room/list";
+    }
+
+    @RequestMapping("/list")
+    public String showList(Model model) {
+        List<RoomShowDTO> roomList = roomService.findAllByUser(LoggedUsername.get());
+        model.addAttribute("roomList", roomList);
+        return "/room/list";
+    }
 
     @GetMapping("/delete_by_property/{roomId}")
     public String generateConfirmationPage(@PathVariable Long roomId, Model model) {

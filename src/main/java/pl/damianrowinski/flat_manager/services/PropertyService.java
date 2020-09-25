@@ -122,9 +122,16 @@ public class PropertyService {
 
     public List<PropertyShowDTO> findAllByUser(String loggedUsername) {
 
-        List<PropertyShowDTO> listOfPropertiesToShow = new ArrayList<>();
         List<Property> propertyList = propertyRepository.findAllByLoggedUserName(loggedUsername);
+        List<PropertyShowDTO> listOfPropertiesToShow = new ArrayList<>();
 
+        convertPropertyToPropertyData(propertyList, listOfPropertiesToShow);
+
+        return listOfPropertiesToShow;
+
+    }
+
+    private void convertPropertyToPropertyData(List<Property> propertyList, List<PropertyShowDTO> listOfPropertiesToShow) {
         for (Property property : propertyList) {
             PropertyShowDTO propertyToShowData = modelMapper.map(property, PropertyShowDTO.class);
 
@@ -136,9 +143,6 @@ public class PropertyService {
             propertyToShowData.setRoomsNumber(allRoomsFromProperty.size());
             listOfPropertiesToShow.add(propertyToShowData);
         }
-
-        return listOfPropertiesToShow;
-
     }
 
     public PropertyDeleteDTO findPropertyToDelete(Long propertyId) {
