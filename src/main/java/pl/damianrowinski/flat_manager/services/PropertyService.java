@@ -23,7 +23,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -61,17 +60,25 @@ public class PropertyService {
 
         PropertyEditDTO propertyToEditData = modelMapper.map(property, PropertyEditDTO.class);
         Address address = property.getAddress();
+        addAddressToEditedPropertyData(propertyToEditData, address);
+
+        PersonNameContact ownerDetails = property.getOwnerDetails();
+        addOwnerToEditedPropertyData(propertyToEditData, ownerDetails);
+
+        return propertyToEditData;
+    }
+
+    private void addOwnerToEditedPropertyData(PropertyEditDTO propertyToEditData, PersonNameContact ownerDetails) {
+        propertyToEditData.setFirstName(ownerDetails.getFirstName());
+        propertyToEditData.setLastName(ownerDetails.getLastName());
+        propertyToEditData.setEmail(ownerDetails.getEmail());
+    }
+
+    private void addAddressToEditedPropertyData(PropertyEditDTO propertyToEditData, Address address) {
         propertyToEditData.setCityName(address.getCityName());
         propertyToEditData.setStreetName(address.getStreetName());
         propertyToEditData.setStreetNumber(address.getStreetNumber());
         propertyToEditData.setApartmentNumber(address.getApartmentNumber());
-
-        PersonNameContact ownerDetails = property.getOwnerDetails();
-        propertyToEditData.setFirstName(ownerDetails.getFirstName());
-        propertyToEditData.setLastName(ownerDetails.getLastName());
-        propertyToEditData.setEmail(ownerDetails.getEmail());
-
-        return propertyToEditData;
     }
 
 
@@ -80,22 +87,26 @@ public class PropertyService {
         if (optionalProperty.isEmpty())
             throw new ElementNotFoundException("Nie znalazłem mieszkania o podanym id.");
 
-        Property propertyToShow = optionalProperty.get();
-        PropertyShowDTO propertyData = modelMapper.map(propertyToShow, PropertyShowDTO.class);
+        Property property = optionalProperty.get();
+        PropertyShowDTO propertyData = modelMapper.map(property, PropertyShowDTO.class);
 
-        PersonNameContact ownerDetails = propertyToShow.getOwnerDetails();
-        propertyData.setOwnerName(ownerDetails.getFullName());
-        propertyData.setEmail(ownerDetails.getEmail());
-
-        Address propertyAddress = propertyToShow.getAddress();
-
-        propertyData.setCityName(propertyAddress.getCityName());
-        propertyData.setStreetName(propertyAddress.getStreetName());
-        propertyData.setAddressFullNumber(propertyAddress.getCombinedAddressNumber());
+        addOwnerToPropertyData(property, propertyData);
+        addAddressToPropertyData(property, propertyData);
 
         List<Room> propertyRooms = roomRepository.findAllByPropertyId(id);
         List<RoomShowDTO> roomsToShowList = new ArrayList<>();
 
+        convertRoomsToRoomsData(propertyRooms, roomsToShowList);
+
+        propertyData.setRooms(roomsToShowList);
+        propertyData.setRoomsNumber(propertyRooms.size());
+
+        log.info("Object loaded from database: " + propertyData);
+
+        return propertyData;
+    }
+
+    private void convertRoomsToRoomsData(List<Room> propertyRooms, List<RoomShowDTO> roomsToShowList) {
         for (Room room : propertyRooms) {
             RoomShowDTO roomData = new RoomShowDTO();
             roomData.setId(room.getId());
@@ -107,32 +118,18 @@ public class PropertyService {
             }
             roomsToShowList.add(roomData);
         }
-
-        propertyData.setRooms(roomsToShowList);
-        propertyData.setRoomsNumber(propertyRooms.size());
-
-        log.info("Object loaded from database: " + propertyData);
-
-        return propertyData;
     }
 
     public List<PropertyShowDTO> findAllByUser(String loggedUsername) {
 
         List<PropertyShowDTO> listOfPropertiesToShow = new ArrayList<>();
-
         List<Property> propertyList = propertyRepository.findAllByLoggedUserName(loggedUsername);
 
         for (Property property : propertyList) {
             PropertyShowDTO propertyToShowData = modelMapper.map(property, PropertyShowDTO.class);
 
-            PersonNameContact ownerDetails = property.getOwnerDetails();
-            propertyToShowData.setOwnerName(ownerDetails.getFullName());
-            propertyToShowData.setEmail(ownerDetails.getEmail());
-
-            Address address = property.getAddress();
-            propertyToShowData.setCityName(address.getCityName());
-            propertyToShowData.setStreetName(address.getStreetName());
-            propertyToShowData.setAddressFullNumber(address.getCombinedAddressNumber());
+            addOwnerToPropertyData(property, propertyToShowData);
+            addAddressToPropertyData(property, propertyToShowData);
 
             List<Room> allRoomsFromProperty = roomRepository.findAllByPropertyId(property.getId());
 
@@ -181,8 +178,23 @@ public class PropertyService {
         log.info("Deleting property with id:" + propertyDeleteDTO.getPropertyId());
 
         List<Room> propertyRooms = roomRepository.findAllByPropertyId(propertyDeleteDTO.getPropertyId());
-        propertyRooms.forEach(room -> roomRepository.delete(room));
+        propertyRooms.forEach(roomRepository::delete);
 
         propertyRepository.delete(optionalProperty.get());
     }
+
+    private void addOwnerToPropertyData(Property property, PropertyShowDTO propertyToShowData) {
+        PersonNameContact ownerDetails = property.getOwnerDetails();
+        propertyToShowData.setOwnerName(ownerDetails.getFullName());
+        propertyToShowData.setEmail(ownerDetails.getEmail());
+    }
+
+    private void addAddressToPropertyData(Property propertyToShow, PropertyShowDTO propertyData) {
+        Address propertyAddress = propertyToShow.getAddress();
+        propertyData.setCityName(propertyAddress.getCityName());
+        propertyData.setStreetName(propertyAddress.getStreetName());
+        propertyData.setAddressFullNumber(propertyAddress.getCombinedAddressNumber());
+    }
+
+
 }
