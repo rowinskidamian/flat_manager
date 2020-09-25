@@ -39,12 +39,14 @@ public class Tenant extends BaseEntityLoggedUser {
 
     @Override
     public String toString() {
+        String roomDetails = room != null ? ", room = " + room.getId() : ", tenant without room";
         return "Tenant{ id " + getId() +
                 ", leaseDateStart=" + leaseDateStart +
                 ", leaseDateEnd=" + leaseDateEnd +
                 ", rentDiscount=" + rentDiscount +
                 ", paymentDeadline=" + paymentDeadline +
                 ", personalDetails=" + personalDetails +
+                roomDetails +
                 ", address=" + contactAddress +
                 '}';
     }

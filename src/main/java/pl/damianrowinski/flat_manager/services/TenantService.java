@@ -31,12 +31,10 @@ public class TenantService {
     }
 
     public List<TenantListDTO> findAllWithoutRooms(String loggedUserName) {
-        List<Tenant> tenantList = tenantRepository.findByLoggedUserWithNoRoom(loggedUserName);
+        List<Tenant> tenantList = tenantRepository.findAllByLoggedUserNameAndRoomIsNull(loggedUserName);
         List<TenantListDTO> tenantDataList = new ArrayList<>();
-        log.info("Brak najemcy bez pokoju");
         for (Tenant tenant : tenantList) {
-
-            log.info("Najemca bez pokoju:");
+            log.info("Tenant without room:");
             log.info(tenant.toString());
 
             TenantListDTO tenantData = new TenantListDTO();

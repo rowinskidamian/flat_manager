@@ -19,6 +19,7 @@ public class Room extends BaseEntityLoggedUser {
     @Column(nullable = false)
     private Double catalogRent;
 
+    @NotNull
     @ManyToOne
     private Property property;
 

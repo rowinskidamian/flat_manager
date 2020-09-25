@@ -9,7 +9,6 @@ import pl.damianrowinski.flat_manager.domain.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
-import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomAddDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomDeleteDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomShowDTO;
@@ -35,24 +34,28 @@ public class RoomService {
     private final TenantRepository tenantRepository;
 
     public void save(RoomAddDTO roomData) {
+        log.info("Attempt to save room:");
+        log.info(roomData.toString());
+
         Room roomToSave = new Room();
 
         Long tenantId = roomData.getTenantId();
         if (tenantId != null) {
             Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
-            if(optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
+            if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
             roomToSave.setTenant(optionalTenant.get());
         }
 
         Long propertyId = roomData.getPropertyId();
-        if(propertyId != null) {
+        if (propertyId != null) {
             Optional<Property> optionalProperty = propertyRepository.findById(propertyId);
-            if(optionalProperty.isEmpty()) throw new ElementNotFoundException("Nie znalazłem mieszkania o podanym id");
+            if (optionalProperty.isEmpty()) throw new ElementNotFoundException("Nie znalazłem mieszkania o podanym id");
             roomToSave.setProperty(optionalProperty.get());
         }
 
         roomToSave.setCatalogRent(roomData.getCatalogRent());
         roomRepository.save(roomToSave);
+
     }
 
 
@@ -103,8 +106,11 @@ public class RoomService {
 
             roomData.setId(room.getId());
             roomData.setCatalogRent(room.getCatalogRent());
-            roomData.setPropertyId(room.getProperty().getId());
-            roomData.setApartmentWorkingName(room.getProperty().getWorkingName());
+
+            Property property = room.getProperty();
+            roomData.setPropertyId(property.getId());
+            roomData.setApartmentWorkingName(property.getWorkingName());
+
             Tenant tenant = room.getTenant();
             if (tenant != null) {
                 roomData.setTenantId(tenant.getId());
