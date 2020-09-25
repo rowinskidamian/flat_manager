@@ -98,7 +98,7 @@ public class RoomService {
     }
 
     public List<RoomShowDTO> findAllByUser(String loggedUserName) {
-        List<Room> roomList = roomRepository.findAllByLoggedUserName(loggedUserName);
+        List<Room> roomList = roomRepository.findAllByLoggedUserNameOrderByPropertyWorkingNameAsc(loggedUserName);
         List<RoomShowDTO> roomToShowList = new ArrayList<>();
 
         for (Room room : roomList) {
