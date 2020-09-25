@@ -125,7 +125,7 @@
                                             </c:if>
                                             <c:if test="${room.tenantId ne null}">
                                                 <div class="control">
-                                                    <a class="button is-link is-warning" href="/tenant/delete_by_room/${room.id}">
+                                                    <a class="button is-link is-warning" href="/tenant/delete_from_room/${room.id}">
                                                         Usuń najemcę</a>
                                                 </div>
                                             </c:if>
