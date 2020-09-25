@@ -148,7 +148,6 @@
 
                         <div id="rooms-form" class="field">
 
-
                             <form:form action="/room/edit_by_property" method="post" modelAttribute="roomData">
                                 <label class="label">Wprowadź czynsz:</label>
                                 <div class="field is-grouped">

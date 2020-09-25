@@ -1,17 +1,16 @@
 package pl.damianrowinski.flat_manager.controllers;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
-import pl.damianrowinski.flat_manager.model.dtos.RoomAddDTO;
-import pl.damianrowinski.flat_manager.model.dtos.RoomDeleteDTO;
-import pl.damianrowinski.flat_manager.model.dtos.RoomShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.*;
 import pl.damianrowinski.flat_manager.services.PropertyService;
 import pl.damianrowinski.flat_manager.services.RoomService;
+import pl.damianrowinski.flat_manager.services.TenantService;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.validation.Valid;
@@ -25,6 +24,7 @@ public class RoomController {
 
     private final RoomService roomService;
     private final PropertyService propertyService;
+    private final TenantService tenantService;
 
     @RequestMapping
     public String redirectToList() {
@@ -36,6 +36,28 @@ public class RoomController {
         List<RoomShowDTO> roomList = roomService.findAllByUser(LoggedUsername.get());
         model.addAttribute("roomList", roomList);
         return "/room/list";
+    }
+
+    @GetMapping("/add")
+    public String generateAddingForm(Model model) {
+        RoomAddDTO roomData = new RoomAddDTO();
+        List<PropertyListDTO> userPropertiesList = propertyService.findAllByUserShowList(LoggedUsername.get());
+        List<TenantListDTO> tenantList = tenantService.findAllWithoutRooms(LoggedUsername.get());
+        model.addAttribute("propertyListData", userPropertiesList);
+        model.addAttribute("tenantListData", tenantList);
+        model.addAttribute("roomData", roomData);
+        return "/room/form";
+    }
+
+    @PostMapping("/add")
+    public String addRoomToBase(@ModelAttribute("roomData") @Valid RoomAddDTO roomData, BindingResult result,
+                                Model model) {
+        if(result.hasErrors()) {
+            model.addAttribute("roomData", roomData);
+            return "/room/form";
+        }
+        roomService.save(roomData);
+        return "redirect:/room";
     }
 
     @GetMapping("/delete_by_property/{roomId}")
@@ -56,8 +78,8 @@ public class RoomController {
         PropertyShowDTO propertyData = propertyService.findByIdWithRooms(propertyId);
         model.addAttribute("propertyData", propertyData);
 
-        RoomAddDTO rooomData = new RoomAddDTO();
-        model.addAttribute("roomData", rooomData);
+        RoomAddDTO roomData = new RoomAddDTO();
+        model.addAttribute("roomData", roomData);
         return "/room/edit_by_property";
     }
 

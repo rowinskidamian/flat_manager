@@ -15,6 +15,7 @@ import pl.damianrowinski.flat_manager.model.dtos.RoomDeleteDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomShowDTO;
 import pl.damianrowinski.flat_manager.model.repositories.PropertyRepository;
 import pl.damianrowinski.flat_manager.model.repositories.RoomRepository;
+import pl.damianrowinski.flat_manager.model.repositories.TenantRepository;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.transaction.Transactional;
@@ -31,6 +32,28 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final PropertyRepository propertyRepository;
+    private final TenantRepository tenantRepository;
+
+    public void save(RoomAddDTO roomData) {
+        Room roomToSave = new Room();
+
+        Long tenantId = roomData.getTenantId();
+        if (tenantId != null) {
+            Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
+            if(optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
+            roomToSave.setTenant(optionalTenant.get());
+        }
+
+        Long propertyId = roomData.getPropertyId();
+        if(propertyId != null) {
+            Optional<Property> optionalProperty = propertyRepository.findById(propertyId);
+            if(optionalProperty.isEmpty()) throw new ElementNotFoundException("Nie znalazłem mieszkania o podanym id");
+            roomToSave.setProperty(optionalProperty.get());
+        }
+
+        roomToSave.setCatalogRent(roomData.getCatalogRent());
+        roomRepository.save(roomToSave);
+    }
 
 
     public void addNewToProperty(RoomAddDTO roomData) {

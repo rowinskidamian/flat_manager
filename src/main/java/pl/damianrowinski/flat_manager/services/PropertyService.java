@@ -11,10 +11,7 @@ import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
 import pl.damianrowinski.flat_manager.model.common.Address;
 import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
-import pl.damianrowinski.flat_manager.model.dtos.PropertyDeleteDTO;
-import pl.damianrowinski.flat_manager.model.dtos.PropertyEditDTO;
-import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
-import pl.damianrowinski.flat_manager.model.dtos.RoomShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.*;
 import pl.damianrowinski.flat_manager.model.repositories.PropertyRepository;
 import pl.damianrowinski.flat_manager.model.repositories.RoomRepository;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
@@ -120,15 +117,27 @@ public class PropertyService {
         }
     }
 
-    public List<PropertyShowDTO> findAllByUser(String loggedUsername) {
+    public List<PropertyListDTO> findAllByUserShowList(String loggedUsername) {
+        List<Property> propertyList = propertyRepository.findAllByLoggedUserName(loggedUsername);
+        List<PropertyListDTO> propertiesData = new ArrayList<>();
 
+        for (Property property : propertyList) {
+            PropertyListDTO propertyData = new PropertyListDTO();
+            propertyData.setLoggedUserName(property.getLoggedUserName());
+            propertyData.setPropertyId(property.getId());
+            propertyData.setPropertyWorkingName(property.getWorkingName());
+            propertiesData.add(propertyData);
+        }
+        return propertiesData;
+    }
+
+    public List<PropertyShowDTO> findAllByUser(String loggedUsername) {
         List<Property> propertyList = propertyRepository.findAllByLoggedUserName(loggedUsername);
         List<PropertyShowDTO> listOfPropertiesToShow = new ArrayList<>();
 
         convertPropertyToPropertyData(propertyList, listOfPropertiesToShow);
 
         return listOfPropertiesToShow;
-
     }
 
     private void convertPropertyToPropertyData(List<Property> propertyList, List<PropertyShowDTO> listOfPropertiesToShow) {
