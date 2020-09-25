@@ -1,7 +1,6 @@
 package pl.damianrowinski.flat_manager.controllers;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,18 +40,23 @@ public class RoomController {
     @GetMapping("/add")
     public String generateAddingForm(Model model) {
         RoomAddDTO roomData = new RoomAddDTO();
+        addPropertyAndTenantsLists(model);
+        model.addAttribute("roomData", roomData);
+        return "/room/form";
+    }
+
+    private void addPropertyAndTenantsLists(Model model) {
         List<PropertyListDTO> userPropertiesList = propertyService.findAllByUserShowList(LoggedUsername.get());
         List<TenantListDTO> tenantList = tenantService.findAllWithoutRooms(LoggedUsername.get());
         model.addAttribute("propertyListData", userPropertiesList);
         model.addAttribute("tenantListData", tenantList);
-        model.addAttribute("roomData", roomData);
-        return "/room/form";
     }
 
     @PostMapping("/add")
     public String addRoomToBase(@ModelAttribute("roomData") @Valid RoomAddDTO roomData, BindingResult result,
                                 Model model) {
         if(result.hasErrors()) {
+            addPropertyAndTenantsLists(model);
             model.addAttribute("roomData", roomData);
             return "/room/form";
         }
