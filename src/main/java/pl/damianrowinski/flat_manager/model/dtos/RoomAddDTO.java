@@ -13,5 +13,6 @@ public class RoomAddDTO {
     private Double catalogRent;
     private Long propertyId;
     private Long tenantId;
+    private String tenantFullName;
 
 }

@@ -121,4 +121,29 @@ public class RoomService {
         return roomToShowList;
     }
 
+    public RoomAddDTO findRoomToEdit(Long roomId) {
+
+        Optional<Room> optionalRoom = roomRepository.findById(roomId);
+        if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Nie znalazłem pokoju o podanym id.");
+
+        Room roomToEdit = optionalRoom.get();
+
+        if (!roomToEdit.getLoggedUserName().equals(LoggedUsername.get()))
+            throw new FrobiddenAccessException("Dostęp do zasobu zabroniony");
+
+        RoomAddDTO roomData = new RoomAddDTO();
+
+        roomData.setCatalogRent(roomToEdit.getCatalogRent());
+        roomData.setPropertyId(roomToEdit.getProperty().getId());
+
+        Tenant tenant = roomToEdit.getTenant();
+
+        if (tenant != null) {
+            roomData.setTenantId(tenant.getId());
+            roomData.setTenantFullName(tenant.getPersonalDetails().getFullName());
+        }
+
+        return roomData;
+
+    }
 }

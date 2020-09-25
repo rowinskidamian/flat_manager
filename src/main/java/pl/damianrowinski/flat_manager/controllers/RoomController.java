@@ -45,13 +45,6 @@ public class RoomController {
         return "/room/form";
     }
 
-    private void addPropertyAndTenantsLists(Model model) {
-        List<PropertyListDTO> userPropertiesList = propertyService.findAllByUserShowList(LoggedUsername.get());
-        List<TenantListDTO> tenantList = tenantService.findAllWithoutRooms(LoggedUsername.get());
-        model.addAttribute("propertyListData", userPropertiesList);
-        model.addAttribute("tenantListData", tenantList);
-    }
-
     @PostMapping("/add")
     public String addRoomToBase(@ModelAttribute("roomData") @Valid RoomAddDTO roomData, BindingResult result,
                                 Model model) {
@@ -63,6 +56,27 @@ public class RoomController {
         roomService.save(roomData);
         return "redirect:/room";
     }
+
+    @GetMapping("/edit/{roomId}")
+    public String generateEditForm(@PathVariable Long roomId, Model model) {
+        RoomAddDTO roomData = roomService.findRoomToEdit(roomId);
+        addPropertyAndTenantsLists(model);
+        model.addAttribute("roomData", roomData);
+        return "/room/form";
+    }
+
+    dorobić post do edita
+
+
+
+    private void addPropertyAndTenantsLists(Model model) {
+        List<PropertyListDTO> userPropertiesList = propertyService.findAllByUserShowList(LoggedUsername.get());
+        List<TenantListDTO> tenantList = tenantService.findAllWithoutRooms(LoggedUsername.get());
+        model.addAttribute("propertyListData", userPropertiesList);
+        model.addAttribute("tenantListData", tenantList);
+    }
+
+
 
     @GetMapping("/delete_by_property/{roomId}")
     public String generateConfirmationPage(@PathVariable Long roomId, Model model) {

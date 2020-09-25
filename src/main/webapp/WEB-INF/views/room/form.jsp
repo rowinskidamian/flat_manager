@@ -61,11 +61,12 @@
                         </div>
 
                         <div class="field">
-                            <label class="label">Dodaj najemcę</label>
+                            <label class="label">Wybierz najemcę</label>
                             <c:if test="${tenantListData.size() > 0}">
                                 <div class="control">
                                     <div class="select">
                                         <form:select path="tenantId">
+                                            <form:option value="${roomData.tenantId}" label="${roomData.tenantFullName}"/>
                                             <form:options items="${tenantListData}" itemValue="tenantId"
                                                           itemLabel="tenantFullName"/>
                                             <form:option value="" label="Bez najemcy"/>
