@@ -87,9 +87,12 @@
 
                                     <div class="control">
                                         <a class="button is-link is-light" href="/room/edit/${room.id}">
-                                            Edycja
+                                            Edytuj pokój
                                         </a>
                                     </div>
+                                    <a class="button is-light" href="/room/delete/${room.id}">
+                                        Usuń pokój
+                                    </a>
                                 </div>
                             </td>
                         </tr>

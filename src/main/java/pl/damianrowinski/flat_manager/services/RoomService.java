@@ -9,7 +9,7 @@ import pl.damianrowinski.flat_manager.domain.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
-import pl.damianrowinski.flat_manager.model.dtos.RoomAddDTO;
+import pl.damianrowinski.flat_manager.model.dtos.RoomEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomDeleteDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomShowDTO;
 import pl.damianrowinski.flat_manager.model.repositories.PropertyRepository;
@@ -33,7 +33,7 @@ public class RoomService {
     private final PropertyRepository propertyRepository;
     private final TenantRepository tenantRepository;
 
-    public void save(RoomAddDTO roomData) {
+    public void save(RoomEditDTO roomData) {
         log.info("Attempt to save room:");
         log.info(roomData.toString());
 
@@ -59,7 +59,7 @@ public class RoomService {
     }
 
 
-    public void addNewToProperty(RoomAddDTO roomData) {
+    public void addNewToProperty(RoomEditDTO roomData) {
         Optional<Property> optionalProperty = propertyRepository.findById(roomData.getPropertyId());
         if (optionalProperty.isEmpty())
             throw new ElementNotFoundException("Nie znalazłem mieszkania o podanym id.");
@@ -121,7 +121,7 @@ public class RoomService {
         return roomToShowList;
     }
 
-    public RoomAddDTO findRoomToEdit(Long roomId) {
+    public RoomEditDTO findRoomToEdit(Long roomId) {
 
         Optional<Room> optionalRoom = roomRepository.findById(roomId);
         if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Nie znalazłem pokoju o podanym id.");
@@ -131,7 +131,7 @@ public class RoomService {
         if (!roomToEdit.getLoggedUserName().equals(LoggedUsername.get()))
             throw new FrobiddenAccessException("Dostęp do zasobu zabroniony");
 
-        RoomAddDTO roomData = new RoomAddDTO();
+        RoomEditDTO roomData = new RoomEditDTO();
 
         roomData.setCatalogRent(roomToEdit.getCatalogRent());
         roomData.setPropertyId(roomToEdit.getProperty().getId());

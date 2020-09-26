@@ -6,7 +6,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class RoomAddDTO {
+public class RoomEditDTO {
 
     @NotNull
     @Min(value = 1)

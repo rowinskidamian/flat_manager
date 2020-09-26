@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Flat Manager - Potwierdź wylogowanie</title>
+    <title>Flat Manager - Potwierdź usunięcie pokoju</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <script src="https://kit.fontawesome.com/a1834f9866.js" crossorigin="anonymous"></script>
 </head>
@@ -20,23 +20,22 @@
     <div class="container is-fluid">
         <div class="notification">
             <h5 class="title is-5 has-text-centered">Potwierdź usunięcie pokoju</h5>
-                <form:form modelAttribute="roomDeleteData" method="post" action="/room/delete_by_property">
+            <form:form modelAttribute="roomDeleteData" method="post" action="/room/delete">
                 <div class="field is-grouped is-grouped-centered">
                     <p class="control">
                     <div class="buttons">
                         <button class="button is-success" type="submit">
                             <strong>Potwierdź</strong>
                         </button>
-                        <a class="button is-light" href="/room/edit_by_property/${roomDeleteData.propertyId}">
+                        <a class="button is-light" href="/room">
                             Anuluj
                         </a>
                     </div>
                     </p>
                 </div>
-                    <input hidden name="id" value="${roomDeleteData.id}">
-                    <input hidden name="propertyId" value="${roomDeleteData.propertyId}">
+                <input hidden name="id" value="${roomDeleteData.id}">
                 <sec:csrfInput/>
-                    </form:form>
+            </form:form>
         </div>
     </div>
 </section>

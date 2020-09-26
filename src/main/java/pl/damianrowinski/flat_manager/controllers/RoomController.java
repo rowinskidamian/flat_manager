@@ -39,14 +39,14 @@ public class RoomController {
 
     @GetMapping("/add")
     public String generateAddingForm(Model model) {
-        RoomAddDTO roomData = new RoomAddDTO();
+        RoomEditDTO roomData = new RoomEditDTO();
         addPropertyAndTenantsLists(model);
         model.addAttribute("roomData", roomData);
         return "/room/form";
     }
 
     @PostMapping("/add")
-    public String addRoomToBase(@ModelAttribute("roomData") @Valid RoomAddDTO roomData, BindingResult result,
+    public String addRoomToBase(@ModelAttribute("roomData") @Valid RoomEditDTO roomData, BindingResult result,
                                 Model model) {
         if(result.hasErrors()) {
             addPropertyAndTenantsLists(model);
@@ -59,15 +59,22 @@ public class RoomController {
 
     @GetMapping("/edit/{roomId}")
     public String generateEditForm(@PathVariable Long roomId, Model model) {
-        RoomAddDTO roomData = roomService.findRoomToEdit(roomId);
+        RoomEditDTO roomData = roomService.findRoomToEdit(roomId);
         addPropertyAndTenantsLists(model);
         model.addAttribute("roomData", roomData);
         return "/room/form";
     }
 
-    dorobić post do edita
-
-
+    @PostMapping("/edit/{roomId}")
+    public String editRoom(@ModelAttribute("roomData") @Valid RoomEditDTO roomData, BindingResult result, Model model) {
+        if(result.hasErrors()) {
+            addPropertyAndTenantsLists(model);
+            model.addAttribute("roomData", roomData);
+            return "room/form";
+        }
+        roomService.save(roomData);
+        return "redirect:/room";
+    }
 
     private void addPropertyAndTenantsLists(Model model) {
         List<PropertyListDTO> userPropertiesList = propertyService.findAllByUserShowList(LoggedUsername.get());
@@ -76,42 +83,53 @@ public class RoomController {
         model.addAttribute("tenantListData", tenantList);
     }
 
+    @GetMapping("/delete/{roomId}")
+    public String generateDeletePage(@PathVariable Long roomId, Model model) {
+        RoomDeleteDTO roomDeleteData = roomService.findRoomToDelete(roomId);
+        model.addAttribute("roomDeleteData", roomDeleteData);
+        return "/room/delete_confirm";
+    }
 
+    @PostMapping("/delete")
+    public String deleteRoom(@ModelAttribute("roomDeleteData") RoomDeleteDTO roomDeleteData) {
+        roomService.delete(roomDeleteData.getId());
+        return "redirect:/room";
+    }
 
-    @GetMapping("/delete_by_property/{roomId}")
+    @GetMapping("/delete_from_property/{roomId}")
     public String generateConfirmationPage(@PathVariable Long roomId, Model model) {
         RoomDeleteDTO roomDeleteData = roomService.findRoomToDelete(roomId);
         model.addAttribute("roomDeleteData", roomDeleteData);
-        return "/room/delete-confirmation";
+        return "/room/delete_from_prop_conf";
     }
 
-    @PostMapping("/delete_by_property")
+    @PostMapping("/delete_from_property")
     public String deleteConfirmed(@ModelAttribute("roomDeleteData") RoomDeleteDTO roomDeleteData) {
         roomService.delete(roomDeleteData.getId());
-        return "redirect:/room/edit_by_property/" + roomDeleteData.getPropertyId();
+        return "redirect:/room/edit_in_property/" + roomDeleteData.getPropertyId();
     }
 
-    @GetMapping("/edit_by_property/{propertyId}")
+    @GetMapping("/edit_in_property/{propertyId}")
     public String showProperty(@PathVariable Long propertyId, Model model) {
         PropertyShowDTO propertyData = propertyService.findByIdWithRooms(propertyId);
         model.addAttribute("propertyData", propertyData);
 
-        RoomAddDTO roomData = new RoomAddDTO();
+        RoomEditDTO roomData = new RoomEditDTO();
         model.addAttribute("roomData", roomData);
-        return "/room/edit_by_property";
+        return "/room/edit_in_property";
     }
 
-    @PostMapping("/edit_by_property")
-    public String addRoomByProperty(@ModelAttribute("roomData") @Valid RoomAddDTO roomData,
+    @PostMapping("/edit_in_property")
+    public String addRoomByProperty(@ModelAttribute("roomData") @Valid RoomEditDTO roomData,
                                     BindingResult result, Model model) {
         PropertyShowDTO propertyData = propertyService.findByIdWithRooms(roomData.getPropertyId());
         model.addAttribute("propertyData", propertyData);
 
         if (result.hasErrors()) {
-            return "/room/edit_by_property";
+            return "/room/edit_in_property";
         }
 
         roomService.addNewToProperty(roomData);
-        return "redirect:/room/edit_by_property/" + roomData.getPropertyId();
+        return "redirect:/room/edit_in_property/" + roomData.getPropertyId();
     }
 }

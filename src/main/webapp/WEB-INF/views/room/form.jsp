@@ -66,7 +66,9 @@
                                 <div class="control">
                                     <div class="select">
                                         <form:select path="tenantId">
-                                            <form:option value="${roomData.tenantId}" label="${roomData.tenantFullName}"/>
+                                            <c:if test="${roomData.tenantId ne null}">
+                                                <form:option value="${roomData.tenantId}" label="${roomData.tenantFullName}"/>
+                                            </c:if>
                                             <form:options items="${tenantListData}" itemValue="tenantId"
                                                           itemLabel="tenantFullName"/>
                                             <form:option value="" label="Bez najemcy"/>
@@ -92,6 +94,9 @@
                             <div class="control">
                                 <button class="button is-link" type="submit">Wyślij</button>
                             </div>
+                            <a class="button is-light" href="/room">
+                                Anuluj
+                            </a>
                         </div>
 
                         <sec:csrfInput/>
