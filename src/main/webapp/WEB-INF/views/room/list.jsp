@@ -50,7 +50,8 @@
                         <th>Nazwa mieszkania</th>
                         <th>Czynsz</th>
                         <th>Najemca</th>
-                        <th>Akcja</th>
+                        <th>Opcja najemcy</th>
+                        <th>Akcje pokoju</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -69,35 +70,38 @@
                                 </c:if>
                             </td>
                             <td>
-                                <div class="field is-grouped">
-                                    <c:if test="${room.tenantId ne null}">
-                                        <div class="control">
-                                            <a class="button is-warning" href="/tenant/remove_from_room/${room.id}">
-                                                Usuń najemcę
-                                            </a>
-                                        </div>
-                                    </c:if>
-                                    <c:if test="${room.tenantId eq null}">
-                                        <div class="control">
-                                            <a class="button is-success" href="/tenant/add_to_rom/${room.id}">
-                                                Dodaj najemcę
-                                            </a>
-                                        </div>
-                                    </c:if>
-
+                                <c:if test="${room.tenantId ne null}">
                                     <div class="control">
-                                        <a class="button is-link is-light" href="/room/edit/${room.id}">
-                                            Edytuj pokój
+                                        <a class="button is-warning" href="/tenant/remove_from_room/${room.id}">
+                                            Usuń najemcę
                                         </a>
                                     </div>
-                                    <a class="button is-light" href="/room/delete/${room.id}">
-                                        Usuń pokój
-                                    </a>
+                                </c:if>
+                                <c:if test="${room.tenantId eq null}">
+                                    <div class="control">
+                                        <a class="button is-success" href="/tenant/add_to_rom/${room.id}">
+                                            Dodaj najemcę
+                                        </a>
+                                    </div>
+                                </c:if>
+
+                            </td>
+                            <td>
+                                <div class="field is-grouped">
+                                    <div class="control">
+                                        <a class="button is-link is-light" href="/room/edit/${room.id}">
+                                            Edytuj
+                                        </a>
+                                    </div>
+                                    <div class="control">
+                                        <a class="button is-light" href="/room/delete/${room.id}">
+                                            Usuń
+                                        </a>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
                     </c:forEach>
-
                     </tbody>
                 </table>
 
