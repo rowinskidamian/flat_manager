@@ -15,7 +15,7 @@ public abstract class LoggedUsername {
             } else {
                 loggedUserName = principal.toString();
             }
-        } else throw new FrobiddenAccessException("Brak zalogowanego użytkownika");
+        } else throw new FrobiddenAccessException("Brak zalogowanego użytkownika.");
 
         return loggedUserName;
     }

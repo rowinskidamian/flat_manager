@@ -11,7 +11,6 @@ import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyDeleteDTO;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.PropertyShowDTO;
-import pl.damianrowinski.flat_manager.model.dtos.RoomDeleteDTO;
 import pl.damianrowinski.flat_manager.services.PropertyService;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 

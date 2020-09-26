@@ -14,8 +14,7 @@ import java.util.List;
 @Transactional
 public interface TenantRepository extends JpaRepository<Tenant, Long> {
 
-    @Query(value = "SELECT * FROM tenants WHERE logged_user_name = :loggedUserName AND room_id IS NULL", nativeQuery = true)
-    List<Tenant> findByLoggedUserWithNoRoom(String loggedUserName);
+    List<Tenant> findAllByLoggedUserName(String loggedUserName);
 
     List<Tenant> findAllByLoggedUserNameAndRoomIsNull(String loggedUserName);
 

@@ -2,11 +2,15 @@ package pl.damianrowinski.flat_manager.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import pl.damianrowinski.flat_manager.domain.entities.Property;
+import pl.damianrowinski.flat_manager.domain.entities.Room;
 import pl.damianrowinski.flat_manager.domain.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
 import pl.damianrowinski.flat_manager.model.dtos.TenantListDTO;
+import pl.damianrowinski.flat_manager.model.dtos.TenantShowDTO;
 import pl.damianrowinski.flat_manager.model.repositories.TenantRepository;
 
 import javax.transaction.Transactional;
@@ -21,6 +25,7 @@ import java.util.Optional;
 public class TenantService {
 
     private final TenantRepository tenantRepository;
+    private final ModelMapper modelMapper;
 
     public void delete(Long tenantId) {
         Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
@@ -44,5 +49,35 @@ public class TenantService {
             tenantDataList.add(tenantData);
         }
         return tenantDataList;
+    }
+
+    public List<TenantShowDTO> findAllLoggedUser(String loggedUserName) {
+        List<Tenant> tenantList = tenantRepository.findAllByLoggedUserName(loggedUserName);
+        List<TenantShowDTO> tenantDataList = new ArrayList<>();
+
+        for (Tenant tenant : tenantList) {
+            TenantShowDTO tenantData = modelMapper.map(tenant, TenantShowDTO.class);
+            tenantData.setFullName(tenant.getPersonalDetails().getFullName());
+
+            Room tenantRoom = tenant.getRoom();
+            if (tenantRoom != null) {
+                Property property = tenantRoom.getProperty();
+                tenantData.setApartmentName(property.getWorkingName());
+                Double currentRent = calculateCurrentRent(tenantData, tenantRoom);
+                tenantData.setCurrentRent(currentRent);
+                tenantData.setPropertyId(property.getId());
+            }
+
+            tenantData.setEmail(tenant.getPersonalDetails().getEmail());
+            tenantDataList.add(tenantData);
+        }
+
+        return tenantDataList;
+    }
+
+    private Double calculateCurrentRent(TenantShowDTO tenantData, Room tenantRoom) {
+        Double catalogRent = tenantRoom.getCatalogRent();
+        Double rentDiscount = tenantData.getRentDiscount();
+        return rentDiscount != null ? catalogRent - rentDiscount : catalogRent;
     }
 }
