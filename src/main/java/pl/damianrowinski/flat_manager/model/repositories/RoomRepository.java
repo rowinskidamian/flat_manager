@@ -15,4 +15,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     List<Room> findAllByLoggedUserNameOrderByPropertyWorkingNameAsc(String loggedUsername);
 
+    List<Room> findAllByLoggedUserNameAndTenantIsNull(String loggedUserName);
+
 }

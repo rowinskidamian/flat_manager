@@ -11,6 +11,7 @@ import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
 import pl.damianrowinski.flat_manager.model.dtos.RoomEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomDeleteDTO;
+import pl.damianrowinski.flat_manager.model.dtos.RoomListDTO;
 import pl.damianrowinski.flat_manager.model.dtos.RoomShowDTO;
 import pl.damianrowinski.flat_manager.model.repositories.PropertyRepository;
 import pl.damianrowinski.flat_manager.model.repositories.RoomRepository;
@@ -144,6 +145,26 @@ public class RoomService {
         }
 
         return roomData;
+
+    }
+
+    public List<RoomListDTO> findAllAvailableRooms(String loggedUserName) {
+        List<Room> roomsList = roomRepository.findAllByLoggedUserNameAndTenantIsNull(loggedUserName);
+
+        List<RoomListDTO> roomsDataList = new ArrayList<>();
+
+        for (Room room : roomsList) {
+            RoomListDTO roomDataAddToList = new RoomListDTO();
+            roomDataAddToList.setRoomId(room.getId());
+
+            String roomPropertyName = room.getProperty().getWorkingName();
+            Double roomRent = room.getCatalogRent();
+            String roomNameAndPrice = roomPropertyName + " za " + roomRent;
+            roomDataAddToList.setRoomNameAndPrice(roomNameAndPrice);
+
+            roomsDataList.add(roomDataAddToList);
+        }
+        return roomsDataList;
 
     }
 }

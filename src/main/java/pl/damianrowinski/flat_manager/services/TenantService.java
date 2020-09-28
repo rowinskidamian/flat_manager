@@ -9,6 +9,9 @@ import pl.damianrowinski.flat_manager.domain.entities.Room;
 import pl.damianrowinski.flat_manager.domain.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
+import pl.damianrowinski.flat_manager.model.common.Address;
+import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
+import pl.damianrowinski.flat_manager.model.dtos.TenantEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.TenantListDTO;
 import pl.damianrowinski.flat_manager.model.dtos.TenantShowDTO;
 import pl.damianrowinski.flat_manager.model.repositories.TenantRepository;
@@ -79,5 +82,16 @@ public class TenantService {
         Double catalogRent = tenantRoom.getCatalogRent();
         Double rentDiscount = tenantData.getRentDiscount();
         return rentDiscount != null ? catalogRent - rentDiscount : catalogRent;
+    }
+
+    public void save(TenantEditDTO tenantDataToAdd) {
+        Tenant tenantToAdd = modelMapper.map(tenantDataToAdd, Tenant.class);
+        Address address = modelMapper.map(tenantDataToAdd, Address.class);
+        tenantToAdd.setContactAddress(address);
+        PersonNameContact personalDetails = modelMapper.map(tenantToAdd, PersonNameContact.class);
+        tenantToAdd.setPersonalDetails(personalDetails);
+
+        log.info("Attempt to save tenant: " + tenantToAdd);
+        tenantRepository.save(tenantToAdd);
     }
 }
