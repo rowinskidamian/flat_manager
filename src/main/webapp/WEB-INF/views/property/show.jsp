@@ -130,7 +130,7 @@
 
                         <div class="field is-grouped">
                             <div class="control">
-                                <a class="button is-link" href="/room/edit_by_property/${propertyData.id}">
+                                <a class="button is-link" href="/room/edit_in_property/${propertyData.id}">
                                     Edytuj pokoje</a>
                             </div>
                         </div>
