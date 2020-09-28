@@ -3,6 +3,8 @@ package pl.damianrowinski.flat_manager.model.dtos;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
@@ -25,9 +27,10 @@ public class TenantEditDTO {
 
     private Double rentDiscount;
 
-    @NotBlank
-    private String paymentDeadline;
-
+    @NotNull
+    @Min(1)
+    @Max(31)
+    private Integer paymentDeadline;
 
     @Email
     @NotBlank

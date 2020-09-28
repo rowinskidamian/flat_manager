@@ -31,7 +31,7 @@ public class Tenant extends BaseEntityLoggedUser {
     private Double rentDiscount;
 
     @Column(name = "rent_payment_deadline", nullable = false)
-    private String paymentDeadline;
+    private Integer paymentDeadline;
 
     private PersonNameContact personalDetails;
 

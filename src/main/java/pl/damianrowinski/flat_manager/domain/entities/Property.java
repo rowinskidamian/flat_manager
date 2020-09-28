@@ -31,7 +31,7 @@ public class Property extends BaseEntityLoggedUser {
     private Double billsUtilityAmount;
 
     @Column(nullable = false, name = "bills_payment_day")
-    private Double billsPaymentDay;
+    private Integer billsPaymentDay;
 
     private Address address;
     private PersonNameContact ownerDetails;

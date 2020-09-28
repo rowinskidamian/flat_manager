@@ -101,6 +101,13 @@
                                 </div>
                                 <form:errors path="leaseDateEnd" cssClass="has-text-danger"/>
                             </div>
+                            <div class="column">
+                                <label class="label">Termin płatności</label>
+                                <div class="control">
+                                    <form:input path="paymentDeadline" cssClass="input"/>
+                                </div>
+                                <form:errors path="paymentDeadline" cssClass="has-text-danger"/>
+                            </div>
                         </div>
                     </div>
 
@@ -181,6 +188,7 @@
                         </div>
                     </div>
                     <sec:csrfInput/>
+                    <form:errors path="*" cssClass="has-text-danger"/>
                 </form:form>
             </div>
         </div>
