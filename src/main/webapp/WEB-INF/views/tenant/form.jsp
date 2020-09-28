@@ -35,171 +35,180 @@
     </section>
 
 
-<section class="section">
-    <div class="container is-fluid">
+    <section class="section">
+        <div class="container is-fluid">
 
-        <div class="columns is-flex is-vcentered is-centered">
+            <div class="columns is-flex is-vcentered is-centered">
 
-            <div class="column is-three-quarters">
+                <div class="column is-three-quarters">
 
-                <form:form modelAttribute="tenantData" method="post">
+                    <form:form modelAttribute="tenantData" method="post">
 
-                    <div class="field">
-                        <label class="label">Imię</label>
-                        <div class="control has-icons-left">
-                            <form:input path="firstName" cssClass="input"/>
-                        <span class="icon is-small is-left">
+                        <div class="field">
+                            <label class="label">Imię</label>
+                            <div class="control has-icons-left">
+                                <form:input path="firstName" cssClass="input"/>
+                                <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                         </span>
+                            </div>
+                            <form:errors path="firstName" cssClass="has-text-danger"/>
                         </div>
-                        <form:errors path="firstName" cssClass="has-text-danger"/>
-                    </div>
 
-                    <div class="field">
-                        <label class="label">Nazwisko</label>
-                        <div class="control has-icons-left">
-                            <form:input path="lastName" cssClass="input"/>
-                        <span class="icon is-small is-left">
+                        <div class="field">
+                            <label class="label">Nazwisko</label>
+                            <div class="control has-icons-left">
+                                <form:input path="lastName" cssClass="input"/>
+                                <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                         </span>
+                            </div>
+                            <form:errors path="lastName" cssClass="has-text-danger"/>
                         </div>
-                        <form:errors path="lastName" cssClass="has-text-danger"/>
-                    </div>
 
-                    <div class="field">
-                        <label class="label">Wybierz pokój</label>
-                        <c:if test="${roomListData.size() > 0}">
-                            <div class="control">
-                                <div class="select">
-                                    <form:select path="roomId">
-                                        <form:option value="" label="Wybierz pokój"/>
-                                        <form:options items="${roomListData}" itemValue="roomId"
-                                                      itemLabel="roomNameAndPrice"/>
-                                    </form:select>
-                                </div>
-                            </div>
-                        </c:if>
+                        <div class="field">
+                            <div class="columns">
+                                <div class="column">
+                                    <label class="label">Wybierz pokój</label>
+                                    <c:if test="${roomListData.size() > 0}">
+                                        <div class="control">
+                                            <div class="select">
+                                                <form:select path="roomId">
+                                                    <form:option value="" label="Wybierz pokój"/>
+                                                    <form:options items="${roomListData}" itemValue="roomId"
+                                                                  itemLabel="roomNameAndPrice"/>
+                                                </form:select>
+                                            </div>
+                                        </div>
+                                    </c:if>
 
-                        <c:if test="${roomListData.size() == 0}">
-                            Brak wolnych pokoi. Dodaj pokój, aby dodać najemcę.
-                        </c:if>
-                    </div>
-
-                    <div class="field">
-                        <div class="columns">
-                            <div class="column">
-                                <label class="label">Data rozpoczęcia najmu</label>
-                                <div class="control">
-                                    <input type="date" name="leaseDateStart">
+                                    <c:if test="${roomListData.size() eq 0}">
+                                        Brak wolnych pokoi. Dodaj pokój, aby dodać najemcę.
+                                    </c:if>
                                 </div>
-                                <form:errors path="leaseDateStart" cssClass="has-text-danger"/>
-                            </div>
-                            <div class="column">
-                                <label class="label">Data zakończenia najmu</label>
-                                <div class="control">
-                                    <input type="date" name="leaseDateEnd">
+                                <div class="column">
+                                    <label class="label">Rabat (w PLN)</label>
+                                    <form:input cssClass="input" path="rentDiscount"/>
+                                    <form:errors path="rentDiscount" cssClass="has-text-danger"/>
                                 </div>
-                                <form:errors path="leaseDateEnd" cssClass="has-text-danger"/>
-                            </div>
-                            <div class="column">
-                                <label class="label">Termin płatności</label>
-                                <div class="control">
-                                    <form:input path="paymentDeadline" cssClass="input"/>
-                                </div>
-                                <form:errors path="paymentDeadline" cssClass="has-text-danger"/>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="field">
-                        <label class="label">E-mail</label>
-                        <div class="control has-icons-left">
-                            <form:input path="email" cssClass="input"/>
-                        <span class="icon is-small is-left">
+                        <div class="field">
+                            <div class="columns">
+                                <div class="column">
+                                    <label class="label">Data rozpoczęcia najmu</label>
+                                    <div class="control">
+                                        <input type="date" name="leaseDateStart">
+                                    </div>
+                                    <form:errors path="leaseDateStart" cssClass="has-text-danger"/>
+                                </div>
+                                <div class="column">
+                                    <label class="label">Data zakończenia najmu</label>
+                                    <div class="control">
+                                        <input type="date" name="leaseDateEnd">
+                                    </div>
+                                    <form:errors path="leaseDateEnd" cssClass="has-text-danger"/>
+                                </div>
+                                <div class="column">
+                                    <label class="label">Termin płatności</label>
+                                    <div class="control">
+                                        <form:input path="paymentDeadline" cssClass="input"/>
+                                    </div>
+                                    <form:errors path="paymentDeadline" cssClass="has-text-danger"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">E-mail</label>
+                            <div class="control has-icons-left">
+                                <form:input path="email" cssClass="input"/>
+                                <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                         </span>
-                        </div>
-                        <form:errors path="email" cssClass="has-text-danger"/>
-                    </div>
-
-                    <div id="adress-details" class="field">
-
-                        <div class="notification is-light">
-                            <strong>Dane adresowe</strong>
+                            </div>
+                            <form:errors path="email" cssClass="has-text-danger"/>
                         </div>
 
-                        <div class="block">
+                        <div id="adress-details" class="field">
 
-                            <div class="field">
-                                <label class="label">Miasto</label>
-                                <div class="control has-icons-left has-icons-right">
-                                    <form:input path="cityName" cssClass="input"/>
-                                    <span class="icon is-small is-left">
+                            <div class="notification is-light">
+                                <strong>Dane adresowe</strong>
+                            </div>
+
+                            <div class="block">
+
+                                <div class="field">
+                                    <label class="label">Miasto</label>
+                                    <div class="control has-icons-left has-icons-right">
+                                        <form:input path="cityName" cssClass="input"/>
+                                        <span class="icon is-small is-left">
                                         <i class="fas fa-envelope"></i>
                                      </span>
+                                    </div>
+                                    <form:errors path="cityName" cssClass="has-text-danger"/>
                                 </div>
-                                <form:errors path="cityName" cssClass="has-text-danger"/>
-                            </div>
 
-                            <div class="field">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Ulica</th>
-                                        <th>Numer mieszkania</th>
-                                        <th>Numer domu</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="control has-icons-left">
-                                                <form:input path="streetName" cssClass="input"/>
-                                                <span class="icon is-small is-left">
+                                <div class="field">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Ulica</th>
+                                            <th>Numer mieszkania</th>
+                                            <th>Numer domu</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="control has-icons-left">
+                                                    <form:input path="streetName" cssClass="input"/>
+                                                    <span class="icon is-small is-left">
                                                         <i class="fas fa-envelope"></i>
                                                     </span>
-                                            </div>
-                                            <form:errors path="streetName" cssClass="has-text-danger"/>
-                                        </td>
-                                        <td>
-                                            <div class="control">
-                                                <form:input path="streetNumber" cssClass="input"/>
-                                            </div>
-                                            <form:errors path="streetNumber" cssClass="has-text-danger"/>
-                                        </td>
-                                        <td>
-                                            <div class="control">
-                                                <form:input path="apartmentNumber" cssClass="input"/>
-                                            </div>
-                                            <form:errors path="apartmentNumber" cssClass="has-text-danger"/>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                                </div>
+                                                <form:errors path="streetName" cssClass="has-text-danger"/>
+                                            </td>
+                                            <td>
+                                                <div class="control">
+                                                    <form:input path="streetNumber" cssClass="input"/>
+                                                </div>
+                                                <form:errors path="streetNumber" cssClass="has-text-danger"/>
+                                            </td>
+                                            <td>
+                                                <div class="control">
+                                                    <form:input path="apartmentNumber" cssClass="input"/>
+                                                </div>
+                                                <form:errors path="apartmentNumber" cssClass="has-text-danger"/>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
 
                         </div>
 
-                    </div>
-
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <button class="button is-link" type="submit">Wyślij</button>
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <button class="button is-link" type="submit">Wyślij</button>
+                            </div>
                         </div>
-                    </div>
-                    <sec:csrfInput/>
-                    <form:errors path="*" cssClass="has-text-danger"/>
-                </form:form>
+                        <sec:csrfInput/>
+                        <form:errors path="*" cssClass="has-text-danger"/>
+                    </form:form>
+                </div>
             </div>
+
         </div>
 
-    </div>
-
-    <footer class="footer">
-        <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
-    </footer>
+        <footer class="footer">
+            <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+        </footer>
 
 
-</section>
+    </section>
 </body>
 </html>

@@ -88,7 +88,7 @@ public class TenantService {
         Tenant tenantToAdd = modelMapper.map(tenantDataToAdd, Tenant.class);
         Address address = modelMapper.map(tenantDataToAdd, Address.class);
         tenantToAdd.setContactAddress(address);
-        PersonNameContact personalDetails = modelMapper.map(tenantToAdd, PersonNameContact.class);
+        PersonNameContact personalDetails = modelMapper.map(tenantDataToAdd, PersonNameContact.class);
         tenantToAdd.setPersonalDetails(personalDetails);
 
         log.info("Attempt to save tenant: " + tenantToAdd);

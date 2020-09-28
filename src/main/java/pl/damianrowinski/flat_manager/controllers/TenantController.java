@@ -39,6 +39,7 @@ public class TenantController {
         return "/tenant/list";
     }
 
+
     @GetMapping("/add")
     public String generateAddForm(Model model) {
         TenantEditDTO tenantData = new TenantEditDTO();
