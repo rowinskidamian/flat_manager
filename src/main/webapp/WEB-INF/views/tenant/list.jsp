@@ -37,7 +37,7 @@
 
         <div class="columns is-flex is-vcentered is-centered">
 
-            <div class="column is-three-quarters">
+            <div class="column">
 
                 <div class="notification has-text-centered is-light">
                     <strong>Szczegóły najemców</strong>
@@ -68,22 +68,34 @@
                             </td>
                             <td>${tenant.fullName}</td>
                             <td><c:if test="${tenant.currentRent eq null}">Brak pokoju</c:if> ${tenant.currentRent}</td>
-                            <td><c:if test="${tenant.rentDiscount eq null}">brak</c:if> ${tenant.rentDiscount}</td>
+                            <td><c:if test="${tenant.rentDiscount eq null}">Brak</c:if> ${tenant.rentDiscount}</td>
                             <td>${tenant.email}</td>
                             <td>${tenant.leaseDateStart}</td>
                             <td>${tenant.leaseDateEnd}</td>
                             <td>
                                 <div class="field is-grouped">
+                                    <c:if test="${tenant.currentRent ne null}">
+                                        <div class="control">
+                                            <a class="button is-link is-warning"
+                                               href="/room/checkout/from_room/${tenant.roomId}">Wykwateruj</a>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${tenant.currentRent eq null}">
+                                        <div class="control">
+                                            <a class="button is-link is-success"
+                                               href="/room/checkin/tenant/${tenant.id}">Zakwateruj</a>
+                                        </div>
+                                    </c:if>
                                     <div class="control">
-                                        <a class="button is-link is-warning" href="/tenant/address/${tenant.id}">Adres</a>
+                                        <a class="button is-light" href="/tenant/address/${tenant.id}">Adres</a>
                                     </div>
                                     <div class="control">
-                                        <a class="button is-link is-light" href="/tenant/edit/${tenant.id}">
+                                        <a class="button is-light" href="/tenant/edit/${tenant.id}">
                                             Edytuj
                                         </a>
                                     </div>
                                     <div class="control">
-                                        <a class="button is-light" href="/tenant/delete/${tenant.id}">
+                                        <a class="button is-link is-light" href="/tenant/delete/${tenant.id}">
                                             Usuń
                                         </a>
                                     </div>

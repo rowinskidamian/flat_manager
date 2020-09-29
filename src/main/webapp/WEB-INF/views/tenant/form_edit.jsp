@@ -89,7 +89,7 @@
                                     Najemca ma pokój.
                                     <div class="control">
                                         <a class="button is-link is-light"
-                                           href="/room/checkout/tenant/${tenantData.roomId}">
+                                           href="/room/checkout/from_room/${tenantData.roomId}">
                                             Wykwateruj
                                         </a>
                                     </div>

@@ -66,6 +66,7 @@ public class TenantService {
                 Double currentRent = calculateCurrentRent(tenantData, tenantRoom);
                 tenantData.setCurrentRent(currentRent);
                 tenantData.setPropertyId(property.getId());
+                tenantData.setRoomId(tenantRoom.getId());
             }
 
             tenantData.setEmail(tenant.getPersonalDetails().getEmail());
