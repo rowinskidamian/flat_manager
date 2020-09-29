@@ -16,7 +16,7 @@ public class CheckDateNullValidator implements ConstraintValidator<CheckDateNull
 
     @Override
     public boolean isValid(LocalDate valueToValid, ConstraintValidatorContext context) {
-        log.debug("Attempt to valid unique login: " + valueToValid);
+        log.debug("Attempt to valid date is null: " + valueToValid);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return !(LocalDate.parse("1111-11-11", formatter)).equals(valueToValid);
     }

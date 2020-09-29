@@ -21,6 +21,8 @@ import pl.damianrowinski.flat_manager.model.repositories.TenantRepository;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -65,6 +67,7 @@ public class TenantService {
 
         for (Tenant tenant : tenantList) {
             TenantShowDTO tenantData = modelMapper.map(tenant, TenantShowDTO.class);
+
             tenantData.setFullName(tenant.getPersonalDetails().getFullName());
 
             Room tenantRoom = tenant.getRoom();
@@ -96,6 +99,8 @@ public class TenantService {
         PersonNameContact personalDetails = modelMapper.map(tenantDataToAdd, PersonNameContact.class);
         tenantToAdd.setPersonalDetails(personalDetails);
 
+        formatLeaseDates(tenantDataToAdd, tenantToAdd);
+
         log.info("Attempt to save tenant: " + tenantToAdd);
         Tenant savedTenant = tenantRepository.save(tenantToAdd);
 
@@ -108,6 +113,16 @@ public class TenantService {
             roomRepository.save(room);
         }
 
+    }
+
+    private void formatLeaseDates(TenantEditDTO tenantDataToAdd, Tenant tenantToAdd) {
+        String leaseDateStart = tenantDataToAdd.getLeaseDateStart();
+        String leaseDateEnd = tenantDataToAdd.getLeaseDateEnd();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate leaseDateStartFormatted = LocalDate.parse(leaseDateStart, formatter);
+        LocalDate leaseDateEndFormatted = LocalDate.parse(leaseDateEnd, formatter);
+        tenantToAdd.setLeaseDateStart(leaseDateStartFormatted);
+        tenantToAdd.setLeaseDateEnd(leaseDateEndFormatted);
     }
 
     public TenantAddressDTO findTenantAddress(Long tenantId) {
@@ -146,6 +161,10 @@ public class TenantService {
             throw new FrobiddenAccessException("Nie masz dostępu do podanego najemcy.");
 
         TenantEditDTO tenantEditData = modelMapper.map(tenant, TenantEditDTO.class);
+
+        tenantEditData.setLeaseDateStart(tenant.getLeaseDateStart().toString());
+        tenantEditData.setLeaseDateEnd(tenant.getLeaseDateEnd().toString());
+
         PersonNameContact personalDetails = tenant.getPersonalDetails();
         tenantEditData.setFirstName(personalDetails.getFirstName());
         tenantEditData.setLastName(personalDetails.getLastName());

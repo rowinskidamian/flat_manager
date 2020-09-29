@@ -1,14 +1,12 @@
 package pl.damianrowinski.flat_manager.model.dtos.tenant;
 
 import lombok.Data;
-import pl.damianrowinski.flat_manager.validation.constraints.CheckDateNull;
 import pl.damianrowinski.flat_manager.validation.constraints.CheckLeaseDates;
 import pl.damianrowinski.flat_manager.validation.constraints.UniqueEmail;
 import pl.damianrowinski.flat_manager.validation.groups.AddTenantGroup;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 
 import javax.validation.constraints.*;
-import java.time.LocalDate;
 
 @Data
 @CheckLeaseDates
@@ -18,11 +16,11 @@ public class TenantEditDTO {
 
     private String loggedUserName;
 
-    @CheckDateNull(groups = AddTenantGroup.class)
-    private LocalDate leaseDateStart;
+    @NotBlank
+    private String leaseDateStart;
 
-    @CheckDateNull(groups = AddTenantGroup.class)
-    private LocalDate leaseDateEnd;
+    @NotBlank
+    private String leaseDateEnd;
 
     private Double rentDiscount;
 
