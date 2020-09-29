@@ -2,6 +2,7 @@ package pl.damianrowinski.flat_manager.model.dtos.user;
 
 import lombok.Data;
 import pl.damianrowinski.flat_manager.validation.constraints.CheckPassword;
+import pl.damianrowinski.flat_manager.validation.constraints.UniqueEmail;
 import pl.damianrowinski.flat_manager.validation.constraints.UniqueLogin;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 
@@ -23,6 +24,7 @@ public class UserAddDTO {
 
     @Email
     @NotBlank
+    @UniqueEmail
     private String email;
 
     @NotBlank

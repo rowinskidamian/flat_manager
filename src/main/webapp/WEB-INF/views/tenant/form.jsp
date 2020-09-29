@@ -96,14 +96,14 @@
                         <div class="columns">
                             <div class="column">
                                 <label class="label">Data rozpoczęcia najmu</label>
-                                <div class="control" id="change-start-date">
+                                <div class="control">
                                     <input type="date" name="leaseDateStart">
                                 </div>
                                 <form:errors path="leaseDateStart" cssClass="has-text-danger"/>
                             </div>
                             <div class="column">
                                 <label class="label">Data zakończenia najmu</label>
-                                <div class="control" id="change-end-date">
+                                <div class="control">
                                     <input type="date" name="leaseDateEnd">
                                 </div>
                                 <form:errors path="leaseDateEnd" cssClass="has-text-danger"/>

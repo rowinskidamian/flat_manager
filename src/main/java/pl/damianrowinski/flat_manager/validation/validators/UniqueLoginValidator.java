@@ -12,11 +12,9 @@ import javax.validation.ConstraintValidatorContext;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-
 public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin, String> {
 
     private final UserRepository userRepository;
-
 
     @Override
     public boolean isValid(String valueToValid, ConstraintValidatorContext context) {

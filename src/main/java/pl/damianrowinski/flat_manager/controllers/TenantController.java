@@ -14,9 +14,10 @@ import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantShowDTO;
 import pl.damianrowinski.flat_manager.services.RoomService;
 import pl.damianrowinski.flat_manager.services.TenantService;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
+import pl.damianrowinski.flat_manager.validation.groups.AddTenantGroup;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
+import pl.damianrowinski.flat_manager.validation.groups.EditTenantGroup;
 
-import javax.validation.Valid;
 import javax.validation.groups.Default;
 import java.util.List;
 
@@ -63,25 +64,24 @@ public class TenantController {
     }
 
     @PostMapping("/add/valid/no_address")
-    public String addTenant(@ModelAttribute("tenantData") @Valid TenantEditDTO tenantToAdd, BindingResult result,
-                            Model model) {
+    public String addTenant(@ModelAttribute("tenantData") @Validated({Default.class, AddTenantGroup.class})
+                                        TenantEditDTO tenantToAdd, BindingResult result, Model model) {
         model.addAttribute("validAddress", "false");
-        return tenantFormController(tenantToAdd, result, model);
+        return tenantAddFormController(tenantToAdd, result, model);
     }
 
     @PostMapping("/add/valid/address")
-    public String addTenantValidAddress(@ModelAttribute("tenantData") @Validated({Default.class,
+    public String addTenantValidAddress(@ModelAttribute("tenantData") @Validated({Default.class, AddTenantGroup.class,
             AddressValidationGroup.class}) TenantEditDTO tenantToAdd, BindingResult result,
                                         Model model) {
         model.addAttribute("validAddress", "true");
-        return tenantFormController(tenantToAdd, result, model);
+        return tenantAddFormController(tenantToAdd, result, model);
     }
 
-    private String tenantFormController(@Validated({Default.class,
-            AddressValidationGroup.class}) @ModelAttribute("tenantData") TenantEditDTO tenantToAdd, BindingResult result,
-                                        Model model) {
+    private String tenantAddFormController(@ModelAttribute("tenantData") @Validated({Default.class, AddTenantGroup.class,
+            AddressValidationGroup.class}) TenantEditDTO tenantToAdd, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            log.error("Nie udało się zapisać najemcy:");
+            log.error("Unable to save tenant:");
             log.error(tenantToAdd.toString());
             List<RoomListDTO> availableRoomsData = roomService.findAllAvailableRooms(LoggedUsername.get());
             model.addAttribute("tenantData", tenantToAdd);
@@ -116,23 +116,22 @@ public class TenantController {
     }
 
     @PostMapping("/edit/valid/no_address")
-    public String editTenant(@ModelAttribute("tenantData") @Valid TenantEditDTO tenantToAdd, BindingResult result,
-                            Model model) {
+    public String editTenant(@ModelAttribute("tenantData") @Validated({Default.class, EditTenantGroup.class})
+                                         TenantEditDTO tenantToAdd, BindingResult result, Model model) {
         model.addAttribute("validAddress", "false");
         return tenantEditFormController(tenantToAdd, result, model);
     }
 
     @PostMapping("/edit/valid/address")
-    public String editTenantValidAddress(@ModelAttribute("tenantData") @Validated({Default.class,
+    public String editTenantValidAddress(@ModelAttribute("tenantData") @Validated({Default.class, EditTenantGroup.class,
             AddressValidationGroup.class}) TenantEditDTO tenantToAdd, BindingResult result,
-                                        Model model) {
+                                         Model model) {
         model.addAttribute("validAddress", "true");
         return tenantEditFormController(tenantToAdd, result, model);
     }
 
-    private String tenantEditFormController(@Validated({Default.class,
-            AddressValidationGroup.class}) @ModelAttribute("tenantData") TenantEditDTO tenantToEdit, BindingResult result,
-                                        Model model) {
+    private String tenantEditFormController(@ModelAttribute("tenantData") @Validated({Default.class, EditTenantGroup.class,
+            AddressValidationGroup.class}) TenantEditDTO tenantToEdit, BindingResult result, Model model) {
         if (result.hasErrors()) {
             log.error("Nie udało się edytować najemcy:");
             log.error(tenantToEdit.toString());
