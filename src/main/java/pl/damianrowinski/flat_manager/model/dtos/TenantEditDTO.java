@@ -2,6 +2,8 @@ package pl.damianrowinski.flat_manager.model.dtos;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
+import pl.damianrowinski.flat_manager.validation.constraints.CheckDateNull;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -17,13 +19,13 @@ public class TenantEditDTO {
     @NotBlank
     private String lastName;
 
-    @NotNull
+    @CheckDateNull
     private LocalDate leaseDateStart;
 
-    @NotNull
+    @CheckDateNull
     private LocalDate leaseDateEnd;
 
-    private Integer roomId;
+    private Long roomId;
 
     private Double rentDiscount;
 

@@ -17,7 +17,7 @@ public class CheckPasswordValidator implements ConstraintValidator<CheckPassword
     public boolean isValid(UserAddDTO userData, ConstraintValidatorContext constraintContext) {
         String password = userData.getPassword();
         String passwordCheck = userData.getPasswordCheck();
-        log.debug("Attempt to valid if password is equal.");
+        log.info("Attempt to valid if password is equal.");
         boolean isPasswordsEqual = password.equals(passwordCheck);
 
         if (!isPasswordsEqual){

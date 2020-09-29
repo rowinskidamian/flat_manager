@@ -1,6 +1,7 @@
 package pl.damianrowinski.flat_manager.controllers;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/tenant")
 @RequiredArgsConstructor
+@Slf4j
 
 public class TenantController {
 
@@ -39,7 +41,6 @@ public class TenantController {
         return "/tenant/list";
     }
 
-
     @GetMapping("/add")
     public String generateAddForm(Model model) {
         TenantEditDTO tenantData = new TenantEditDTO();
@@ -53,6 +54,8 @@ public class TenantController {
     public String addTenantToBase(@ModelAttribute("tenantData") @Valid TenantEditDTO tenantToAdd, BindingResult result,
                                   Model model) {
         if (result.hasErrors()) {
+            log.error("Nie udało się zapisać najemcy:");
+            log.error(tenantToAdd.toString());
             List<RoomListDTO> availableRoomsData = roomService.findAllAvailableRooms(LoggedUsername.get());
             model.addAttribute("tenantData", tenantToAdd);
             model.addAttribute("roomListData", availableRoomsData);

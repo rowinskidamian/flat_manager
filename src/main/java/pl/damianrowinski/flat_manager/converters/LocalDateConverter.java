@@ -11,6 +11,9 @@ public class LocalDateConverter implements Converter<String, LocalDate> {
     @Override
     public LocalDate convert(String source) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        if (source == null || source.equals("'") || source.equals(""))
+            return LocalDate.parse("1111-11-11", formatter);
+
         return LocalDate.parse(source, formatter);
     }
 }

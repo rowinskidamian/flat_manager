@@ -14,6 +14,7 @@ import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 import pl.damianrowinski.flat_manager.model.dtos.TenantEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.TenantListDTO;
 import pl.damianrowinski.flat_manager.model.dtos.TenantShowDTO;
+import pl.damianrowinski.flat_manager.model.repositories.RoomRepository;
 import pl.damianrowinski.flat_manager.model.repositories.TenantRepository;
 
 import javax.transaction.Transactional;
@@ -28,6 +29,7 @@ import java.util.Optional;
 public class TenantService {
 
     private final TenantRepository tenantRepository;
+    private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
 
     public void delete(Long tenantId) {
@@ -92,6 +94,16 @@ public class TenantService {
         tenantToAdd.setPersonalDetails(personalDetails);
 
         log.info("Attempt to save tenant: " + tenantToAdd);
-        tenantRepository.save(tenantToAdd);
+        Tenant savedTenant = tenantRepository.save(tenantToAdd);
+
+        Long tenantRoomId = tenantDataToAdd.getRoomId();
+        if (tenantRoomId != null) {
+            Optional<Room> optionalRoom = roomRepository.findById(tenantRoomId);
+            if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Nie znalazłem pokoju o podanym id.");
+            Room room = optionalRoom.get();
+            room.setTenant(savedTenant);
+            roomRepository.save(room);
+        }
+
     }
 }
