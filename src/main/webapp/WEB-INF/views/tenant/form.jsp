@@ -194,7 +194,11 @@
                         <div class="control">
                             <button class="button is-link" type="submit">Wyślij</button>
                         </div>
+                        <div class="control">
+                            <button class="button is-link is-light" type="button" id="showAdress">Dodaj adres</button>
+                        </div>
                     </div>
+                    <input type="hidden" name="validAddress" id="validAddress" value="${validAddress}">
                     <sec:csrfInput/>
                 </form:form>
             </div>
@@ -206,6 +210,7 @@
         <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
     </footer>
 
+    <script src="/scripts/adress_in_registration.js" type="text/javascript"></script>
 
 </section>
 </body>

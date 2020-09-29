@@ -1,34 +1,41 @@
-package pl.damianrowinski.flat_manager.model.dtos;
+package pl.damianrowinski.flat_manager.model.dtos.tenant;
 
 import lombok.Data;
-import pl.damianrowinski.flat_manager.validation.constraints.CheckPassword;
-import pl.damianrowinski.flat_manager.validation.constraints.UniqueLogin;
+import pl.damianrowinski.flat_manager.validation.constraints.CheckDateNull;
+import pl.damianrowinski.flat_manager.validation.constraints.CheckLeaseDates;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 
 @Data
-@CheckPassword
-public class UserAddDTO {
+@CheckLeaseDates
+public class TenantEditDTO {
 
     @NotBlank
-    @UniqueLogin
-    private String login;
+    private String firstName;
 
     @NotBlank
-    private String password;
+    private String lastName;
 
-    @NotBlank
-    private String passwordCheck;
+    @CheckDateNull
+    private LocalDate leaseDateStart;
+
+    @CheckDateNull
+    private LocalDate leaseDateEnd;
+
+    private Long roomId;
+
+    private Double rentDiscount;
+
+    @NotNull
+    @Min(1)
+    @Max(31)
+    private Integer paymentDeadline;
 
     @Email
     @NotBlank
     private String email;
-
-    @NotBlank
-    private String firstName;
-    @NotBlank
-    private String lastName;
 
     @NotBlank(groups = AddressValidationGroup.class)
     private String cityName;

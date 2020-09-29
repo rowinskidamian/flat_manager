@@ -1,8 +1,8 @@
-package pl.damianrowinski.flat_manager.model.dtos;
+package pl.damianrowinski.flat_manager.model.dtos.property;
 
 import lombok.*;
+import pl.damianrowinski.flat_manager.model.dtos.room.RoomShowDTO;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

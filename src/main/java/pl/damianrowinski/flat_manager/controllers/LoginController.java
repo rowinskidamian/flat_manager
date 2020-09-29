@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.damianrowinski.flat_manager.model.dtos.UserAddDTO;
+import pl.damianrowinski.flat_manager.model.dtos.user.UserAddDTO;
 import pl.damianrowinski.flat_manager.services.AuthenticationService;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 

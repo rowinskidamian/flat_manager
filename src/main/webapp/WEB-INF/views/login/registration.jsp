@@ -140,7 +140,6 @@
                                             <td>
                                                 <div class="control">
                                                     <input type="number" name="streetNumber" class="input">
-<%--                                                <form:input path="streetNumber" cssClass="input"/>--%>
                                                 </div>
                                                 <form:errors path="streetNumber" cssClass="has-text-danger"/>
                                             </td>

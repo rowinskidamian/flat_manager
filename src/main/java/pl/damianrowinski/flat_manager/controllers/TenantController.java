@@ -5,18 +5,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import pl.damianrowinski.flat_manager.model.dtos.RoomListDTO;
-import pl.damianrowinski.flat_manager.model.dtos.TenantEditDTO;
-import pl.damianrowinski.flat_manager.model.dtos.TenantShowDTO;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import pl.damianrowinski.flat_manager.model.dtos.room.RoomListDTO;
+import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantAddressDTO;
+import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantEditDTO;
+import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantShowDTO;
 import pl.damianrowinski.flat_manager.services.RoomService;
 import pl.damianrowinski.flat_manager.services.TenantService;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
+import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 
 import javax.validation.Valid;
+import javax.validation.groups.Default;
 import java.util.List;
 
 @Controller
@@ -47,12 +48,38 @@ public class TenantController {
         List<RoomListDTO> availableRoomsData = roomService.findAllAvailableRooms(LoggedUsername.get());
         model.addAttribute("tenantData", tenantData);
         model.addAttribute("roomListData", availableRoomsData);
+        model.addAttribute("validAddress", "false");
         return "/tenant/form";
     }
 
     @PostMapping("/add")
-    public String addTenantToBase(@ModelAttribute("tenantData") @Valid TenantEditDTO tenantToAdd, BindingResult result,
+    public String chooseValidation(String validAddress) {
+        log.info("Validation with address: " + validAddress);
+        if ("true".equals(validAddress)) {
+            return "forward:/tenant/add/valid/address";
+        } else {
+            return "forward:/tenant/add/valid/no_address";
+        }
+    }
+
+    @PostMapping("/add/valid/no_address")
+    public String addTenant(@ModelAttribute("tenantData") @Valid TenantEditDTO tenantToAdd, BindingResult result,
                                   Model model) {
+        model.addAttribute("validAddress", "false");
+        return tenantFormController(tenantToAdd, result, model);
+    }
+
+    @PostMapping("/add/valid/address")
+    public String addTenantValidAddress(@ModelAttribute("tenantData") @Validated({Default.class,
+            AddressValidationGroup.class}) TenantEditDTO tenantToAdd, BindingResult result,
+                                        Model model) {
+        model.addAttribute("validAddress", "true");
+        return tenantFormController(tenantToAdd, result, model);
+    }
+
+    private String tenantFormController(@Validated({Default.class,
+            AddressValidationGroup.class}) @ModelAttribute("tenantData") TenantEditDTO tenantToAdd, BindingResult result,
+                                        Model model) {
         if (result.hasErrors()) {
             log.error("Nie udało się zapisać najemcy:");
             log.error(tenantToAdd.toString());
@@ -63,6 +90,13 @@ public class TenantController {
         }
         tenantService.save(tenantToAdd);
         return "redirect:/tenant";
+    }
+
+    @GetMapping("/address/{tenantId}")
+    public String showTenantAddress(@PathVariable Long tenantId, Model model) {
+        TenantAddressDTO tenantAddress = tenantService.findTenantAddress(tenantId);
+        model.addAttribute("tenantAddressData", tenantAddress);
+        return "/tenant/address";
     }
 
 

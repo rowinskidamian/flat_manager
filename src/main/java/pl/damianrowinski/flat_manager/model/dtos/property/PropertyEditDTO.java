@@ -1,4 +1,4 @@
-package pl.damianrowinski.flat_manager.model.dtos;
+package pl.damianrowinski.flat_manager.model.dtos.property;
 
 import lombok.Data;
 import pl.damianrowinski.flat_manager.domain.entities.Room;

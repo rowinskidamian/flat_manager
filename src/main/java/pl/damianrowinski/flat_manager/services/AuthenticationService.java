@@ -8,7 +8,7 @@ import pl.damianrowinski.flat_manager.config.Role;
 import pl.damianrowinski.flat_manager.domain.entities.User;
 import pl.damianrowinski.flat_manager.model.common.Address;
 import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
-import pl.damianrowinski.flat_manager.model.dtos.UserAddDTO;
+import pl.damianrowinski.flat_manager.model.dtos.user.UserAddDTO;
 import pl.damianrowinski.flat_manager.model.repositories.UserRepository;
 
 import javax.transaction.Transactional;

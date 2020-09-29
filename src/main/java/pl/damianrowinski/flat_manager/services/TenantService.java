@@ -8,14 +8,17 @@ import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.domain.entities.Room;
 import pl.damianrowinski.flat_manager.domain.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
+import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
 import pl.damianrowinski.flat_manager.model.common.Address;
 import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
-import pl.damianrowinski.flat_manager.model.dtos.TenantEditDTO;
-import pl.damianrowinski.flat_manager.model.dtos.TenantListDTO;
-import pl.damianrowinski.flat_manager.model.dtos.TenantShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantAddressDTO;
+import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantEditDTO;
+import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantListDTO;
+import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantShowDTO;
 import pl.damianrowinski.flat_manager.model.repositories.RoomRepository;
 import pl.damianrowinski.flat_manager.model.repositories.TenantRepository;
+import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -105,5 +108,25 @@ public class TenantService {
             roomRepository.save(room);
         }
 
+    }
+
+    public TenantAddressDTO findTenantAddress(Long tenantId) {
+
+        Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
+        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id.");
+
+        Tenant tenant = optionalTenant.get();
+        if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
+            throw new FrobiddenAccessException("Nie masz dostępu do podanego najemcy.");
+
+        TenantAddressDTO tenantAddressDTO = modelMapper.map(tenant, TenantAddressDTO.class);
+        Address contactAddress = tenant.getContactAddress();
+        if (contactAddress != null) {
+            tenantAddressDTO.setCityName(contactAddress.getCityName());
+            tenantAddressDTO.setStreetName(contactAddress.getStreetName());
+            tenantAddressDTO.setStreetNumber(contactAddress.getStreetNumber());
+            tenantAddressDTO.setApartmentNumber(contactAddress.getApartmentNumber());
+        }
+        return tenantAddressDTO;
     }
 }

@@ -75,7 +75,7 @@
                             <td>
                                 <div class="field is-grouped">
                                     <div class="control">
-                                        <a class="button is-link is-warning" href="/tenant/show/${tenant.id}">Szczegóły</a>
+                                        <a class="button is-link is-warning" href="/tenant/address/${tenant.id}">Adres</a>
                                     </div>
                                     <div class="control">
                                         <a class="button is-link is-light" href="/tenant/edit/${tenant.id}">
