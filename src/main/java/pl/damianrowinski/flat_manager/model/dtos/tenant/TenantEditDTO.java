@@ -12,19 +12,11 @@ import java.time.LocalDate;
 @CheckLeaseDates
 public class TenantEditDTO {
 
-    @NotBlank
-    private String firstName;
-
-    @NotBlank
-    private String lastName;
-
     @CheckDateNull
     private LocalDate leaseDateStart;
 
     @CheckDateNull
     private LocalDate leaseDateEnd;
-
-    private Long roomId;
 
     private Double rentDiscount;
 
@@ -32,6 +24,14 @@ public class TenantEditDTO {
     @Min(1)
     @Max(31)
     private Integer paymentDeadline;
+
+    private Long roomId;
+
+    @NotBlank
+    private String firstName;
+
+    @NotBlank
+    private String lastName;
 
     @Email
     @NotBlank

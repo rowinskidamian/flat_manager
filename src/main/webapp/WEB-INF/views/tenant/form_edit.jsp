@@ -69,19 +69,30 @@
                         <div class="columns">
                             <div class="column">
                                 <label class="label">Wybierz pokój</label>
-                                <c:if test="${roomListData.size() > 0}">
-                                    <div class="control">
-                                        <div class="select">
-                                            <form:select path="roomId">
-                                                <form:option value="" label="Wybierz pokój"/>
-                                                <form:options items="${roomListData}" itemValue="roomId"
-                                                              itemLabel="roomNameAndPrice"/>
-                                            </form:select>
+                                <c:if test="${tenantData.roomId eq null}">
+                                    <c:if test="${roomListData.size() > 0}">
+                                        <div class="control">
+                                            <div class="select">
+                                                <form:select path="roomId">
+                                                    <form:option value="" label="Wybierz pokój"/>
+                                                    <form:options items="${roomListData}" itemValue="roomId"
+                                                                  itemLabel="roomNameAndPrice"/>
+                                                </form:select>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </c:if>
+                                    <c:if test="${roomListData.size() eq 0}">
+                                        Brak wolnych pokoi. Dodaj pokój najemcy, jak tylko się zwolni.
+                                    </c:if>
                                 </c:if>
-                                <c:if test="${roomListData.size() eq 0}">
-                                    Brak wolnych pokoi. Dodaj pokój najemcy, jak tylko się zwolni.
+                                <c:if test="${tenantData.roomId ne null}">
+                                    Najemca ma pokój.
+                                    <div class="control">
+                                        <a class="button is-link is-light"
+                                           href="/room/checkout/tenant/${tenantData.roomId}">
+                                            Wykwateruj
+                                        </a>
+                                    </div>
                                 </c:if>
                             </div>
                             <div class="column">
@@ -96,15 +107,30 @@
                         <div class="columns">
                             <div class="column">
                                 <label class="label">Data rozpoczęcia najmu</label>
+                                <c:if test="${tenantData.leaseDateStart ne null}">
+                                    <div id="changeDate"></div>
+                                    ${tenantData.leaseDateStart}<br>
+                                    <div class="control">
+                                        <button class="button is-link is-light" type="button" id="changeButtonStart">
+                                            Zmiana daty</button>
+                                    </div>
+                                </c:if>
                                 <div class="control" id="change-start-date">
-                                    <input type="date" name="leaseDateStart">
+                                    <form:input path="leaseDateStart"/>
                                 </div>
                                 <form:errors path="leaseDateStart" cssClass="has-text-danger"/>
                             </div>
                             <div class="column">
                                 <label class="label">Data zakończenia najmu</label>
+                                <c:if test="${tenantData.leaseDateEnd ne null}">
+                                    ${tenantData.leaseDateEnd}<br>
+                                    <div class="control">
+                                        <button class="button is-link is-light" type="button" id="changeButtonEnd">
+                                            Zmiana daty</button>
+                                    </div>
+                                </c:if>
                                 <div class="control" id="change-end-date">
-                                    <input type="date" name="leaseDateEnd">
+                                    <form:input path="leaseDateEnd"/>
                                 </div>
                                 <form:errors path="leaseDateEnd" cssClass="has-text-danger"/>
                             </div>
@@ -210,6 +236,7 @@
     </footer>
 
     <script src="/scripts/adress_in_registration.js" type="text/javascript"></script>
+    <script src="/scripts/change_date.js" type="text/javascript"></script>
 
 </section>
 </body>

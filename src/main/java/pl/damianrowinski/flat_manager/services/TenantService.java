@@ -121,15 +121,49 @@ public class TenantService {
 
         TenantAddressDTO tenantAddressDTO = modelMapper.map(tenant.getPersonalDetails(), TenantAddressDTO.class);
         Address contactAddress = tenant.getContactAddress();
+        tenantSetAddress(tenantAddressDTO, contactAddress);
+        return tenantAddressDTO;
+    }
+
+    private void tenantSetAddress(TenantAddressDTO tenantAddressDTO, Address contactAddress) {
         if (contactAddress != null) {
             tenantAddressDTO.setCityName(contactAddress.getCityName());
             tenantAddressDTO.setStreetName(contactAddress.getStreetName());
             if (contactAddress.getApartmentNumber() != null) {
-               tenantAddressDTO.setAddressNumber((contactAddress.getCombinedAddressNumber()));
+                tenantAddressDTO.setAddressNumber((contactAddress.getCombinedAddressNumber()));
             } else {
                 tenantAddressDTO.setAddressNumber(contactAddress.getStreetNumber().toString());
             }
         }
-        return tenantAddressDTO;
+    }
+
+    public TenantEditDTO findById(Long tenantId) {
+        Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
+        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id.");
+
+        Tenant tenant = optionalTenant.get();
+        if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
+            throw new FrobiddenAccessException("Nie masz dostępu do podanego najemcy.");
+
+        TenantEditDTO tenantEditData = modelMapper.map(tenant, TenantEditDTO.class);
+        PersonNameContact personalDetails = tenant.getPersonalDetails();
+        tenantEditData.setFirstName(personalDetails.getFirstName());
+        tenantEditData.setLastName(personalDetails.getLastName());
+        tenantEditData.setEmail(personalDetails.getEmail());
+
+        if (tenant.getRoom() != null)
+            tenantEditData.setRoomId(tenant.getRoom().getId());
+
+        Address contactAddress = tenant.getContactAddress();
+        if (contactAddress != null) {
+            tenantEditData.setCityName(contactAddress.getCityName());
+            tenantEditData.setStreetName(contactAddress.getStreetName());
+            if (contactAddress.getApartmentNumber() != null) {
+                tenantEditData.setApartmentNumber((contactAddress.getApartmentNumber()));
+            }
+            tenantEditData.setStreetNumber(contactAddress.getStreetNumber());
+        }
+
+        return tenantEditData;
     }
 }

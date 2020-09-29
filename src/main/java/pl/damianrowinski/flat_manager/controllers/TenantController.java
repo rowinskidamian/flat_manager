@@ -64,7 +64,7 @@ public class TenantController {
 
     @PostMapping("/add/valid/no_address")
     public String addTenant(@ModelAttribute("tenantData") @Valid TenantEditDTO tenantToAdd, BindingResult result,
-                                  Model model) {
+                            Model model) {
         model.addAttribute("validAddress", "false");
         return tenantFormController(tenantToAdd, result, model);
     }
@@ -92,12 +92,62 @@ public class TenantController {
         return "redirect:/tenant";
     }
 
+    @GetMapping("/edit/{tenantId}")
+    public String generateEditForm(@PathVariable Long tenantId, Model model) {
+        TenantEditDTO tenantToEdit = tenantService.findById(tenantId);
+        List<RoomListDTO> availableRoomsData = roomService.findAllAvailableRooms(LoggedUsername.get());
+        model.addAttribute("tenantData", tenantToEdit);
+        model.addAttribute("roomListData", availableRoomsData);
+        String validAddress = tenantToEdit.getStreetName() != null ? "true" : "false";
+        model.addAttribute("validAddress", validAddress);
+        return "/tenant/form_edit";
+    }
+
+    @PostMapping("/edit/{tenantId}")
+    public String chooseValidationForEdit(@PathVariable Long tenantId, String validAddress) {
+        log.info("Validation with address: " + validAddress);
+        if ("true".equals(validAddress)) {
+            return "forward:/tenant/edit/valid/address";
+        } else {
+            return "forward:/tenant/edit/valid/no_address";
+        }
+    }
+
+    @PostMapping("/edit/valid/no_address")
+    public String editTenant(@ModelAttribute("tenantData") @Valid TenantEditDTO tenantToAdd, BindingResult result,
+                            Model model) {
+        model.addAttribute("validAddress", "false");
+        return tenantEditFormController(tenantToAdd, result, model);
+    }
+
+    @PostMapping("/edit/valid/address")
+    public String editTenantValidAddress(@ModelAttribute("tenantData") @Validated({Default.class,
+            AddressValidationGroup.class}) TenantEditDTO tenantToAdd, BindingResult result,
+                                        Model model) {
+        model.addAttribute("validAddress", "true");
+        return tenantEditFormController(tenantToAdd, result, model);
+    }
+
+    private String tenantEditFormController(@Validated({Default.class,
+            AddressValidationGroup.class}) @ModelAttribute("tenantData") TenantEditDTO tenantToEdit, BindingResult result,
+                                        Model model) {
+        if (result.hasErrors()) {
+            log.error("Nie udało się edytować najemcy:");
+            log.error(tenantToEdit.toString());
+            List<RoomListDTO> availableRoomsData = roomService.findAllAvailableRooms(LoggedUsername.get());
+            model.addAttribute("tenantData", tenantToEdit);
+            model.addAttribute("roomListData", availableRoomsData);
+            return "/tenant/form_edit";
+        }
+        tenantService.save(tenantToEdit);
+        return "redirect:/tenant";
+    }
+
     @GetMapping("/address/{tenantId}")
     public String showTenantAddress(@PathVariable Long tenantId, Model model) {
         TenantAddressDTO tenantAddress = tenantService.findTenantAddress(tenantId);
         model.addAttribute("tenantAddressData", tenantAddress);
         return "/tenant/address";
     }
-
 
 }
