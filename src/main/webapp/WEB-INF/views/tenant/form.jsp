@@ -82,7 +82,7 @@
                                 </c:if>
 
                                 <c:if test="${roomListData.size() eq 0}">
-                                    Brak wolnych pokoi. Dodaj pokój, aby dodać najemcę.
+                                    Brak wolnych pokoi. Dodaj pokój najemcy, jak tylko się zwolni.
                                 </c:if>
                             </div>
                             <div class="column">
