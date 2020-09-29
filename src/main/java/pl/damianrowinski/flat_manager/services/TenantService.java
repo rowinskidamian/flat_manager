@@ -119,13 +119,16 @@ public class TenantService {
         if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
             throw new FrobiddenAccessException("Nie masz dostępu do podanego najemcy.");
 
-        TenantAddressDTO tenantAddressDTO = modelMapper.map(tenant, TenantAddressDTO.class);
+        TenantAddressDTO tenantAddressDTO = modelMapper.map(tenant.getPersonalDetails(), TenantAddressDTO.class);
         Address contactAddress = tenant.getContactAddress();
         if (contactAddress != null) {
             tenantAddressDTO.setCityName(contactAddress.getCityName());
             tenantAddressDTO.setStreetName(contactAddress.getStreetName());
-            tenantAddressDTO.setStreetNumber(contactAddress.getStreetNumber());
-            tenantAddressDTO.setApartmentNumber(contactAddress.getApartmentNumber());
+            if (contactAddress.getApartmentNumber() != null) {
+               tenantAddressDTO.setAddressNumber((contactAddress.getCombinedAddressNumber()));
+            } else {
+                tenantAddressDTO.setAddressNumber(contactAddress.getStreetNumber().toString());
+            }
         }
         return tenantAddressDTO;
     }

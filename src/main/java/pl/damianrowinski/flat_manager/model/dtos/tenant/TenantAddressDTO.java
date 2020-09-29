@@ -12,7 +12,5 @@ public class TenantAddressDTO {
 
     private String cityName;
     private String streetName;
-    private Integer streetNumber;
-    private Integer apartmentNumber;
-
+    private String addressNumber;
 }
