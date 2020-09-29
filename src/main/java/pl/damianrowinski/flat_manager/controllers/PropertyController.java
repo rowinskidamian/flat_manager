@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.domain.entities.Property;
-import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
+import pl.damianrowinski.flat_manager.exceptions.ForbiddenAccessException;
 import pl.damianrowinski.flat_manager.model.dtos.property.PropertyDeleteDTO;
 import pl.damianrowinski.flat_manager.model.dtos.property.PropertyEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.property.PropertyShowDTO;
@@ -87,10 +87,10 @@ public class PropertyController {
 
         String loggedUserName = propertyData.getLoggedUserName();
         if (!loggedUserName.equals(LoggedUsername.get()))
-            throw new FrobiddenAccessException("Nie masz dostępu do tych danych.");
+            throw new ForbiddenAccessException("Nie masz dostępu do tych danych.");
 
         if(!propertyId.equals(propertyData.getId()))
-            throw new FrobiddenAccessException("Id obiektu z bazy i edytowanego nie zgadzają się.");
+            throw new ForbiddenAccessException("Id obiektu z bazy i edytowanego nie zgadzają się.");
 
         propertyService.save(propertyData);
         return "redirect:/property/show/" + propertyId;

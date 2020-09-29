@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.model.dtos.room.RoomListDTO;
 import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantAddressDTO;
+import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantDeleteDTO;
 import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantShowDTO;
 import pl.damianrowinski.flat_manager.services.RoomService;
@@ -149,6 +150,19 @@ public class TenantController {
         TenantAddressDTO tenantAddress = tenantService.findTenantAddress(tenantId);
         model.addAttribute("tenantAddressData", tenantAddress);
         return "/tenant/address";
+    }
+
+    @GetMapping("/delete/{tenantId}")
+    public String prepareDelete(@PathVariable Long tenantId, Model model) {
+        TenantDeleteDTO tenantToDelete = tenantService.findTenantToDelete(tenantId);
+        model.addAttribute("tenantData", tenantToDelete);
+        return "/tenant/delete_confirm";
+    }
+
+    @PostMapping("/delete")
+    public String deleteTenant(@ModelAttribute("tenantData") TenantDeleteDTO tenantDeleteData) {
+        tenantService.delete(tenantDeleteData.getId());
+        return "redirect:/tenant";
     }
 
 }

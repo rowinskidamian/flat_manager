@@ -2,7 +2,7 @@ package pl.damianrowinski.flat_manager.utils;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
+import pl.damianrowinski.flat_manager.exceptions.ForbiddenAccessException;
 
 public abstract class LoggedUsername {
 
@@ -15,7 +15,7 @@ public abstract class LoggedUsername {
             } else {
                 loggedUserName = principal.toString();
             }
-        } else throw new FrobiddenAccessException("Brak zalogowanego użytkownika.");
+        } else throw new ForbiddenAccessException("Brak zalogowanego użytkownika.");
 
         return loggedUserName;
     }

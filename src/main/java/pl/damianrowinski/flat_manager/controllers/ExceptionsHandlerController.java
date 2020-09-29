@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
-import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
+import pl.damianrowinski.flat_manager.exceptions.ForbiddenAccessException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
 
 @ControllerAdvice
@@ -22,7 +22,7 @@ public class ExceptionsHandlerController {
         return ERROR_PAGE_VIEW;
     }
 
-    @ExceptionHandler(FrobiddenAccessException.class)
+    @ExceptionHandler(ForbiddenAccessException.class)
     public String handleForbiddenAccess(Exception e, Model model){
         log.error("Raised exception ForbiddenAccessException");
         model.addAttribute(ERROR_PAGE_ATTRIBUTE, e.getMessage());

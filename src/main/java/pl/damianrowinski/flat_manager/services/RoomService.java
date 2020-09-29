@@ -7,7 +7,7 @@ import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.domain.entities.Room;
 import pl.damianrowinski.flat_manager.domain.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
-import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
+import pl.damianrowinski.flat_manager.exceptions.ForbiddenAccessException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
 import pl.damianrowinski.flat_manager.model.dtos.room.RoomEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.room.RoomDeleteDTO;
@@ -78,7 +78,7 @@ public class RoomService {
         Room roomToDelete = optionalRoom.get();
 
         if (!roomToDelete.getLoggedUserName().equals(LoggedUsername.get()))
-            throw new FrobiddenAccessException("Dostęp do zasobu zabroniony");
+            throw new ForbiddenAccessException("Dostęp do zasobu zabroniony");
         if (roomToDelete.getTenant() != null)
             throw new ObjectInRelationshipException("Pokój ma najemcę, najpierw usuń najemcę, a później pokój.");
 
@@ -130,7 +130,7 @@ public class RoomService {
         Room roomToEdit = optionalRoom.get();
 
         if (!roomToEdit.getLoggedUserName().equals(LoggedUsername.get()))
-            throw new FrobiddenAccessException("Dostęp do zasobu zabroniony");
+            throw new ForbiddenAccessException("Dostęp do zasobu zabroniony");
 
         RoomEditDTO roomData = new RoomEditDTO();
 

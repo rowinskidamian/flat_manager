@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.domain.entities.Room;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
-import pl.damianrowinski.flat_manager.exceptions.FrobiddenAccessException;
+import pl.damianrowinski.flat_manager.exceptions.ForbiddenAccessException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
 import pl.damianrowinski.flat_manager.model.common.Address;
 import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
@@ -57,7 +57,7 @@ public class PropertyService {
         String loggedUserName = property.getLoggedUserName();
 
         if (!loggedUserName.equals(LoggedUsername.get()))
-            throw new FrobiddenAccessException("Nie masz dostępu do tych danych.");
+            throw new ForbiddenAccessException("Nie masz dostępu do tych danych.");
 
         PropertyEditDTO propertyToEditData = modelMapper.map(property, PropertyEditDTO.class);
         Address address = property.getAddress();
@@ -174,7 +174,7 @@ public class PropertyService {
         String loggedUserName = property.getLoggedUserName();
 
         if (!loggedUserName.equals(LoggedUsername.get()))
-            throw new FrobiddenAccessException("Nie możesz usunąć obiektu, który nie należy do Twojego konta");
+            throw new ForbiddenAccessException("Nie możesz usunąć obiektu, który nie należy do Twojego konta");
 
         PropertyDeleteDTO propertyDeleteDTO = new PropertyDeleteDTO();
         propertyDeleteDTO.setPropertyId(propertyId);
@@ -190,7 +190,7 @@ public class PropertyService {
 
         String loggedUserName = propertyDeleteDTO.getLoggedUserName();
         if (!loggedUserName.equals(LoggedUsername.get()))
-            throw new FrobiddenAccessException("Nie możesz usunąć obiektu, który nie należy do Twojego konta");
+            throw new ForbiddenAccessException("Nie możesz usunąć obiektu, który nie należy do Twojego konta");
 
         log.info("Deleting property with id:" + propertyDeleteDTO.getPropertyId());
 
