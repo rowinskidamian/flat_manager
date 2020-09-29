@@ -72,7 +72,7 @@
                             <td>
                                 <c:if test="${room.tenantId ne null}">
                                     <div class="control">
-                                        <a class="button is-warning" href="/room/checkout/${room.id}">
+                                        <a class="button is-warning" href="/room/checkout/in_rooms_list/${room.id}">
                                             Usuń najemcę
                                         </a>
                                     </div>

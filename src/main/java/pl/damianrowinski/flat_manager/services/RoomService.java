@@ -9,10 +9,7 @@ import pl.damianrowinski.flat_manager.domain.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.exceptions.ForbiddenAccessException;
 import pl.damianrowinski.flat_manager.exceptions.ObjectInRelationshipException;
-import pl.damianrowinski.flat_manager.model.dtos.room.RoomEditDTO;
-import pl.damianrowinski.flat_manager.model.dtos.room.RoomDeleteDTO;
-import pl.damianrowinski.flat_manager.model.dtos.room.RoomListDTO;
-import pl.damianrowinski.flat_manager.model.dtos.room.RoomShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.room.*;
 import pl.damianrowinski.flat_manager.model.repositories.PropertyRepository;
 import pl.damianrowinski.flat_manager.model.repositories.RoomRepository;
 import pl.damianrowinski.flat_manager.model.repositories.TenantRepository;
@@ -165,6 +162,27 @@ public class RoomService {
             roomsDataList.add(roomDataAddToList);
         }
         return roomsDataList;
+    }
 
+    public RoomCheckoutDTO findRoomToCheckout(Long roomId) {
+        Optional<Room> optionalRoom = roomRepository.findById(roomId);
+        if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Nie ma pokoju o podanym id.");
+        Room room = optionalRoom.get();
+        if (!room.getLoggedUserName().equals(LoggedUsername.get())) throw new ForbiddenAccessException("Brak dostępu.");
+        RoomCheckoutDTO roomCheckoutData = new RoomCheckoutDTO();
+        roomCheckoutData.setRoomId(room.getId());
+        roomCheckoutData.setTenantId(room.getTenant().getId());
+        return roomCheckoutData;
+    }
+
+    public void checkout(Long roomId) {
+        Optional<Room> optionalRoom = roomRepository.findById(roomId);
+        if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Nie ma pokoju o podanym id.");
+        Room room = optionalRoom.get();
+        if (!room.getLoggedUserName().equals(LoggedUsername.get())) throw new ForbiddenAccessException("Brak dostępu.");
+        log.info("Checking out tenant from room with id:" + room.getId());
+
+        room.setTenant(null);
+        roomRepository.save(room);
     }
 }

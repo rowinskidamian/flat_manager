@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.model.dtos.property.PropertyListDTO;
 import pl.damianrowinski.flat_manager.model.dtos.property.PropertyShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.room.RoomCheckoutDTO;
 import pl.damianrowinski.flat_manager.model.dtos.room.RoomDeleteDTO;
 import pl.damianrowinski.flat_manager.model.dtos.room.RoomEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.room.RoomShowDTO;
@@ -137,4 +138,32 @@ public class RoomController {
         roomService.addNewToProperty(roomData);
         return "redirect:/room/edit_in_property/" + roomData.getPropertyId();
     }
+
+    @GetMapping("/checkout/from_room/{roomId}")
+    public String generateCheckoutFromRoom(@PathVariable Long roomId, Model model) {
+        RoomCheckoutDTO roomToCheckout = roomService.findRoomToCheckout(roomId);
+        model.addAttribute("roomData", roomToCheckout);
+        return "/room/checkout_confirm";
+    }
+
+    @PostMapping("/checkout/from_room/{roomId}")
+    public String checkoutFromRoom(@ModelAttribute("roomData") RoomCheckoutDTO roomData) {
+        roomService.checkout(roomData.getRoomId());
+        return "redirect:/tenant";
+    }
+
+    @GetMapping("/checkout/in_rooms_list/{roomId}")
+    public String generateCheckoutRoomsList(@PathVariable Long roomId, Model model) {
+        RoomCheckoutDTO roomToCheckout = roomService.findRoomToCheckout(roomId);
+        model.addAttribute("roomData", roomToCheckout);
+        return "/room/checkout_confirm";
+    }
+
+    @PostMapping("/checkout/in_rooms_list/{roomId}")
+    public String checkoutRoomsList(@ModelAttribute("roomData") RoomCheckoutDTO roomData) {
+        roomService.checkout(roomData.getRoomId());
+        return "redirect:/room";
+    }
+
+
 }
