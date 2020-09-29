@@ -197,7 +197,6 @@
                             </div>
                         </div>
                         <sec:csrfInput/>
-                        <form:errors path="*" cssClass="has-text-danger"/>
                     </form:form>
                 </div>
             </div>
