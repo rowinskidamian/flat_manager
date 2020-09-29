@@ -98,7 +98,9 @@ public class TenantController {
         List<RoomListDTO> availableRoomsData = roomService.findAllAvailableRooms(LoggedUsername.get());
         model.addAttribute("tenantData", tenantToEdit);
         model.addAttribute("roomListData", availableRoomsData);
-        String validAddress = tenantToEdit.getStreetName() != null ? "true" : "false";
+        String validAddress = tenantToEdit.getStreetNumber() != null ? "true" : "false";
+        log.info("Valid address: " + validAddress);
+        log.info("Object to edit: " + tenantToEdit.toString());
         model.addAttribute("validAddress", validAddress);
         return "/tenant/form_edit";
     }

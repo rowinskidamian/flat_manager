@@ -223,6 +223,7 @@
                             <button class="button is-link is-light" type="button" id="showAdress">Dodaj adres</button>
                         </div>
                     </div>
+                    <input type="hidden" name="id" value="${tenantId}">
                     <input type="hidden" name="validAddress" id="validAddress" value="${validAddress}">
                     <sec:csrfInput/>
                 </form:form>
