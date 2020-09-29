@@ -6,7 +6,6 @@ import pl.damianrowinski.flat_manager.validation.constraints.CheckLeaseDates;
 import pl.damianrowinski.flat_manager.validation.constraints.UniqueEmail;
 import pl.damianrowinski.flat_manager.validation.groups.AddTenantGroup;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
-import pl.damianrowinski.flat_manager.validation.groups.EditTenantGroup;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -17,12 +16,12 @@ public class TenantEditDTO {
 
     private Long id;
 
+    private String loggedUserName;
+
     @CheckDateNull(groups = AddTenantGroup.class)
-    @NotBlank(groups = EditTenantGroup.class)
     private LocalDate leaseDateStart;
 
     @CheckDateNull(groups = AddTenantGroup.class)
-    @NotBlank(groups = EditTenantGroup.class)
     private LocalDate leaseDateEnd;
 
     private Double rentDiscount;
@@ -42,7 +41,7 @@ public class TenantEditDTO {
 
     @Email
     @NotBlank
-    @UniqueEmail
+    @UniqueEmail(groups = AddTenantGroup.class)
     private String email;
 
     @NotBlank(groups = AddressValidationGroup.class)

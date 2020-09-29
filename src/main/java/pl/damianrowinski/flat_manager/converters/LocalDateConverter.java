@@ -16,27 +16,28 @@ public class LocalDateConverter implements Converter<String, LocalDate> {
 
         log.info("Object to convert: " + source);
 
-        String patternToAdd = "\\d\\d\\d\\d-\\d\\d-\\d\\d";
-        String patternToEdit = "\\d\\d.\\d\\d.\\d\\d\\d\\d";
-        boolean isPatternToAdd = Pattern.matches(source, patternToAdd);
-        boolean isPatternToEdit = Pattern.matches(source, patternToEdit);
+        String patternForEdit = "\\d\\d[.]\\d\\d[.]\\d{4}";
+        String patternForAdd = "\\d{4}-\\d\\d-\\d\\d";
+        boolean isPatternForEdit = Pattern.matches(patternForEdit, source);
+        boolean isPatternForAdd = Pattern.matches(patternForAdd, source);
 
-        LocalDate parseOutcome;
+        log.info("Is convert for edit: " + isPatternForEdit);
+        log.info("Is convert for add: " + isPatternForAdd);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         if (source.equals("'") || source.equals(""))
             return LocalDate.parse("1111-11-11", formatter);
 
-        parseOutcome = LocalDate.parse(source, formatter);
+        LocalDate parseOutcome;
 
-//        if (isPatternToAdd) {
-//            parseOutcome = LocalDate.parse(source, formatter);
-//        } else if (isPatternToEdit) {
-//            formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-//            parseOutcome = LocalDate.parse(source, formatter);
-//        } else {
-//            throw new IllegalArgumentException("Wprowadzono datę w błędnym formacie.");
-//        }
+        if (isPatternForEdit) {
+            formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        } else if (isPatternForAdd) {
+            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        }
+
+        parseOutcome = LocalDate.parse(source, formatter);
 
         log.info("Object converted: " + parseOutcome.toString());
 
