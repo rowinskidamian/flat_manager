@@ -1,7 +1,6 @@
 package pl.damianrowinski.flat_manager.listeners;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.damianrowinski.flat_manager.domain.entities.BaseEntityLoggedUser;
 import pl.damianrowinski.flat_manager.exceptions.ForbiddenAccessException;
@@ -9,7 +8,6 @@ import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.persistence.PostLoad;
 
-@Slf4j
 @RequiredArgsConstructor
 @Component
 public class LoggedUserListener {
