@@ -149,11 +149,24 @@ public class RoomController {
         return "redirect:/tenant";
     }
 
+    @GetMapping("/checkout/in_apartment/{roomId}")
+    public String generateCheckoutInApartment(@PathVariable Long roomId, Model model) {
+        RoomCheckoutDTO roomToCheckout = roomService.findRoomToCheckout(roomId);
+        model.addAttribute("roomData", roomToCheckout);
+        return "/room/checkout_confirm";
+    }
+
+    @PostMapping("/checkout/in_apartment/{roomId}")
+    public String checkoutInApartment(@ModelAttribute("roomData") RoomCheckoutDTO roomData) {
+        roomService.checkout(roomData.getRoomId());
+        return "redirect:/room/edit_in_property/" + roomData.getPropertyId();
+    }
+
     @GetMapping("/checkout/in_rooms_list/{roomId}")
     public String generateCheckoutRoomsList(@PathVariable Long roomId, Model model) {
         RoomCheckoutDTO roomToCheckout = roomService.findRoomToCheckout(roomId);
         model.addAttribute("roomData", roomToCheckout);
-        return "/room/checkout_confirm_list";
+        return "/room/checkout_confirm";
     }
 
     @PostMapping("/checkout/in_rooms_list/{roomId}")
@@ -162,7 +175,7 @@ public class RoomController {
         return "redirect:/room";
     }
 
-    @GetMapping("/checkin/tenant/{tenantId}")
+    @GetMapping("/checkin/in_rooms_list/{tenantId}")
     public String checkInTenantGenerate(@PathVariable Long tenantId, Model model) {
         List<RoomListDTO> availableRooms = roomService.findAllAvailableRooms(LoggedUsername.get());
         TenantListDTO tenantCheckinData = tenantService.findForCheckIn(tenantId);
@@ -171,7 +184,7 @@ public class RoomController {
         return "/tenant/checkin_room_list";
     }
 
-    @PostMapping("/checkin/tenant/{tenantId}")
+    @PostMapping("/checkin/in_rooms_list/{tenantId}")
     public String checkInTenant(@ModelAttribute("tenantData") TenantListDTO tenantData) {
         roomService.checkInTenant(tenantData.getTenantId(), tenantData.getRoomId());
         return "redirect:/tenant";

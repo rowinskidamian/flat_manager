@@ -172,6 +172,7 @@ public class RoomService {
         RoomCheckoutDTO roomCheckoutData = new RoomCheckoutDTO();
         roomCheckoutData.setRoomId(room.getId());
         roomCheckoutData.setTenantId(room.getTenant().getId());
+        roomCheckoutData.setPropertyId(room.getProperty().getId());
         return roomCheckoutData;
     }
 

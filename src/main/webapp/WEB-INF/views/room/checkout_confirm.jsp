@@ -27,13 +27,14 @@
                         <button class="button is-success" type="submit">
                             <strong>Potwierdź</strong>
                         </button>
-                        <a class="button is-light" href="/tenant">
+                        <button class="button is-light" onclick="history.go(-1)">
                             Anuluj
-                        </a>
+                        </button>
                     </div>
                     </p>
                 </div>
                 <input hidden name="roomId" value="${roomData.roomId}">
+                <input hidden name="propertyId" value="${roomData.propertyId}">
                 <sec:csrfInput/>
             </form:form>
         </div>

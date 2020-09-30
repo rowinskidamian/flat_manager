@@ -114,7 +114,7 @@
                                     <td>
                                         <div class="field is-grouped">
                                             <div class="control">
-                                                <a class="button is-link is-light" href="/room/delete_by_property/${room.id}">
+                                                <a class="button is-link is-light" href="/room/delete_from_property/${room.id}">
                                                     Usuń pokój</a>
                                             </div>
                                             <c:if test="${room.tenantId eq null}">

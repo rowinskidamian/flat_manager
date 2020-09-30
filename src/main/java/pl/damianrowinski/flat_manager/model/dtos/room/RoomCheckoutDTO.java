@@ -6,4 +6,5 @@ import lombok.Data;
 public class RoomCheckoutDTO {
     private Long roomId;
     private Long tenantId;
+    private Long propertyId;
 }
