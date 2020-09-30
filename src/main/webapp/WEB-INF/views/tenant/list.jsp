@@ -83,7 +83,7 @@
                                     <c:if test="${tenant.currentRent eq null}">
                                         <div class="control">
                                             <a class="button is-link is-success"
-                                               href="/room/checkin/tenant/${tenant.id}">Zakwateruj</a>
+                                               href="/room/checkin/tenants_list/tenant/${tenant.id}">Zakwateruj</a>
                                         </div>
                                     </c:if>
                                     <div class="control">

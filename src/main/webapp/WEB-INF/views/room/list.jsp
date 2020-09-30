@@ -79,7 +79,7 @@
                                 </c:if>
                                 <c:if test="${room.tenantId eq null}">
                                     <div class="control">
-                                        <a class="button is-success" href="/room/checkin/in_rooms_list/${room.id}">
+                                        <a class="button is-success" href="/room/checkin/in_rooms_list/for_room/${room.id}">
                                             Dodaj najemcę
                                         </a>
                                     </div>

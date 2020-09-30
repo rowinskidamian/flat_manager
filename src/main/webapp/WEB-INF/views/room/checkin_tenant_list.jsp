@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Flat Manager - wybierz pokój dla najemcy</title>
+    <title>Flat Manager - wybierz najemcę do pokoju</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <script src="https://kit.fontawesome.com/a1834f9866.js" crossorigin="anonymous"></script>
 </head>
@@ -19,24 +19,23 @@
 <section class="section">
     <div class="container is-fluid">
         <div class="notification">
-            <h5 class="title is-5 has-text-centered">Wybierz pokój dla najemcy: <strong>${tenantData.tenantFullName}
-            </strong></h5>
-            <form:form modelAttribute="tenantData" method="post">
+            <h5 class="title is-5 has-text-centered">Wybierz najemcę do pokoju</h5>
+            <form:form modelAttribute="roomData" method="post">
 
                 <div class="field">
-                    <label class="label">Wybierz pokój:</label>
-                    <c:if test="${availableRooms.size() > 0}">
+                    <label class="label">Wybierz najemcę:</label>
+                    <c:if test="${tenantListData.size() > 0}">
                         <div class="control">
                             <div class="select">
-                                <form:select path="roomId">
-                                    <form:options items="${availableRooms}" itemValue="roomId"
-                                                  itemLabel="roomNameAndPrice"/>
+                                <form:select path="tenantId">
+                                    <form:options items="${tenantListData}" itemValue="tenantId"
+                                                  itemLabel="tenantFullName"/>
                                 </form:select>
                             </div>
                         </div>
                     </c:if>
-                    <c:if test="${availableRooms.size() == 0}">
-                        Brak dostępnych pokoi.
+                    <c:if test="${tenantListData.size() == 0}">
+                        Brak dostępnych najemców.
                     </c:if>
                 </div>
 
@@ -53,8 +52,7 @@
                     </div>
                 </div>
 
-                <input hidden name="tenantId" value="${tenantData.tenantId}">
-                <input hidden name="loggedUserName" value="${tenantData.loggedUserName}">
+                <input hidden name="roomId" value="${roomData.roomId}">
                 <sec:csrfInput/>
             </form:form>
         </div>

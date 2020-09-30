@@ -164,12 +164,12 @@ public class RoomService {
         return roomsDataList;
     }
 
-    public RoomCheckoutDTO findRoomToCheckout(Long roomId) {
+    public RoomCheckInOutDTO findRoomToCheckout(Long roomId) {
         Optional<Room> optionalRoom = roomRepository.findById(roomId);
         if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Nie ma pokoju o podanym id.");
         Room room = optionalRoom.get();
         if (!room.getLoggedUserName().equals(LoggedUsername.get())) throw new ForbiddenAccessException("Brak dostępu.");
-        RoomCheckoutDTO roomCheckoutData = new RoomCheckoutDTO();
+        RoomCheckInOutDTO roomCheckoutData = new RoomCheckInOutDTO();
         roomCheckoutData.setRoomId(room.getId());
         roomCheckoutData.setTenantId(room.getTenant().getId());
         roomCheckoutData.setPropertyId(room.getProperty().getId());

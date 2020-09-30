@@ -27,9 +27,12 @@
                         <button class="button is-success" type="submit">
                             <strong>Potwierdź</strong>
                         </button>
+                    </div>
+                    <div class="control">
                         <button class="button is-light" onclick="history.go(-1)">
                             Anuluj
                         </button>
+
                     </div>
                     </p>
                 </div>
