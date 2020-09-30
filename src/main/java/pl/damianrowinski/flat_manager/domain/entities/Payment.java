@@ -1,6 +1,5 @@
 package pl.damianrowinski.flat_manager.domain.entities;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
