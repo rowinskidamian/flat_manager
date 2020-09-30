@@ -171,5 +171,11 @@ public class RoomController {
         return "/tenant/checkin_room_list";
     }
 
+    @PostMapping("/checkin/tenant/{tenantId}")
+    public String checkInTenant(@ModelAttribute("tenantData") TenantListDTO tenantData) {
+        roomService.checkInTenant(tenantData.getTenantId(), tenantData.getRoomId());
+        return "redirect:/tenant";
+    }
+
 
 }

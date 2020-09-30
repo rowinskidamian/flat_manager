@@ -185,4 +185,23 @@ public class RoomService {
         room.setTenant(null);
         roomRepository.save(room);
     }
+
+    public void checkInTenant(Long tenantId, Long roomId) {
+        Optional<Room> optionalRoom = roomRepository.findById(roomId);
+        if(optionalRoom.isEmpty()) throw new ElementNotFoundException("Brak pokoju o podanym id.");
+        Room room = optionalRoom.get();
+        if(!room.getLoggedUserName().equals(LoggedUsername.get()))
+            throw new ForbiddenAccessException("Brak dostępu do zasobu");
+
+        Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
+        if(optionalTenant.isEmpty()) throw new ElementNotFoundException("Brak najemcy o podanym id.");
+        Tenant tenant = optionalTenant.get();
+        if(!tenant.getLoggedUserName().equals(LoggedUsername.get())) throw new ForbiddenAccessException("Brak dostępu.");
+
+        room.setTenant(tenant);
+        log.info("Checked in tenant: " + tenant.getPersonalDetails().getFullName() + ", to apartment: "
+                + room.getProperty().getWorkingName());
+
+        roomRepository.save(room);
+    }
 }
