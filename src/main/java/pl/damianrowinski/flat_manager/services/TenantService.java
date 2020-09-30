@@ -178,10 +178,11 @@ public class TenantService {
 
     public TenantDeleteDTO findTenantToDelete(Long tenantId) {
         Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
-        if(optionalTenant.isEmpty()) throw new ElementNotFoundException("Brak najemcy o podanym id");
+        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Brak najemcy o podanym id");
         Tenant tenant = optionalTenant.get();
 
-        if(!tenant.getLoggedUserName().equals(LoggedUsername.get())) throw new ForbiddenAccessException("Brak dostępu.");
+        if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
+            throw new ForbiddenAccessException("Brak dostępu.");
 
         TenantDeleteDTO tenantToDeleteData = new TenantDeleteDTO();
         tenantToDeleteData.setId(tenant.getId());
@@ -193,12 +194,26 @@ public class TenantService {
 
     public void delete(Long tenantId) {
         Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
-        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
+        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id.");
         Tenant tenant = optionalTenant.get();
-        if(!tenant.getLoggedUserName().equals(LoggedUsername.get())) throw new ForbiddenAccessException("Brak dostępu.");
+        if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
+            throw new ForbiddenAccessException("Brak dostępu.");
         if (tenant.getRoom() != null)
             throw new ObjectInRelationshipException("Pokój ma najemcę, najpierw usuń najemcę, a później pokój");
         tenantRepository.delete(tenant);
     }
 
+    public TenantListDTO findForCheckIn(Long tenantId) {
+        Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
+        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id.");
+        Tenant tenant = optionalTenant.get();
+        String loggedUserName = tenant.getLoggedUserName();
+        if (!loggedUserName.equals(LoggedUsername.get())) throw new ForbiddenAccessException("Brak dostępu do zasobu.");
+
+        TenantListDTO tenantData = new TenantListDTO();
+        tenantData.setTenantId(tenant.getId());
+        tenantData.setTenantFullName(tenant.getPersonalDetails().getFullName());
+        tenantData.setLoggedUserName(tenant.getLoggedUserName());
+        return tenantData;
+    }
 }

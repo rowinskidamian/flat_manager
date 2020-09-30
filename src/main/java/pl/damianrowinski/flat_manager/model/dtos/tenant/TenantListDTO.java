@@ -6,6 +6,7 @@ import lombok.Data;
 public class TenantListDTO {
 
     private Long tenantId;
+    private Long roomId;
     private String tenantFullName;
     private String loggedUserName;
 }
