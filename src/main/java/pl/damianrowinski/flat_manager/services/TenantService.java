@@ -121,8 +121,6 @@ public class TenantService {
         if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id.");
 
         Tenant tenant = optionalTenant.get();
-        if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
-            throw new ForbiddenAccessException("Nie masz dostępu do podanego najemcy.");
 
         TenantAddressDTO tenantAddressDTO = modelMapper.map(tenant.getPersonalDetails(), TenantAddressDTO.class);
         Address contactAddress = tenant.getContactAddress();
@@ -147,8 +145,6 @@ public class TenantService {
         if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id.");
 
         Tenant tenant = optionalTenant.get();
-        if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
-            throw new ForbiddenAccessException("Nie masz dostępu do podanego najemcy.");
 
         TenantEditDTO tenantEditData = modelMapper.map(tenant, TenantEditDTO.class);
 
@@ -181,9 +177,6 @@ public class TenantService {
         if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Brak najemcy o podanym id");
         Tenant tenant = optionalTenant.get();
 
-        if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
-            throw new ForbiddenAccessException("Brak dostępu.");
-
         TenantDeleteDTO tenantToDeleteData = new TenantDeleteDTO();
         tenantToDeleteData.setId(tenant.getId());
         tenantToDeleteData.setLoggedUserName(tenant.getLoggedUserName());
@@ -196,8 +189,6 @@ public class TenantService {
         Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
         if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id.");
         Tenant tenant = optionalTenant.get();
-        if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
-            throw new ForbiddenAccessException("Brak dostępu.");
         if (tenant.getRoom() != null)
             throw new ObjectInRelationshipException("Pokój ma najemcę, najpierw usuń najemcę, a później pokój");
         tenantRepository.delete(tenant);
@@ -207,8 +198,6 @@ public class TenantService {
         Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
         if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id.");
         Tenant tenant = optionalTenant.get();
-        String loggedUserName = tenant.getLoggedUserName();
-        if (!loggedUserName.equals(LoggedUsername.get())) throw new ForbiddenAccessException("Brak dostępu do zasobu.");
 
         TenantListDTO tenantData = new TenantListDTO();
         tenantData.setTenantId(tenant.getId());

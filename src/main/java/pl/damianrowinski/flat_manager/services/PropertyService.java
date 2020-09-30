@@ -54,10 +54,6 @@ public class PropertyService {
             throw new ElementNotFoundException("Nie znalazłem mieszkania o podanym id.");
 
         Property property = optionalProperty.get();
-        String loggedUserName = property.getLoggedUserName();
-
-        if (!loggedUserName.equals(LoggedUsername.get()))
-            throw new ForbiddenAccessException("Nie masz dostępu do tych danych.");
 
         PropertyEditDTO propertyToEditData = modelMapper.map(property, PropertyEditDTO.class);
         Address address = property.getAddress();
@@ -171,14 +167,10 @@ public class PropertyService {
         }
 
         Property property = optionalProperty.get();
-        String loggedUserName = property.getLoggedUserName();
-
-        if (!loggedUserName.equals(LoggedUsername.get()))
-            throw new ForbiddenAccessException("Nie możesz usunąć obiektu, który nie należy do Twojego konta");
 
         PropertyDeleteDTO propertyDeleteDTO = new PropertyDeleteDTO();
         propertyDeleteDTO.setPropertyId(propertyId);
-        propertyDeleteDTO.setLoggedUserName(loggedUserName);
+        propertyDeleteDTO.setLoggedUserName(property.getLoggedUserName());
 
         return propertyDeleteDTO;
     }
@@ -187,10 +179,6 @@ public class PropertyService {
 
         Optional<Property> optionalProperty = propertyRepository.findById(propertyDeleteDTO.getPropertyId());
         if (optionalProperty.isEmpty()) throw new ElementNotFoundException("Brak mieszkania o podanym id");
-
-        String loggedUserName = propertyDeleteDTO.getLoggedUserName();
-        if (!loggedUserName.equals(LoggedUsername.get()))
-            throw new ForbiddenAccessException("Nie możesz usunąć obiektu, który nie należy do Twojego konta");
 
         log.info("Deleting property with id:" + propertyDeleteDTO.getPropertyId());
 
