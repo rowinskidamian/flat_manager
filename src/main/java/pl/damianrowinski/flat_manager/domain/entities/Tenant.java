@@ -2,6 +2,9 @@ package pl.damianrowinski.flat_manager.domain.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import pl.damianrowinski.flat_manager.model.common.Address;
 import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 
@@ -14,9 +17,12 @@ import java.time.LocalDate;
 @Setter
 @Transactional
 @Table(name = Tenant.TABLE_NAME)
+@SQLDelete(sql = Tenant.SQL_UPDATE, check = ResultCheckStyle.COUNT)
+@Where(clause = "state <> 'DELETED'")
 public class Tenant extends BaseEntityLoggedUser {
 
     final static String TABLE_NAME = "tenants";
+    final static String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET state = 'DELETED' WHERE id = ?";
 
     @Column(name = "lease_date_start", nullable = false)
     private LocalDate leaseDateStart;

@@ -25,14 +25,24 @@ public abstract class BaseEntity {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
+    @Column(name = "state")
+    @Enumerated(EnumType.STRING)
+    private EntityState state;
+
     @PrePersist
     public void addCreatedDate() {
         createdDate = LocalDateTime.now();
+        state = EntityState.ACTIVE;
     }
 
     @PreUpdate
     public void updatedDate() {
         createdDate = LocalDateTime.now();
+    }
+
+    @PreRemove
+    public void deleteAuthor() {
+        this.state = EntityState.DELETED;
     }
 
     @Override
