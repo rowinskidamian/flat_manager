@@ -3,8 +3,8 @@ package pl.damianrowinski.flat_manager.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.damianrowinski.flat_manager.assemblers.PaymentDataAssembler;
 import pl.damianrowinski.flat_manager.domain.entities.Payment;
-import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.domain.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentEditDTO;
@@ -14,9 +14,6 @@ import pl.damianrowinski.flat_manager.model.repositories.TenantRepository;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,75 +26,48 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final TenantRepository tenantRepository;
 
-    public void save(PaymentEditDTO paymentData) {
-        Payment paymentToSave = new Payment();
-
-        setPaymentDataEditSave(paymentData, paymentToSave);
-
-        log.info("Attempt to save payment: " + paymentData);
-        paymentRepository.save(paymentToSave);
-    }
 
     public PaymentEditDTO findPaymentToEdit(Long paymentId) {
         Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
         if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie znaleziono płatności.");
 
         Payment payment = optionalPayment.get();
-        PaymentEditDTO paymentData = new PaymentEditDTO();
 
-        paymentData.setAmount(payment.getAmount());
-        paymentData.setPaymentDate(payment.getPaymentDate().toString());
-        paymentData.setTenantId(payment.getTenant().getId());
-
-        return paymentData;
+        return PaymentDataAssembler.convertToPaymentEdit(payment);
     }
 
     public void edit(PaymentEditDTO paymentData) {
         Optional<Payment> optionalPayment = paymentRepository.findById(paymentData.getId());
         if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie znalazłem płatności o podanym id");
+
+        Optional<Tenant> optionalTenant = tenantRepository.findById(paymentData.getTenantId());
+        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
+        Tenant tenant = optionalTenant.get();
+
         Payment paymentToEdit = optionalPayment.get();
 
-        setPaymentDataEditSave(paymentData, paymentToEdit);
+        PaymentDataAssembler.setPaymentForEditSave(paymentData, tenant, paymentToEdit);
 
         log.info("Attempt to edit payment: " + paymentData);
         paymentRepository.save(paymentToEdit);
     }
 
-    private void setPaymentDataEditSave(PaymentEditDTO paymentData, Payment paymentToEdit) {
+    public void save(PaymentEditDTO paymentData) {
+        Payment paymentToSave = new Payment();
         Optional<Tenant> optionalTenant = tenantRepository.findById(paymentData.getTenantId());
         if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
-        Tenant tenantToAddPayment = optionalTenant.get();
-        paymentToEdit.setTenant(tenantToAddPayment);
+        Tenant tenant = optionalTenant.get();
 
-        paymentToEdit.setAmount(paymentData.getAmount());
+        PaymentDataAssembler.setPaymentForEditSave(paymentData, tenant, paymentToSave);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate paymentDate = LocalDate.parse(paymentData.getPaymentDate(), formatter);
-        paymentToEdit.setPaymentDate(paymentDate);
+        log.info("Attempt to save payment: " + paymentData);
+        paymentRepository.save(paymentToSave);
     }
 
     public List<PaymentShowDTO> getListOfPayments() {
         List<Payment> paymentList =
                 paymentRepository.findAllByLoggedUserNameOrderByPaymentDateDesc(LoggedUsername.get());
-        List<PaymentShowDTO> paymentDataList = new ArrayList<>();
-
-        for (Payment payment : paymentList) {
-            PaymentShowDTO paymentData = new PaymentShowDTO();
-            paymentData.setId(payment.getId());
-            paymentData.setAmount(payment.getAmount());
-            paymentData.setPaymentDate(payment.getPaymentDate());
-
-            Tenant tenant = payment.getTenant();
-            paymentData.setTenantId(tenant.getId());
-            paymentData.setTenantFullName(tenant.getPersonalDetails().getFullName());
-
-            Property tenantProperty = tenant.getRoom().getProperty();
-            paymentData.setPropertyId(tenantProperty.getId());
-            paymentData.setPropertyWorkingName(tenantProperty.getWorkingName());
-
-            paymentDataList.add(paymentData);
-        }
-        return paymentDataList;
+        return PaymentDataAssembler.convertToPaymentShowList(paymentList);
     }
 
     public void delete(Long paymentDeleteId) {
@@ -111,6 +81,5 @@ public class PaymentService {
         if(optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie zaleziono płatności o podanym id");
         return optionalPayment.get();
     }
-
 
 }
