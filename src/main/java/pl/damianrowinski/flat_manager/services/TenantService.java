@@ -50,6 +50,19 @@ public class TenantService {
         return tenantDataList;
     }
 
+    public List<TenantListDTO> findAll() {
+        List<Tenant> tenantList = tenantRepository.findAllByLoggedUserName(LoggedUsername.get());
+        List<TenantListDTO> tenantDataList = new ArrayList<>();
+        for (Tenant tenant : tenantList) {
+            TenantListDTO tenantData = new TenantListDTO();
+            tenantData.setTenantId(tenant.getId());
+            tenantData.setTenantFullName(tenant.getPersonalDetails().getFullName());
+            tenantData.setLoggedUserName(tenant.getLoggedUserName());
+            tenantDataList.add(tenantData);
+        }
+        return tenantDataList;
+    }
+
     public List<TenantShowDTO> findAllLoggedUser(String loggedUserName) {
         List<Tenant> tenantList = tenantRepository.findAllByLoggedUserName(loggedUserName);
         List<TenantShowDTO> tenantDataList = new ArrayList<>();
