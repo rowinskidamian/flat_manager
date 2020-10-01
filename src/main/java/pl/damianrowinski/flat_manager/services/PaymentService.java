@@ -2,12 +2,10 @@ package pl.damianrowinski.flat_manager.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import pl.damianrowinski.flat_manager.domain.entities.Payment;
 import pl.damianrowinski.flat_manager.domain.entities.Property;
 import pl.damianrowinski.flat_manager.domain.entities.Tenant;
-import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 import pl.damianrowinski.flat_manager.model.dtos.PaymentShowDTO;
 import pl.damianrowinski.flat_manager.model.repositories.PaymentRepository;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
@@ -23,10 +21,10 @@ import java.util.List;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final ModelMapper modelMapper;
 
     public List<PaymentShowDTO> getListOfPayments() {
-        List<Payment> paymentList = paymentRepository.findAllByLoggedUserName(LoggedUsername.get());
+        List<Payment> paymentList =
+                paymentRepository.findAllByLoggedUserNameOrderByPaymentDateDesc(LoggedUsername.get());
         List<PaymentShowDTO> paymentDataList = new ArrayList<>();
 
         for (Payment payment : paymentList) {

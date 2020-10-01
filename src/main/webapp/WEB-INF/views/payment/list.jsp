@@ -39,6 +39,14 @@
 
             <div class="column is-three-quarters">
 
+                <div id="actions" class="field">
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <a class="button is-success" href="/payment/add">Dodaj płatność</a>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="notification has-text-centered is-light">
                     <strong>Szczegóły płatności</strong>
                 </div>
@@ -59,42 +67,24 @@
                     <c:forEach var="payment" items="${paymentsList}" varStatus="counter">
                         <tr>
                             <td>${counter.count}</td>
-                            <td><a href="/property/show/${room.propertyId}">${room.apartmentWorkingName}</a></td>
-                            <td>${room.catalogRent}</td>
+                            <td>${payment.paymentDate}</td>
                             <td>
-                                <c:if test="${room.tenantId ne null}">
-                                    <a href="/tenant/show/${room.tenantId}">${room.tenantFullName}</a>
-                                </c:if>
-                                <c:if test="${room.tenantId eq null}">
-                                    Brak
-                                </c:if>
+                                <a href="/payment/by_tenant/${payment.tenantId}">${payment.tenantFullName}</a>
                             </td>
                             <td>
-                                <c:if test="${room.tenantId ne null}">
-                                    <div class="control">
-                                        <a class="button is-warning" href="/room/checkout/in_rooms_list/${room.id}">
-                                            Usuń najemcę
-                                        </a>
-                                    </div>
-                                </c:if>
-                                <c:if test="${room.tenantId eq null}">
-                                    <div class="control">
-                                        <a class="button is-success" href="/room/checkin/in_rooms_list/for_room/${room.id}">
-                                            Dodaj najemcę
-                                        </a>
-                                    </div>
-                                </c:if>
-
+                                <a href="/payment/by_property/${payment.propertyId}">${payment.propertyWorkingName}</a>
                             </td>
+                            <td>${payment.amount}</td>
                             <td>
                                 <div class="field is-grouped">
                                     <div class="control">
-                                        <a class="button is-link is-light" href="/room/edit/${room.id}">
+                                        <a class="button is-link" href="/payment/edit/${payment.id}">
                                             Edytuj
                                         </a>
                                     </div>
                                     <div class="control">
-                                        <a class="button is-light" href="/room/delete/${room.id}">
+                                        <a class="button is-link is-light"
+                                           href="/payment/delete/${payment.id}">
                                             Usuń
                                         </a>
                                     </div>
@@ -104,17 +94,6 @@
                     </c:forEach>
                     </tbody>
                 </table>
-
-                <div id="actions" class="field">
-
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <a class="button is-success" href="/room/add">Dodaj pokój</a>
-                        </div>
-                    </div>
-
-                </div>
-
 
             </div>
 

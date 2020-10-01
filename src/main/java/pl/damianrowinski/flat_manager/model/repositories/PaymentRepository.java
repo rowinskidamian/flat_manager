@@ -11,5 +11,5 @@ import java.util.List;
 @Transactional
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
-    List<Payment> findAllByLoggedUserName(String loggedUserName);
+    List<Payment> findAllByLoggedUserNameOrderByPaymentDateDesc(String loggedUserName);
 }
