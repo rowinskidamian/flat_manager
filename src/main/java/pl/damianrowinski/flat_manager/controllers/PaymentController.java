@@ -9,7 +9,6 @@ import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentShowDTO;
 import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantListDTO;
 import pl.damianrowinski.flat_manager.services.PaymentService;
-import pl.damianrowinski.flat_manager.services.RoomService;
 import pl.damianrowinski.flat_manager.services.TenantService;
 
 import javax.validation.Valid;
@@ -30,7 +29,7 @@ public class PaymentController {
     }
 
     @GetMapping("/list")
-    public String generateList(Model model){
+    public String generateList(Model model) {
         List<PaymentShowDTO> paymentsList = paymentService.getListOfPayments();
         model.addAttribute("paymentsList", paymentsList);
         return "/payment/list";
@@ -51,7 +50,7 @@ public class PaymentController {
     @PostMapping("/add")
     public String addPayment(@ModelAttribute("paymentData") @Valid PaymentEditDTO paymentData, BindingResult result,
                              Model model) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             model.addAttribute("paymentData", paymentData);
             return "/payment/form";
         }
@@ -67,14 +66,27 @@ public class PaymentController {
     }
 
     @PostMapping("/edit/{paymentId}")
-    public String editPayment(@PathVariable Long paymentId, @ModelAttribute("paymentData") @Valid PaymentEditDTO paymentData, BindingResult result,
-                             Model model) {
+    public String editPayment(@PathVariable Long paymentId, @ModelAttribute("paymentData") @Valid PaymentEditDTO
+            paymentData, BindingResult result, Model model) {
         paymentData.setId(paymentId);
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             model.addAttribute("paymentData", paymentData);
             return "/payment/form_edit";
         }
         paymentService.edit(paymentData);
+        return "redirect:/payment";
+    }
+
+    @GetMapping("/delete/{paymentId}")
+    public String deleteGenerate(@PathVariable Long paymentId, Model model) {
+        paymentService.isPossibleToDeleteOrThrow(paymentId);
+        model.addAttribute("paymentDeleteId", paymentId);
+        return "/payment/delete_confirmation";
+    }
+
+    @PostMapping("/delete/{paymentId}")
+    public String deletePayment(Long paymentDeleteId) {
+        paymentService.delete(paymentDeleteId);
         return "redirect:/payment";
     }
 

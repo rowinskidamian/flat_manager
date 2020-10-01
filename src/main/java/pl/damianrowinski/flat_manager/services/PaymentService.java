@@ -100,5 +100,17 @@ public class PaymentService {
         return paymentDataList;
     }
 
+    public void delete(Long paymentDeleteId) {
+        Payment paymentToDelete = isPossibleToDeleteOrThrow(paymentDeleteId);
+        log.info("Attempt to delete payment: " + paymentToDelete);
+        paymentRepository.delete(paymentToDelete);
+    }
+
+    public Payment isPossibleToDeleteOrThrow(Long paymentId) {
+        Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
+        if(optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie zaleziono płatności o podanym id");
+        return optionalPayment.get();
+    }
+
 
 }
