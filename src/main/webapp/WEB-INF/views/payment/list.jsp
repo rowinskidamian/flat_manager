@@ -18,20 +18,20 @@
     </section>
 </section>
 
-<section>
-
-    <section class="hero is-info">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">
-                    Lista płatności
-                </h1>
-                <h2 class="subtitle">
-                    Przeglądaj i edytuj listę płatności.
-                </h2>
-            </div>
+<section class="hero is-info">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Lista płatności
+            </h1>
+            <h2 class="subtitle">
+                Przeglądaj i edytuj listę płatności.
+            </h2>
         </div>
-    </section>
+    </div>
+</section>
+
+<section class="section">
 
     <div class="container is-fluid">
 
@@ -39,8 +39,8 @@
 
             <div class="column is-three-quarters">
 
-                <div id="actions" class="field">
-                    <div class="field is-grouped">
+                <div class="block">
+                    <div class="level-left">
                         <div class="control">
                             <a class="button is-success" href="/payment/add">Dodaj płatność</a>
                         </div>
@@ -100,7 +100,6 @@
         </div>
 
     </div>
-
 
 </section>
 
