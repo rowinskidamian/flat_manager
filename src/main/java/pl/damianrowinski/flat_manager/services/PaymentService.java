@@ -26,14 +26,8 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final TenantRepository tenantRepository;
 
-
-    public PaymentEditDTO findPaymentToEdit(Long paymentId) {
-        Payment payment = getPayment(paymentId);
-        return PaymentDataAssembler.convertToPaymentEdit(payment);
-    }
-
     public void edit(PaymentEditDTO paymentData) {
-        Payment paymentToEdit = getPayment(paymentData.getId());
+        Payment paymentToEdit = getPaymentOrThrow(paymentData.getId());
         Tenant tenant = getTenant(paymentData);
 
         PaymentDataAssembler.setPaymentForEditSave(paymentData, tenant, paymentToEdit);
@@ -52,19 +46,24 @@ public class PaymentService {
         paymentRepository.save(paymentToSave);
     }
 
+    public void delete(Long paymentDeleteId) {
+        Payment paymentToDelete = getPaymentOrThrow(paymentDeleteId);
+        log.info("Attempt to delete payment: " + paymentToDelete);
+        paymentRepository.delete(paymentToDelete);
+    }
+
+    public PaymentEditDTO findPaymentToEdit(Long paymentId) {
+        Payment payment = getPaymentOrThrow(paymentId);
+        return PaymentDataAssembler.convertToPaymentEdit(payment);
+    }
+
     public List<PaymentShowDTO> getListOfPayments() {
         List<Payment> paymentList =
                 paymentRepository.findAllByLoggedUserNameOrderByPaymentDateDesc(LoggedUsername.get());
         return PaymentDataAssembler.convertToPaymentShowList(paymentList);
     }
 
-    public void delete(Long paymentDeleteId) {
-        Payment paymentToDelete = isPossibleToDeleteOrThrow(paymentDeleteId);
-        log.info("Attempt to delete payment: " + paymentToDelete);
-        paymentRepository.delete(paymentToDelete);
-    }
-
-    public Payment isPossibleToDeleteOrThrow(Long paymentId) {
+    public Payment getPaymentOrThrow(Long paymentId) {
         Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
         if(optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie zaleziono płatności o podanym id");
         return optionalPayment.get();
@@ -76,10 +75,5 @@ public class PaymentService {
         return optionalTenant.get();
     }
 
-    private Payment getPayment(Long paymentId) {
-        Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
-        if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie znaleziono płatności.");
-        return optionalPayment.get();
-    }
 
 }

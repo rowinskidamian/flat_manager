@@ -79,7 +79,7 @@ public class PaymentController {
 
     @GetMapping("/delete/{paymentId}")
     public String deleteGenerate(@PathVariable Long paymentId, Model model) {
-        paymentService.isPossibleToDeleteOrThrow(paymentId);
+        paymentService.getPaymentOrThrow(paymentId);
         model.addAttribute("paymentDeleteId", paymentId);
         return "/payment/delete_confirmation";
     }
