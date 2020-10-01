@@ -8,6 +8,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -28,6 +29,7 @@ public class Payment extends BaseEntityLoggedUser {
     @Column(nullable = false)
     private Double amount;
 
+    @NotNull
     @ManyToOne
     private Tenant tenant;
 
