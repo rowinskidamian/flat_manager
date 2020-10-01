@@ -29,6 +29,53 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final TenantRepository tenantRepository;
 
+    public void save(PaymentEditDTO paymentData) {
+        Payment paymentToSave = new Payment();
+
+        setPaymentDataEditSave(paymentData, paymentToSave);
+
+        log.info("Attempt to save payment: " + paymentData);
+        paymentRepository.save(paymentToSave);
+    }
+
+    public PaymentEditDTO findPaymentToEdit(Long paymentId) {
+        Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
+        if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie znaleziono płatności.");
+
+        Payment payment = optionalPayment.get();
+        PaymentEditDTO paymentData = new PaymentEditDTO();
+
+        paymentData.setAmount(payment.getAmount());
+        paymentData.setPaymentDate(payment.getPaymentDate().toString());
+        paymentData.setTenantId(payment.getTenant().getId());
+
+        return paymentData;
+    }
+
+    public void edit(PaymentEditDTO paymentData) {
+        Optional<Payment> optionalPayment = paymentRepository.findById(paymentData.getId());
+        if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie znalazłem płatności o podanym id");
+        Payment paymentToEdit = optionalPayment.get();
+
+        setPaymentDataEditSave(paymentData, paymentToEdit);
+
+        log.info("Attempt to edit payment: " + paymentData);
+        paymentRepository.save(paymentToEdit);
+    }
+
+    private void setPaymentDataEditSave(PaymentEditDTO paymentData, Payment paymentToEdit) {
+        Optional<Tenant> optionalTenant = tenantRepository.findById(paymentData.getTenantId());
+        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
+        Tenant tenantToAddPayment = optionalTenant.get();
+        paymentToEdit.setTenant(tenantToAddPayment);
+
+        paymentToEdit.setAmount(paymentData.getAmount());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate paymentDate = LocalDate.parse(paymentData.getPaymentDate(), formatter);
+        paymentToEdit.setPaymentDate(paymentDate);
+    }
+
     public List<PaymentShowDTO> getListOfPayments() {
         List<Payment> paymentList =
                 paymentRepository.findAllByLoggedUserNameOrderByPaymentDateDesc(LoggedUsername.get());
@@ -53,21 +100,5 @@ public class PaymentService {
         return paymentDataList;
     }
 
-    public void save(PaymentEditDTO paymentData) {
-        Payment paymentToSave = new Payment();
 
-        Optional<Tenant> optionalTenant = tenantRepository.findById(paymentData.getTenantId());
-        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
-        Tenant tenantToAddPayment = optionalTenant.get();
-        paymentToSave.setTenant(tenantToAddPayment);
-
-        paymentToSave.setAmount(paymentData.getAmount());
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate paymentDate = LocalDate.parse(paymentData.getPaymentDate(), formatter);
-        paymentToSave.setPaymentDate(paymentDate);
-
-        log.info("Attempt to save payment: " + paymentData);
-        paymentRepository.save(paymentToSave);
-    }
 }

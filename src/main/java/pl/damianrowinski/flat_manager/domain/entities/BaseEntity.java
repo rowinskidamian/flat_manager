@@ -37,7 +37,7 @@ public abstract class BaseEntity {
 
     @PreUpdate
     public void updatedDate() {
-        createdDate = LocalDateTime.now();
+        updatedDate = LocalDateTime.now();
     }
 
     @PreRemove

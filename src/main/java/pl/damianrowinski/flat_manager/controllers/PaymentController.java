@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentShowDTO;
 import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantListDTO;
@@ -61,4 +58,25 @@ public class PaymentController {
         paymentService.save(paymentData);
         return "redirect:/payment";
     }
+
+    @GetMapping("/edit/{paymentId}")
+    public String editPaymentGenerate(@PathVariable Long paymentId, Model model) {
+        PaymentEditDTO paymentToEdit = paymentService.findPaymentToEdit(paymentId);
+        model.addAttribute("paymentData", paymentToEdit);
+        return "/payment/form_edit";
+    }
+
+    @PostMapping("/edit/{paymentId}")
+    public String editPayment(@PathVariable Long paymentId, @ModelAttribute("paymentData") @Valid PaymentEditDTO paymentData, BindingResult result,
+                             Model model) {
+        paymentData.setId(paymentId);
+        if(result.hasErrors()) {
+            model.addAttribute("paymentData", paymentData);
+            return "/payment/form_edit";
+        }
+        paymentService.edit(paymentData);
+        return "redirect:/payment";
+    }
+
+
 }
