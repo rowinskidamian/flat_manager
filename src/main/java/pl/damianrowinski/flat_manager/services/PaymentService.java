@@ -28,23 +28,13 @@ public class PaymentService {
 
 
     public PaymentEditDTO findPaymentToEdit(Long paymentId) {
-        Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
-        if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie znaleziono płatności.");
-
-        Payment payment = optionalPayment.get();
-
+        Payment payment = getPayment(paymentId);
         return PaymentDataAssembler.convertToPaymentEdit(payment);
     }
 
     public void edit(PaymentEditDTO paymentData) {
-        Optional<Payment> optionalPayment = paymentRepository.findById(paymentData.getId());
-        if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie znalazłem płatności o podanym id");
-
-        Optional<Tenant> optionalTenant = tenantRepository.findById(paymentData.getTenantId());
-        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
-        Tenant tenant = optionalTenant.get();
-
-        Payment paymentToEdit = optionalPayment.get();
+        Payment paymentToEdit = getPayment(paymentData.getId());
+        Tenant tenant = getTenant(paymentData);
 
         PaymentDataAssembler.setPaymentForEditSave(paymentData, tenant, paymentToEdit);
 
@@ -54,9 +44,7 @@ public class PaymentService {
 
     public void save(PaymentEditDTO paymentData) {
         Payment paymentToSave = new Payment();
-        Optional<Tenant> optionalTenant = tenantRepository.findById(paymentData.getTenantId());
-        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
-        Tenant tenant = optionalTenant.get();
+        Tenant tenant = getTenant(paymentData);
 
         PaymentDataAssembler.setPaymentForEditSave(paymentData, tenant, paymentToSave);
 
@@ -79,6 +67,18 @@ public class PaymentService {
     public Payment isPossibleToDeleteOrThrow(Long paymentId) {
         Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
         if(optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie zaleziono płatności o podanym id");
+        return optionalPayment.get();
+    }
+
+    private Tenant getTenant(PaymentEditDTO paymentData) {
+        Optional<Tenant> optionalTenant = tenantRepository.findById(paymentData.getTenantId());
+        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
+        return optionalTenant.get();
+    }
+
+    private Payment getPayment(Long paymentId) {
+        Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
+        if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie znaleziono płatności.");
         return optionalPayment.get();
     }
 
