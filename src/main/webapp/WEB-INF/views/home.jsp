@@ -12,7 +12,7 @@
 </head>
 <body>
 <section>
-    <jsp:include page="layout/nav.jsp"/>
+    <jsp:include page="/WEB-INF/views/layout/nav.jsp"/>
 </section>
 
 <section class="hero is-info">
