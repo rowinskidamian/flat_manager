@@ -4,14 +4,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.damianrowinski.flat_manager.assemblers.UserAssembler;
 import pl.damianrowinski.flat_manager.config.Role;
 import pl.damianrowinski.flat_manager.domain.entities.User;
+import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.model.common.Address;
 import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
 import pl.damianrowinski.flat_manager.model.dtos.user.UserAddDTO;
+import pl.damianrowinski.flat_manager.model.dtos.user.UserListDTO;
 import pl.damianrowinski.flat_manager.model.repositories.UserRepository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,6 +26,7 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserAssembler userAssembler;
 
     public void register(UserAddDTO userAddDTO) {
         User user = new User();
@@ -51,7 +56,12 @@ public class AuthenticationService {
         userRepository.save(user);
     }
 
-    public 
+    public UserListDTO findByLogin(String login) {
+        Optional<User> optionalUser = userRepository.findAllByLogin(login);
+        if (optionalUser.isEmpty()) throw new ElementNotFoundException("Nie znaleziono użytkownika.");
+        User user = optionalUser.get();
+        return userAssembler.getDataListFrom(user);
+    }
 
 
 }
