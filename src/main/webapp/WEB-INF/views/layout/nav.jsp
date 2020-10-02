@@ -47,8 +47,8 @@
                             Kontakt
                         </a>
                         <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Zgłoś problem
+                        <a class="navbar-item" href="/user/details">
+                            Twoje konto
                         </a>
                     </div>
                 </div>

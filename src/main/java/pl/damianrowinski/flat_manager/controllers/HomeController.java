@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import pl.damianrowinski.flat_manager.model.dtos.user.UserListDTO;
-import pl.damianrowinski.flat_manager.services.AuthenticationService;
+import pl.damianrowinski.flat_manager.services.UserService;
 
 import java.security.Principal;
 
@@ -16,13 +16,13 @@ import java.security.Principal;
 @SessionAttributes({"userFirstName"})
 public class HomeController {
 
-    private final AuthenticationService authenticationService;
+    private final UserService userService;
 
     @RequestMapping
     public String home(Principal principal, Model model) {
         if (principal != null) {
             String loggedUserName = principal.getName();
-            UserListDTO loggedUser = authenticationService.findByLogin(loggedUserName);
+            UserListDTO loggedUser = userService.findByLoginPreview(loggedUserName);
             model.addAttribute("userFirstName", loggedUser.getFirstName());
         }
         return "home";
