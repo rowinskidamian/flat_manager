@@ -73,7 +73,8 @@ public class RoomCheckingController {
 
     @PostMapping("/checkin/tenants_list/tenant/{tenantId}")
     public String checkInTenant(@ModelAttribute("tenantData") TenantListDTO tenantData) {
-        roomService.checkInTenant(tenantData.getTenantId(), tenantData.getRoomId());
+        if (tenantData.getRoomId() != null)
+            roomService.checkInTenant(tenantData.getTenantId(), tenantData.getRoomId());
         return "redirect:/tenant";
     }
 
@@ -89,7 +90,8 @@ public class RoomCheckingController {
 
     @PostMapping("/checkin/in_rooms_list/for_room/{roomId}")
     public String checkInForRoom(@ModelAttribute("roomData") RoomCheckInOutDTO roomData) {
-        roomService.checkInTenant(roomData.getTenantId(), roomData.getRoomId());
+        if (roomData.getTenantId() != null)
+            roomService.checkInTenant(roomData.getTenantId(), roomData.getRoomId());
         return "redirect:/room";
     }
 
