@@ -8,6 +8,7 @@ import pl.damianrowinski.flat_manager.validation.groups.AddTenantGroup;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 import pl.damianrowinski.flat_manager.validation.groups.EditTenantGroup;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.*;
 
 @Data
@@ -41,6 +42,9 @@ public class TenantEditDTO {
     @NotBlank
     private String lastName;
 
+    @Transient
+    private String fullName;
+
     @Email
     @NotBlank
     @UniqueEmail(groups = AddTenantGroup.class)
@@ -57,5 +61,9 @@ public class TenantEditDTO {
 
     @Min(value = 1, groups = AddressValidationGroup.class)
     private Integer apartmentNumber;
+
+    public String getFullName() {
+        return fullName = firstName + " " + lastName;
+    }
 
 }

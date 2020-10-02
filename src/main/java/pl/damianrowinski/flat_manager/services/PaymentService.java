@@ -9,11 +9,14 @@ import pl.damianrowinski.flat_manager.domain.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.property.PropertyShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.room.RoomShowDTO;
 import pl.damianrowinski.flat_manager.model.repositories.PaymentRepository;
 import pl.damianrowinski.flat_manager.model.repositories.TenantRepository;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.transaction.Transactional;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +28,7 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final TenantRepository tenantRepository;
+    private final PropertyService propertyService;
 
     public void edit(PaymentEditDTO paymentData) {
         Payment paymentToEdit = getPaymentOrThrow(paymentData.getId());
@@ -57,12 +61,6 @@ public class PaymentService {
         return PaymentDataAssembler.convertToPaymentEdit(payment);
     }
 
-    public List<PaymentShowDTO> getListOfPayments() {
-        List<Payment> paymentList =
-                paymentRepository.findAllByLoggedUserNameOrderByPaymentDateDesc(LoggedUsername.get());
-        return PaymentDataAssembler.convertToPaymentShowList(paymentList);
-    }
-
     public Payment getPaymentOrThrow(Long paymentId) {
         Optional<Payment> optionalPayment = paymentRepository.findById(paymentId);
         if(optionalPayment.isEmpty()) throw new ElementNotFoundException("Nie zaleziono płatności o podanym id");
@@ -73,6 +71,35 @@ public class PaymentService {
         Optional<Tenant> optionalTenant = tenantRepository.findById(paymentData.getTenantId());
         if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id");
         return optionalTenant.get();
+    }
+
+    public List<PaymentShowDTO> getListOfPayments() {
+        List<Payment> paymentList =
+                paymentRepository.findAllByLoggedUserNameOrderByPaymentDateDesc(LoggedUsername.get());
+        return PaymentDataAssembler.convertToPaymentShowList(paymentList);
+    }
+
+    public List<PaymentShowDTO> findPaymentsForTenant(Long tenantId) {
+        List<Payment> paymentList =
+                paymentRepository.findAllByTenantIdOrderByPaymentDateDesc(tenantId);
+        return PaymentDataAssembler.convertToPaymentShowList(paymentList);
+    }
+
+    public List<PaymentShowDTO> findPaymentsForProperty(Long propertyId) {
+        List<PaymentShowDTO> listPaymentsForProperty = new LinkedList<>();
+        PropertyShowDTO propertyWithRooms = propertyService.findByIdWithRooms(propertyId);
+        List<RoomShowDTO> roomsListForProperty = propertyWithRooms.getRooms();
+
+        for (RoomShowDTO roomData : roomsListForProperty) {
+            Long tenantId = roomData.getTenantId();
+            List<Payment> paymentList =
+                    paymentRepository.findAllByTenantIdOrderByPaymentDateDesc(tenantId);
+            List<PaymentShowDTO> paymentDataList = PaymentDataAssembler.convertToPaymentShowList(paymentList);
+
+            paymentDataList.forEach(listPaymentsForProperty::add);
+        }
+
+        return listPaymentsForProperty;
     }
 
 

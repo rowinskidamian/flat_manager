@@ -7,8 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantListDTO;
 import pl.damianrowinski.flat_manager.services.PaymentService;
+import pl.damianrowinski.flat_manager.services.PropertyService;
 import pl.damianrowinski.flat_manager.services.TenantService;
 
 import javax.validation.Valid;
@@ -22,6 +24,7 @@ public class PaymentController {
 
     private final PaymentService paymentService;
     private final TenantService tenantService;
+    private final PropertyService propertyService;
 
     @RequestMapping
     public String redirectToList() {
@@ -88,6 +91,38 @@ public class PaymentController {
     public String deletePayment(Long paymentDeleteId) {
         paymentService.delete(paymentDeleteId);
         return "redirect:/payment";
+    }
+
+    @GetMapping("/show/for_tenant/{tenantId}")
+    public String showPaymentForTenant(@PathVariable Long tenantId, Model model) {
+        List<PaymentShowDTO> paymentsDataList = paymentService.findPaymentsForTenant(tenantId);
+        PaymentShowDTO paymentShowDTO;
+        String title = "";
+
+        if (paymentsDataList.size() > 0) {
+            paymentShowDTO = paymentsDataList.get(0);
+            title = paymentShowDTO.getTenantFullName();
+        }
+
+        model.addAttribute("title", title);
+        model.addAttribute("paymentsList", paymentsDataList);
+        return "/payment/list";
+    }
+
+    @GetMapping("/show/for_property/{propertyId}")
+    public String showPaymentForProperty(@PathVariable Long propertyId, Model model) {
+        List<PaymentShowDTO> paymentsDataList = paymentService.findPaymentsForProperty(propertyId);
+        PaymentShowDTO paymentShowDTO;
+        String title = "";
+
+        if (paymentsDataList.size() > 0) {
+            paymentShowDTO = paymentsDataList.get(0);
+            title = paymentShowDTO.getPropertyWorkingName();
+        }
+
+        model.addAttribute("title", title);
+        model.addAttribute("paymentsList", paymentsDataList);
+        return "/payment/list";
     }
 
 

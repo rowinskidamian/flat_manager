@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="notification has-text-centered is-light">
-                    <strong>Szczegóły płatności</strong>
+                    Szczegóły płatności: <strong>${title}</strong>
                 </div>
 
                 <table class="table">
@@ -69,10 +69,10 @@
                             <td>${counter.count}</td>
                             <td>${payment.paymentDate}</td>
                             <td>
-                                <a href="/payment/by_tenant/${payment.tenantId}">${payment.tenantFullName}</a>
+                                <a href="/payment/show/for_tenant/${payment.tenantId}">${payment.tenantFullName}</a>
                             </td>
                             <td>
-                                <a href="/payment/by_property/${payment.propertyId}">${payment.propertyWorkingName}</a>
+                                <a href="/payment/show/for_property/${payment.propertyId}">${payment.propertyWorkingName}</a>
                             </td>
                             <td>${payment.amount}</td>
                             <td>
