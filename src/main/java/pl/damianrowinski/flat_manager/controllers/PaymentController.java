@@ -7,11 +7,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentShowDTO;
+import pl.damianrowinski.flat_manager.model.dtos.property.PropertyListDTO;
 import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantEditDTO;
 import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantListDTO;
 import pl.damianrowinski.flat_manager.services.PaymentService;
 import pl.damianrowinski.flat_manager.services.PropertyService;
 import pl.damianrowinski.flat_manager.services.TenantService;
+import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -42,6 +44,9 @@ public class PaymentController {
     public List<TenantListDTO> getTenantList() {
         return tenantService.findAll();
     }
+
+    @ModelAttribute("propertyList")
+    public List<PropertyListDTO> getPropertyList() { return propertyService.findAllByUserShowList(LoggedUsername.get());}
 
     @GetMapping("/add")
     public String addPaymentGenerate(Model model) {
@@ -97,7 +102,7 @@ public class PaymentController {
     public String showPaymentForTenant(@PathVariable Long tenantId, Model model) {
         List<PaymentShowDTO> paymentsDataList = paymentService.findPaymentsForTenant(tenantId);
         PaymentShowDTO paymentShowDTO;
-        String title = "";
+        String title = null;
 
         if (paymentsDataList.size() > 0) {
             paymentShowDTO = paymentsDataList.get(0);
@@ -113,7 +118,7 @@ public class PaymentController {
     public String showPaymentForProperty(@PathVariable Long propertyId, Model model) {
         List<PaymentShowDTO> paymentsDataList = paymentService.findPaymentsForProperty(propertyId);
         PaymentShowDTO paymentShowDTO;
-        String title = "";
+        String title = null;
 
         if (paymentsDataList.size() > 0) {
             paymentShowDTO = paymentsDataList.get(0);

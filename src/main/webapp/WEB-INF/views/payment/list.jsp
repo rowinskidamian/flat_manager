@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Flat Manager - lista płatności</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/a1834f9866.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <section>
@@ -39,13 +40,70 @@
 
             <div class="column is-three-quarters">
 
-                <div class="block">
-                    <div class="level-left">
-                        <div class="control">
-                            <a class="button is-success" href="/payment/add">Dodaj płatność</a>
-                        </div>
-                    </div>
-                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Płatności dla najemcy:</th>
+                        <th>Płatności dla mieszkania:</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="field is-grouped">
+                                <div class="control">
+                                    <a class="button is-success" href="/payment/add">Dodaj płatność</a>
+                                </div>
+                                <div class="control">
+                                    <a class="button is-link is-light" href="/payment">Wyświetl wszystkie</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dropdown is-hoverable">
+                                <div class="dropdown-trigger">
+                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                                        <span>Wybierz najemcę</span>
+                                        <span class="icon is-small">
+                                         <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <c:forEach items="${tenantList}" var="tenant">
+                                        <a href="/payment/show/for_tenant/${tenant.tenantId}" class="dropdown-item">
+                                            ${tenant.tenantFullName}</a>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dropdown is-hoverable">
+                                <div class="dropdown-trigger">
+                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu2">
+                                        <span>Wybierz mieszkanie</span>
+                                        <span class="icon is-small">
+                                         <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu2" role="menu">
+                                    <div class="dropdown-content">
+                                        <c:forEach items="${propertyList}" var="property">
+                                            <a href="/payment/show/for_property/${property.propertyId}" class="dropdown-item">
+                                                    ${property.propertyWorkingName}</a>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
 
                 <div class="notification has-text-centered is-light">
                     Szczegóły płatności: <strong>${title}</strong>
