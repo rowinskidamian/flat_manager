@@ -39,6 +39,7 @@ public class PropertyService {
         Address address = modelMapper.map(propertyEditDTO, Address.class);
         property.setAddress(address);
         PersonNameContact ownerDetails = modelMapper.map(propertyEditDTO, PersonNameContact.class);
+        property.setState(propertyEditDTO.getState());
         property.setOwnerDetails(ownerDetails);
 
         log.info("Attempt to save property: " + property);
@@ -59,6 +60,8 @@ public class PropertyService {
 
         PersonNameContact ownerDetails = property.getOwnerDetails();
         addOwnerToEditedPropertyData(propertyToEditData, ownerDetails);
+
+        propertyToEditData.setState(property.getState());
 
         return propertyToEditData;
     }

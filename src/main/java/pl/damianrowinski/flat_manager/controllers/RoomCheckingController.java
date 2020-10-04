@@ -36,14 +36,15 @@ public class RoomCheckingController {
         return "redirect:/tenant";
     }
 
-    @GetMapping("/checkout/in_apartment/{roomId}")
+
+    @GetMapping("/checkout/from_property/from_room/{roomId}")
     public String generateCheckoutInApartment(@PathVariable Long roomId, Model model) {
         RoomCheckInOutDTO roomToCheckout = roomService.findRoomToCheckout(roomId);
         model.addAttribute("roomData", roomToCheckout);
         return "/room/checkout_confirm";
     }
 
-    @PostMapping("/checkout/in_apartment/{roomId}")
+    @PostMapping("/checkout/from_property/from_room/{roomId}")
     public String checkoutInApartment(@ModelAttribute("roomData") RoomCheckInOutDTO roomData) {
         roomService.checkout(roomData.getRoomId());
         return "redirect:/room/edit_in_property/" + roomData.getPropertyId();
@@ -94,5 +95,23 @@ public class RoomCheckingController {
             roomService.checkInTenant(roomData.getTenantId(), roomData.getRoomId());
         return "redirect:/room";
     }
+
+    @GetMapping("/checkin/in_property/for_room/{roomId}")
+    public String checkInInApartmentGenerate(@PathVariable Long roomId, Model model) {
+        List<TenantListDTO> tenantsWithoutRooms = tenantService.findAllWithoutRooms(LoggedUsername.get());
+        RoomCheckInOutDTO roomData = new RoomCheckInOutDTO();
+        roomData.setRoomId(roomId);
+        model.addAttribute("tenantListData", tenantsWithoutRooms);
+        model.addAttribute("roomData", roomData);
+        return "/property/checkin_tenant_list";
+    }
+
+    @PostMapping("/checkin/in_property/for_room/{roomId}")
+    public String checkInInApartment(@ModelAttribute("roomData") RoomCheckInOutDTO roomData) {
+        if (roomData.getTenantId() != null)
+            roomService.checkInTenant(roomData.getTenantId(), roomData.getRoomId());
+        return "redirect:/room";
+    }
+
 
 }

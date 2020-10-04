@@ -199,6 +199,7 @@
                     </div>
                     <input type="hidden" name="loggedUserName" value="${propertyData.loggedUserName}">
                     <input type="hidden" name="id" value="${propertyData.id}">
+                    <input type="hidden" name="state" value="${propertyData.state}">
                     <sec:csrfInput/>
                 </form:form>
             </div>

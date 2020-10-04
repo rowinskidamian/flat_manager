@@ -72,6 +72,7 @@ public class PropertyController {
     @GetMapping("/edit/{propertyId}")
     public String generateEditForm(@PathVariable Long propertyId, Model model) {
         PropertyEditDTO propertyData = propertyService.findToEditById(propertyId);
+        log.info("Property to edit: " + propertyData);
         model.addAttribute("propertyData", propertyData);
         return "/property/form";
     }
@@ -84,10 +85,6 @@ public class PropertyController {
             model.addAttribute("propertyData", propertyData);
             return "/property/form";
         }
-
-        String loggedUserName = propertyData.getLoggedUserName();
-        if (!loggedUserName.equals(LoggedUsername.get()))
-            throw new ForbiddenAccessException("Nie masz dostępu do tych danych.");
 
         if(!propertyId.equals(propertyData.getId()))
             throw new ForbiddenAccessException("Id obiektu z bazy i edytowanego nie zgadzają się.");
