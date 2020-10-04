@@ -76,11 +76,6 @@
                 <div id="actions" class="field">
                     <div class="field is-grouped">
                         <div class="control">
-                            <a class="button is-link" href="/user/edit" >
-                                Edytuj
-                            </a>
-                        </div>
-                        <div class="control">
                             <button class="button is-light" onclick="history.go(-1)">
                                 Powrót
                             </button>

@@ -93,6 +93,7 @@
                         </div>
                     </div>
                     <sec:csrfInput/>
+                    <input type="hidden" name="state" value="${paymentData.state}">
                 </form:form>
             </div>
         </div>

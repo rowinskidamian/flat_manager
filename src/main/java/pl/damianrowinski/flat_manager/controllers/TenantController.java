@@ -12,6 +12,7 @@ import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantAddressDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantDeleteDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantEditDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantShowDTO;
+import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.services.RoomService;
 import pl.damianrowinski.flat_manager.services.TenantService;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
@@ -21,6 +22,7 @@ import pl.damianrowinski.flat_manager.validation.groups.EditTenantGroup;
 
 import javax.validation.groups.Default;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/tenant")
@@ -147,8 +149,8 @@ public class TenantController {
 
     @GetMapping("/address/{tenantId}")
     public String showTenantAddress(@PathVariable Long tenantId, Model model) {
-        TenantAddressDTO tenantAddress = tenantService.findTenantAddress(tenantId);
-        model.addAttribute("tenantAddressData", tenantAddress);
+        TenantAddressDTO address = tenantService.findTenantAddress(tenantId);
+        model.addAttribute("tenantAddressData", address);
         return "/tenant/address";
     }
 

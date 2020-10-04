@@ -226,6 +226,7 @@
                     <input type="hidden" name="id" value="${tenantId}">
                     <input type="hidden" name="loggedUserName" value="${tenantData.loggedUserName}">
                     <input type="hidden" name="validAddress" id="validAddress" value="${validAddress}">
+                    <input type="hidden" name="state" value="${tenantData.state}">
                     <sec:csrfInput/>
                 </form:form>
             </div>

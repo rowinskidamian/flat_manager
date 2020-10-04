@@ -103,6 +103,8 @@ public class TenantService {
 
         formatLeaseDates(tenantDataToAdd, tenantToAdd);
 
+        tenantToAdd.setState(tenantToAdd.getState());
+
         log.info("Attempt to save tenant: " + tenantToAdd);
         Tenant savedTenant = tenantRepository.save(tenantToAdd);
 
@@ -133,10 +135,15 @@ public class TenantService {
         if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id.");
 
         Tenant tenant = optionalTenant.get();
+        log.info("Finding address for tenant: " + tenant);
 
         TenantAddressDTO tenantAddressDTO = modelMapper.map(tenant.getPersonalDetails(), TenantAddressDTO.class);
         Address contactAddress = tenant.getContactAddress();
-        tenantSetAddress(tenantAddressDTO, contactAddress);
+
+        if (!contactAddress.getCityName().equals("") && !contactAddress.getStreetName().equals("")
+                && contactAddress.getStreetNumber() != null) {
+            tenantSetAddress(tenantAddressDTO, contactAddress);
+        } else throw new ElementNotFoundException("Brak adresu kontaktowego najemcy.");
         return tenantAddressDTO;
     }
 
@@ -180,6 +187,8 @@ public class TenantService {
             }
             tenantEditData.setStreetNumber(contactAddress.getStreetNumber());
         }
+
+        tenantEditData.setState(tenant.getState());
 
         return tenantEditData;
     }

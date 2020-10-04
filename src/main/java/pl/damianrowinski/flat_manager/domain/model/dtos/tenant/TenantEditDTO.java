@@ -1,6 +1,7 @@
 package pl.damianrowinski.flat_manager.domain.model.dtos.tenant;
 
 import lombok.Data;
+import pl.damianrowinski.flat_manager.domain.model.entities.EntityState;
 import pl.damianrowinski.flat_manager.validation.constraints.CheckDatePattern;
 import pl.damianrowinski.flat_manager.validation.constraints.CheckLeaseDates;
 import pl.damianrowinski.flat_manager.validation.constraints.UniqueEmail;
@@ -61,6 +62,8 @@ public class TenantEditDTO {
 
     @Min(value = 1, groups = AddressValidationGroup.class)
     private Integer apartmentNumber;
+
+    private EntityState state;
 
     public String getFullName() {
         return fullName = firstName + " " + lastName;
