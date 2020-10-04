@@ -1,10 +1,10 @@
 package pl.damianrowinski.flat_manager.assemblers;
 
-import pl.damianrowinski.flat_manager.domain.entities.Payment;
-import pl.damianrowinski.flat_manager.domain.entities.Property;
-import pl.damianrowinski.flat_manager.domain.entities.Tenant;
-import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentEditDTO;
-import pl.damianrowinski.flat_manager.model.dtos.payment.PaymentShowDTO;
+import pl.damianrowinski.flat_manager.domain.model.entities.Payment;
+import pl.damianrowinski.flat_manager.domain.model.entities.Property;
+import pl.damianrowinski.flat_manager.domain.model.entities.Tenant;
+import pl.damianrowinski.flat_manager.domain.model.dtos.payment.PaymentEditDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.payment.PaymentShowDTO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

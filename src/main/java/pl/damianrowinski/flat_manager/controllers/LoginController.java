@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.damianrowinski.flat_manager.model.dtos.user.UserAddDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserAddDTO;
 import pl.damianrowinski.flat_manager.services.AuthenticationService;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 

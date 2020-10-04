@@ -3,11 +3,11 @@ package pl.damianrowinski.flat_manager.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.damianrowinski.flat_manager.assemblers.UserAssembler;
-import pl.damianrowinski.flat_manager.domain.entities.User;
+import pl.damianrowinski.flat_manager.domain.model.entities.User;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
-import pl.damianrowinski.flat_manager.model.dtos.user.UserListDTO;
-import pl.damianrowinski.flat_manager.model.dtos.user.UserShowDTO;
-import pl.damianrowinski.flat_manager.model.repositories.UserRepository;
+import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserListDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserShowDTO;
+import pl.damianrowinski.flat_manager.domain.repositories.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.Optional;

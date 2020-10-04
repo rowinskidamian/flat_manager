@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import pl.damianrowinski.flat_manager.model.dtos.user.UserListDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserListDTO;
 import pl.damianrowinski.flat_manager.services.UserService;
 
 import java.security.Principal;

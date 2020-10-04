@@ -3,12 +3,12 @@ package pl.damianrowinski.flat_manager.assemblers;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import pl.damianrowinski.flat_manager.domain.entities.User;
-import pl.damianrowinski.flat_manager.model.common.Address;
-import pl.damianrowinski.flat_manager.model.common.PersonNameContact;
-import pl.damianrowinski.flat_manager.model.dtos.user.UserAddDTO;
-import pl.damianrowinski.flat_manager.model.dtos.user.UserListDTO;
-import pl.damianrowinski.flat_manager.model.dtos.user.UserShowDTO;
+import pl.damianrowinski.flat_manager.domain.model.entities.User;
+import pl.damianrowinski.flat_manager.domain.model.common.Address;
+import pl.damianrowinski.flat_manager.domain.model.common.PersonNameContact;
+import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserAddDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserListDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserShowDTO;
 
 @RequiredArgsConstructor
 @Component

@@ -3,7 +3,7 @@ package pl.damianrowinski.flat_manager.validation.validators;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pl.damianrowinski.flat_manager.model.repositories.UserRepository;
+import pl.damianrowinski.flat_manager.domain.repositories.UserRepository;
 import pl.damianrowinski.flat_manager.validation.constraints.UniqueLogin;
 
 import javax.validation.ConstraintValidator;

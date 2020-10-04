@@ -2,7 +2,7 @@ package pl.damianrowinski.flat_manager.validation.validators;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pl.damianrowinski.flat_manager.model.dtos.tenant.TenantEditDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantEditDTO;
 import pl.damianrowinski.flat_manager.validation.constraints.CheckLeaseDates;
 
 import javax.validation.ConstraintValidator;

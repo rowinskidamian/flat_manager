@@ -11,9 +11,9 @@ import org.mockito.Mockito;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.damianrowinski.flat_manager.assemblers.UserAssembler;
 import pl.damianrowinski.flat_manager.config.Role;
-import pl.damianrowinski.flat_manager.domain.entities.User;
-import pl.damianrowinski.flat_manager.model.dtos.user.UserAddDTO;
-import pl.damianrowinski.flat_manager.model.repositories.UserRepository;
+import pl.damianrowinski.flat_manager.domain.model.entities.User;
+import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserAddDTO;
+import pl.damianrowinski.flat_manager.domain.repositories.UserRepository;
 
 @DisplayName("Unit tests for AuthenticationService")
 class AuthenticationServiceTest {
