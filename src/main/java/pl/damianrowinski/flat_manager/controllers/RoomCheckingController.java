@@ -99,8 +99,9 @@ public class RoomCheckingController {
     @GetMapping("/checkin/in_property/for_room/{roomId}")
     public String checkInInApartmentGenerate(@PathVariable Long roomId, Model model) {
         List<TenantListDTO> tenantsWithoutRooms = tenantService.findAllWithoutRooms(LoggedUsername.get());
+        RoomCheckInOutDTO roomToCheckin = roomService.findRoomToCheckout(roomId);
         RoomCheckInOutDTO roomData = new RoomCheckInOutDTO();
-        roomData.setRoomId(roomId);
+        roomData.setRoomId(roomToCheckin.getRoomId());
         model.addAttribute("tenantListData", tenantsWithoutRooms);
         model.addAttribute("roomData", roomData);
         return "/property/checkin_tenant_list";

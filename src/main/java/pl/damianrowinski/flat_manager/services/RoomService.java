@@ -171,7 +171,8 @@ public class RoomService {
         if (!room.getLoggedUserName().equals(LoggedUsername.get())) throw new ForbiddenAccessException("Brak dostępu.");
         RoomCheckInOutDTO roomCheckoutData = new RoomCheckInOutDTO();
         roomCheckoutData.setRoomId(room.getId());
-        roomCheckoutData.setTenantId(room.getTenant().getId());
+        if (room.getTenant() != null)
+            roomCheckoutData.setTenantId(room.getTenant().getId());
         roomCheckoutData.setPropertyId(room.getProperty().getId());
         return roomCheckoutData;
     }
@@ -189,15 +190,16 @@ public class RoomService {
 
     public void checkInTenant(Long tenantId, Long roomId) {
         Optional<Room> optionalRoom = roomRepository.findById(roomId);
-        if(optionalRoom.isEmpty()) throw new ElementNotFoundException("Brak pokoju o podanym id.");
+        if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Brak pokoju o podanym id.");
         Room room = optionalRoom.get();
-        if(!room.getLoggedUserName().equals(LoggedUsername.get()))
+        if (!room.getLoggedUserName().equals(LoggedUsername.get()))
             throw new ForbiddenAccessException("Brak dostępu do zasobu");
 
         Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
-        if(optionalTenant.isEmpty()) throw new ElementNotFoundException("Brak najemcy o podanym id.");
+        if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Brak najemcy o podanym id.");
         Tenant tenant = optionalTenant.get();
-        if(!tenant.getLoggedUserName().equals(LoggedUsername.get())) throw new ForbiddenAccessException("Brak dostępu.");
+        if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
+            throw new ForbiddenAccessException("Brak dostępu.");
 
         room.setTenant(tenant);
         log.info("Checked in tenant: " + tenant.getPersonalDetails().getFullName() + ", to apartment: "
