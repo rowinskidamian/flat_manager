@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.damianrowinski.flat_manager.domain.model.dtos.room.RoomCheckInOutDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.room.RoomListDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantListDTO;
+import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.services.RoomService;
 import pl.damianrowinski.flat_manager.services.TenantService;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
@@ -99,6 +100,7 @@ public class RoomCheckingController {
     @GetMapping("/checkin/in_property/for_room/{roomId}")
     public String checkInInApartmentGenerate(@PathVariable Long roomId, Model model) {
         List<TenantListDTO> tenantsWithoutRooms = tenantService.findAllWithoutRooms(LoggedUsername.get());
+        if (tenantsWithoutRooms.size() == 0) throw new ElementNotFoundException("Brak dostępnych najemców.");
         RoomCheckInOutDTO roomToCheckin = roomService.findRoomToCheckout(roomId);
         RoomCheckInOutDTO roomData = new RoomCheckInOutDTO();
         roomData.setRoomId(roomToCheckin.getRoomId());
@@ -111,7 +113,7 @@ public class RoomCheckingController {
     public String checkInInApartment(@ModelAttribute("roomData") RoomCheckInOutDTO roomData) {
         if (roomData.getTenantId() != null)
             roomService.checkInTenant(roomData.getTenantId(), roomData.getRoomId());
-        return "redirect:/room";
+        return "redirect:/room/edit_in_property/" + roomData.getPropertyId();
     }
 
 
