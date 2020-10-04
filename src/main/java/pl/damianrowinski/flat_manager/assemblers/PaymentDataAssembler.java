@@ -35,9 +35,11 @@ public class PaymentDataAssembler {
             paymentData.setTenantId(tenant.getId());
             paymentData.setTenantFullName(tenant.getPersonalDetails().getFullName());
 
-            Property tenantProperty = tenant.getRoom().getProperty();
-            paymentData.setPropertyId(tenantProperty.getId());
-            paymentData.setPropertyWorkingName(tenantProperty.getWorkingName());
+            if(tenant.getRoom() != null) {
+                Property tenantProperty = tenant.getRoom().getProperty();
+                paymentData.setPropertyId(tenantProperty.getId());
+                paymentData.setPropertyWorkingName(tenantProperty.getWorkingName());
+            }
 
             paymentDataList.add(paymentData);
         }

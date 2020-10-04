@@ -63,4 +63,5 @@ public class UserAssembler {
         personalDetails.setEmail(userAddDTO.getEmail());
         user.setNameContact(personalDetails);
     }
+
 }
