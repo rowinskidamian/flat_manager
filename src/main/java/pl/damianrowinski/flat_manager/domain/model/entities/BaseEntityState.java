@@ -1,5 +1,5 @@
 package pl.damianrowinski.flat_manager.domain.model.entities;
 
-public enum EntityState {
+public enum BaseEntityState {
     ACTIVE, DELETED;
 }

@@ -15,7 +15,7 @@ import javax.persistence.*;
 @ToString
 @EntityListeners(LoggedUserListener.class)
 
-public abstract class BaseEntityLoggedUser extends BaseEntity {
+public abstract class BaseEntityOwner extends BaseEntity {
 
     @Column(name="logged_user_name", nullable = false)
     private String loggedUserName;

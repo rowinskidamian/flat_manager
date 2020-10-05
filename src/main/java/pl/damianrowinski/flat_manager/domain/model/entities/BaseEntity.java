@@ -27,12 +27,12 @@ public abstract class BaseEntity {
 
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
-    private EntityState state;
+    private BaseEntityState state;
 
     @PrePersist
     public void addCreatedDate() {
         createdDate = LocalDateTime.now();
-        state = EntityState.ACTIVE;
+        state = BaseEntityState.ACTIVE;
     }
 
     @PreUpdate
@@ -42,7 +42,7 @@ public abstract class BaseEntity {
 
     @PreRemove
     public void deleteAuthor() {
-        this.state = EntityState.DELETED;
+        this.state = BaseEntityState.DELETED;
     }
 
     @Override

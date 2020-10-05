@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Table(name = Tenant.TABLE_NAME)
 @SQLDelete(sql = Tenant.SQL_UPDATE, check = ResultCheckStyle.COUNT)
 @Where(clause = "state <> 'DELETED'")
-public class Tenant extends BaseEntityLoggedUser {
+public class Tenant extends BaseEntityOwner {
 
     final static String TABLE_NAME = "tenants";
     final static String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET state = 'DELETED' WHERE id = ?";

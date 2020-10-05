@@ -1,7 +1,7 @@
 package pl.damianrowinski.flat_manager.domain.model.dtos.property;
 
 import lombok.Data;
-import pl.damianrowinski.flat_manager.domain.model.entities.EntityState;
+import pl.damianrowinski.flat_manager.domain.model.entities.BaseEntityState;
 import pl.damianrowinski.flat_manager.domain.model.entities.Room;
 
 import javax.validation.constraints.*;
@@ -46,6 +46,6 @@ public class PropertyEditDTO {
     @NotBlank
     private String email;
 
-    private EntityState state;
+    private BaseEntityState state;
 
 }

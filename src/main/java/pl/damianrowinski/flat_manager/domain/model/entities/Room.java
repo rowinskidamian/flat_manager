@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 @Table(name = Room.TABLE_NAME)
 @SQLDelete(sql = Room.SQL_UPDATE, check = ResultCheckStyle.COUNT)
 @Where(clause = "state <> 'DELETED'")
-public class Room extends BaseEntityLoggedUser {
+public class Room extends BaseEntityOwner {
 
     final static String TABLE_NAME = "rooms";
     final static String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET state = 'DELETED' WHERE id = ?";

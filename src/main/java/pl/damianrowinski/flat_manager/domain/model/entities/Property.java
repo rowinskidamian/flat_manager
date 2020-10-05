@@ -19,7 +19,7 @@ import java.util.List;
 @Table(name = Property.TABLE_NAME)
 @SQLDelete(sql = Property.SQL_UPDATE, check = ResultCheckStyle.COUNT)
 @Where(clause = "state <> 'DELETED'")
-public class Property extends BaseEntityLoggedUser {
+public class Property extends BaseEntityOwner {
 
     final static String TABLE_NAME = "properties";
     final static String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET state = 'DELETED' WHERE id = ?";
