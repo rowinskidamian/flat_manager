@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.damianrowinski.flat_manager.assemblers.UserAssembler;
 import pl.damianrowinski.flat_manager.config.Role;
+import pl.damianrowinski.flat_manager.domain.model.common.PersonNameContact;
 import pl.damianrowinski.flat_manager.domain.model.entities.User;
 import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserAddDTO;
 import pl.damianrowinski.flat_manager.domain.repositories.UserRepository;
@@ -74,6 +75,28 @@ class AuthenticationServiceTest {
                     .extracting(User::getRole)
                     .isNotNull()
                     .isEqualTo(Role.USER.toString());
+        }
+
+
+        @Test
+        @DisplayName("Input data of UserData equals saved User data")
+        public void savedDataEqualsInputData() {
+            ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+            Mockito.when(userRepository.save(userCaptor.capture())).thenReturn(new User());
+
+            UserAddDTO userAddDTO = new UserAddDTO();
+            userAddDTO.setLogin("testLogin");
+
+            authenticationService.register(userAddDTO);
+
+            User user = userCaptor.getValue();
+            Assertions.assertThat(user).isNotNull();
+            Assertions.assertThat(user)
+                    .extracting(User::getLogin)
+                    .isNotNull()
+                    .isEqualTo(userAddDTO.getLogin());
+
+
         }
     }
 }

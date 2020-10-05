@@ -56,12 +56,13 @@ public class UserAssembler {
         user.setAddress(address);
     }
 
-    public void setPersonalDetailsUserAdd(UserAddDTO userAddDTO, User user) {
+    public User setPersonalDetailsUserAdd(UserAddDTO userAddDTO, User user) {
         PersonNameContact personalDetails = user.getNameContact();
         personalDetails.setFirstName(userAddDTO.getFirstName());
         personalDetails.setLastName(userAddDTO.getLastName());
         personalDetails.setEmail(userAddDTO.getEmail());
         user.setNameContact(personalDetails);
+        return user;
     }
 
 }

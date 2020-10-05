@@ -47,13 +47,11 @@ public class User extends BaseEntity {
     @Override
     public String toString() {
         return "User{ id= " + getId() +
-                "login='" + login + '\'' +
+                ", login='" + login + '\'' +
                 ", active=" + active +
                 ", role='" + role + '\'' +
-                ", firstName='" + role + '\'' +
-                ", lastName='" + role + '\'' +
-                getNameContact().toString() + '\'' +
-                getAddress().toString() + '\'' +
+                ", " + getNameContact().toString() + '\'' +
+                ", " + getAddress().toString() + '\'' +
                 "}";
     }
 }
