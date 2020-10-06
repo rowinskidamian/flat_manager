@@ -1,0 +1,16 @@
+package pl.damianrowinski.flat_manager.module1_crud.domain.model.dtos.tenant;
+
+import lombok.Data;
+
+@Data
+public class TenantAddressDTO {
+
+    private String firstName;
+    private String lastName;
+
+    private String email;
+
+    private String cityName;
+    private String streetName;
+    private String addressNumber;
+}

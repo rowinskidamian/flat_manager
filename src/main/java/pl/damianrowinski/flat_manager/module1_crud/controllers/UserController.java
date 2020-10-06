@@ -1,0 +1,26 @@
+package pl.damianrowinski.flat_manager.module1_crud.controllers;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import pl.damianrowinski.flat_manager.module1_crud.domain.model.dtos.user.UserShowDTO;
+import pl.damianrowinski.flat_manager.module1_crud.services.UserService;
+
+import java.security.Principal;
+
+@Controller
+@RequestMapping("/user")
+@RequiredArgsConstructor
+public class UserController {
+
+    private final UserService userService;
+
+    @RequestMapping("/details")
+    public String userDetails(Principal principal, Model model){
+        String userName = principal.getName();
+        UserShowDTO userDataToShow = userService.findByLoginDetailed(userName);
+        model.addAttribute("userData", userDataToShow);
+        return "/user/details";
+    }
+}
