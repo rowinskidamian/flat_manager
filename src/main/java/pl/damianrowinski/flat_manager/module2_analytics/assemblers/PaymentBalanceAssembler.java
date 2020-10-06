@@ -6,12 +6,15 @@ import pl.damianrowinski.flat_manager.app_common.dtos.TenantTransferDTO;
 import pl.damianrowinski.flat_manager.module2_analytics.domain.model.entities.PaymentBalance;
 import pl.damianrowinski.flat_manager.module2_analytics.domain.model.entities.PaymentBalanceType;
 
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 @Component
 public class PaymentBalanceAssembler {
 
     public PaymentBalance openAccountForTenant(TenantTransferDTO tenantData) {
         PaymentBalance accountToCreate = new PaymentBalance();
+        accountToCreate.setCurrentBalanceDate(LocalDateTime.now());
         accountToCreate.setBalanceHolderId(tenantData.getTenantId());
         accountToCreate.setBalanceHolderName(tenantData.getTenantName());
         accountToCreate.setCurrentBalance(-tenantData.getRoomRent());

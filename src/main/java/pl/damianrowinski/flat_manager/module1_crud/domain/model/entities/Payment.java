@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import pl.damianrowinski.flat_manager.module1_crud.listeners.PaymentListener;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -19,7 +18,6 @@ import java.time.LocalDate;
 @Table(name = Payment.TABLE_NAME)
 @SQLDelete(sql = Payment.SQL_UPDATE, check = ResultCheckStyle.COUNT)
 @Where(clause = "state <> 'DELETED'")
-@EntityListeners(value = PaymentListener.class)
 
 public class Payment extends BaseEntityOwner {
 

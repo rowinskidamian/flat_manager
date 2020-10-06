@@ -1,16 +1,17 @@
-package pl.damianrowinski.flat_manager.module2_analytics.module_receivers;
+package pl.damianrowinski.flat_manager.module2_analytics.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import pl.damianrowinski.flat_manager.app_common.dtos.TenantTransferDTO;
 import pl.damianrowinski.flat_manager.app_common.dtos.TenantTransferType;
-import pl.damianrowinski.flat_manager.module2_analytics.services.PaymentBalanceService;
 
+@Component
 @RequiredArgsConstructor
-public class TenantReceiver {
+public class ModuleAnalyticsService {
 
     private final PaymentBalanceService paymentBalanceService;
 
-    public void receive(TenantTransferDTO tenantData) {
+    public void openPaymentBalanceFor(TenantTransferDTO tenantData) {
         if (tenantData.getTransferType().equals(TenantTransferType.CREATE))
         paymentBalanceService.createPaymentBalanceFor(tenantData);
     }

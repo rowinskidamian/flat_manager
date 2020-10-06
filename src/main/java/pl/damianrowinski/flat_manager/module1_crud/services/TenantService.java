@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import pl.damianrowinski.flat_manager.app_common.dtos.TenantTransferDTO;
+import pl.damianrowinski.flat_manager.module1_crud.assemblers.TenantAssembler;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Property;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Room;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Tenant;
@@ -30,6 +32,8 @@ import java.util.Optional;
 public class TenantService {
 
     private final TenantRepository tenantRepository;
+    private final TenantAssembler tenantAssembler;
+    private final ModuleCrudService tenantSender;
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
 
@@ -103,7 +107,6 @@ public class TenantService {
 
         formatLeaseDates(tenantDataToAdd, tenantToAdd);
 
-        log.info("Attempt to save tenant: " + tenantToAdd);
         Tenant savedTenant = tenantRepository.save(tenantToAdd);
 
         Long tenantRoomId = tenantDataToAdd.getRoomId();
@@ -114,6 +117,11 @@ public class TenantService {
             room.setTenant(savedTenant);
             roomRepository.save(room);
         }
+
+        tenantDataToAdd.setId(savedTenant.getId());
+        TenantTransferDTO tenantTransferDTO = tenantAssembler.convertToTransferCreateData(tenantDataToAdd);
+
+        tenantSender.openPaymentBalanceFor(tenantTransferDTO);
 
     }
 
