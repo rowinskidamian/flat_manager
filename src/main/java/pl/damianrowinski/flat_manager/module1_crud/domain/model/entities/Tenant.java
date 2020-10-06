@@ -7,7 +7,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.common.Address;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.common.PersonNameContact;
-import pl.damianrowinski.flat_manager.module1_crud.listeners.TenantListener;
+import pl.damianrowinski.flat_manager.module1_crud.listeners.TenantTransferListener;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @Table(name = Tenant.TABLE_NAME)
 @SQLDelete(sql = Tenant.SQL_UPDATE, check = ResultCheckStyle.COUNT)
 @Where(clause = "state <> 'DELETED'")
-@EntityListeners(value = TenantListener.class)
+@EntityListeners(value = TenantTransferListener.class)
 
 public class Tenant extends BaseEntityOwner {
 

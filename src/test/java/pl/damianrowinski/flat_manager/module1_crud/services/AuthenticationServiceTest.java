@@ -10,7 +10,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.damianrowinski.flat_manager.module1_crud.assemblers.UserAssembler;
-import pl.damianrowinski.flat_manager.app_common.config.Role;
+import pl.damianrowinski.flat_manager.config.Role;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.User;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.dtos.user.UserAddDTO;
 import pl.damianrowinski.flat_manager.module1_crud.domain.repositories.UserRepository;

@@ -1,4 +1,4 @@
-package pl.damianrowinski.flat_manager.module1_crud.domain.model.entities;
+package pl.damianrowinski.flat_manager.module2_analytics.domain.model.entities;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.BaseEntityOwner;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -33,6 +34,9 @@ public class PaymentBalance extends BaseEntityOwner {
 
     @Column(nullable = false, name = "balance_holder_id")
     private Long balanceHolderId;
+
+    @Column(nullable = false, name = "balance_holder_name")
+    private String balanceHolderName;
 
     @Column(name = "payment_holder_type")
     @Enumerated(EnumType.STRING)

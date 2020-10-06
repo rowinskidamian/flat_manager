@@ -1,4 +1,4 @@
-package pl.damianrowinski.flat_manager.app_common.config;
+package pl.damianrowinski.flat_manager.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
