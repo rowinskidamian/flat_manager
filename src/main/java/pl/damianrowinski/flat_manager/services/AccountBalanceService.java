@@ -3,9 +3,9 @@ package pl.damianrowinski.flat_manager.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.damianrowinski.flat_manager.assemblers.AccountBalanceAssembler;
-import pl.damianrowinski.flat_manager.domain.model.dtos.account_balance.AccountBalanceCreateDTO;
-import pl.damianrowinski.flat_manager.domain.model.entities.AccountBalance;
+import pl.damianrowinski.flat_manager.assemblers.PaymentBalanceAssembler;
+import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentBalanceCreateDTO;
+import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalance;
 import pl.damianrowinski.flat_manager.domain.repositories.AccountBalanceRepository;
 
 import javax.transaction.Transactional;
@@ -17,11 +17,11 @@ import javax.transaction.Transactional;
 public class AccountBalanceService {
 
     private final AccountBalanceRepository accountBalanceRepository;
-    private final AccountBalanceAssembler accountBalanceAssembler;
+    private final PaymentBalanceAssembler accountBalanceAssembler;
 
-    public void createAccountBalance(AccountBalanceCreateDTO accountData) {
-        
-        AccountBalance accountToSave = accountBalanceAssembler.convertAccountCreateDTO(accountData);
+    public void createAccountBalance(PaymentBalanceCreateDTO accountData) {
+
+        PaymentBalance accountToSave = accountBalanceAssembler.convertAccountCreateDTO(accountData);
         accountBalanceRepository.save(accountToSave);
 
     }

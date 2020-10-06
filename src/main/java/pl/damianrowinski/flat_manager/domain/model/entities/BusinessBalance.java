@@ -16,26 +16,32 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Transactional
-@Table(name = AccountBalance.TABLE_NAME)
-@SQLDelete(sql = AccountBalance.SQL_UPDATE, check = ResultCheckStyle.COUNT)
+@Table(name = BusinessBalance.TABLE_NAME)
+@SQLDelete(sql = BusinessBalance.SQL_UPDATE, check = ResultCheckStyle.COUNT)
 @Where(clause = "state <> 'DELETED'")
 
-public class AccountBalance extends BaseEntityOwner {
+public class BusinessBalance extends BaseEntityOwner {
 
-    final static String TABLE_NAME = "account_balance";
+    final static String TABLE_NAME = "business_balance";
     final static String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET state = 'DELETED' WHERE id = ?";
 
-    @Column(nullable = false, name = "current_billing_period")
-    private LocalDateTime currentBillingPeriod;
+    @Column(nullable = false, name = "current_balance_date")
+    private LocalDateTime currentBalanceDate;
 
+    @Column(nullable = false, name = "incomes")
+    private Double incomes;
+    @Column(nullable = false, name = "expenses")
+    private Double expenses;
     @Column(nullable = false, name = "current_balance")
     private Double currentBalance;
 
-    @Column(nullable = false, name = "account_holder_id")
-    private Long accountHolderId;
+    @Column(nullable = false, name = "balance_holder_id")
+    private Long balanceHolderId;
 
-    @Column(name = "account_holder_type")
+    @Column(name = "business_holder_type")
     @Enumerated(EnumType.STRING)
-    private AccountBalanceType accountHolderType;
+    private BusinessBalanceType businessHolderType;
+
+
 
 }
