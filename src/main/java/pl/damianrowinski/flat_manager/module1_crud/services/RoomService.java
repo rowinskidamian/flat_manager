@@ -3,6 +3,7 @@ package pl.damianrowinski.flat_manager.module1_crud.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.damianrowinski.flat_manager.module1_crud.assemblers.RoomAssembler;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Property;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Room;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Tenant;
@@ -30,6 +31,15 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final PropertyRepository propertyRepository;
     private final TenantRepository tenantRepository;
+    private final RoomAssembler roomAssembler;
+
+    public RoomTransferDTO findByTenantId(Long tenantId) {
+        Optional<Room> optionalRoom = roomRepository.findFirstByTenantId(tenantId);
+        if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Brak pokoju dla najemcy o podanym id");
+
+        Room roomWithTenant = optionalRoom.get();
+        return roomAssembler.convertRoomToTransferData(roomWithTenant);
+    }
 
     public void save(RoomEditDTO roomData) {
         log.info("Attempt to save room:");
@@ -55,7 +65,6 @@ public class RoomService {
         roomRepository.save(roomToSave);
 
     }
-
 
     public void addNewToProperty(RoomEditDTO roomData) {
         Optional<Property> optionalProperty = propertyRepository.findById(roomData.getPropertyId());

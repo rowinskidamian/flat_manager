@@ -119,7 +119,7 @@ public class TenantService {
         }
 
         tenantDataToAdd.setId(savedTenant.getId());
-        TenantTransferDTO tenantTransferDTO = tenantAssembler.convertToTransferCreateData(tenantDataToAdd);
+        TenantTransferDTO tenantTransferDTO = tenantAssembler.convertFromEditToTransferData(tenantDataToAdd);
 
         tenantSender.openPaymentBalanceFor(tenantTransferDTO);
 

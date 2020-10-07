@@ -7,9 +7,6 @@ import pl.damianrowinski.flat_manager.app_common.dtos.TenantTransferType;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.dtos.property.PropertyEditDTO;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.dtos.room.RoomEditDTO;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.dtos.tenant.TenantEditDTO;
-import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Room;
-import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Tenant;
-import pl.damianrowinski.flat_manager.module1_crud.domain.repositories.RoomRepository;
 import pl.damianrowinski.flat_manager.module1_crud.services.PropertyService;
 import pl.damianrowinski.flat_manager.module1_crud.services.RoomService;
 
@@ -20,7 +17,7 @@ public class TenantTransferAssembler {
     private final RoomService roomService;
     private final PropertyService propertyService;
 
-    public TenantTransferDTO convertToTransferCreateData(TenantEditDTO tenant) {
+    public TenantTransferDTO convertFromEditToTransferData(TenantEditDTO tenant) {
         Double rentWithoutRoom = 0d;
         Long tenantRoomId = tenant.getRoomId();
         RoomEditDTO roomData = roomService.findRoomToEdit(tenantRoomId);

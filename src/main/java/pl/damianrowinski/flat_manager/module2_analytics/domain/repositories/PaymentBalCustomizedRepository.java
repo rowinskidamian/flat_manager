@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface PaymentBalCustomizedRepository {
 
     Optional<PaymentBalance> findLatestBalanceForProperty(Long propertyId);
+
+    Optional<PaymentBalance> findLatestBalanceForTenant(Long tenantId);
 }

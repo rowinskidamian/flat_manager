@@ -26,4 +26,18 @@ public class PaymentBalCustomizedRepositoryImpl implements PaymentBalCustomizedR
                 .findFirst();
         return optionalPaymentBalance;
     }
+
+    @Override
+    public Optional<PaymentBalance> findLatestBalanceForTenant(Long tenantId) {
+        Query q = entityManager
+                .createQuery("SELECT pb FROM PaymentBalance pb WHERE pb.balanceHolderId = :tenantId AND " +
+                        "pb.paymentHolderType = :holderType ORDER BY pb.createdDate DESC");
+        q.setParameter("tenantId", tenantId);
+        q.setParameter("holderType", PaymentBalanceType.TENANT);
+        Optional<PaymentBalance> optionalPaymentBalance = q.getResultList()
+                .stream()
+                .findFirst();
+        return optionalPaymentBalance;
+    }
+
 }

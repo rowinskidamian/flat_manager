@@ -15,7 +15,7 @@ public class ModuleCrudService {
 
     public void openPaymentBalanceFor(TenantTransferDTO tenantData) {
         log.info("Attempt to open PaymentBalance for Tenant with data: " + tenantData);
-        tenantReceiver.sendTenantForCreateBalance(tenantData);
+        tenantReceiver.getTenantForPaymentBalance(tenantData);
     }
 
 }
