@@ -1,21 +1,24 @@
-package pl.damianrowinski.flat_manager.module1_crud.assemblers;
+package pl.damianrowinski.flat_manager.app_common.assemblers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.damianrowinski.flat_manager.app_common.dtos.TenantTransferDTO;
 import pl.damianrowinski.flat_manager.app_common.dtos.TenantTransferType;
+import pl.damianrowinski.flat_manager.module1_crud.domain.model.dtos.property.PropertyEditDTO;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.dtos.room.RoomEditDTO;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.dtos.tenant.TenantEditDTO;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Room;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Tenant;
 import pl.damianrowinski.flat_manager.module1_crud.domain.repositories.RoomRepository;
+import pl.damianrowinski.flat_manager.module1_crud.services.PropertyService;
 import pl.damianrowinski.flat_manager.module1_crud.services.RoomService;
 
 @Component
 @RequiredArgsConstructor
-public class TenantAssembler {
+public class TenantTransferAssembler {
 
     private final RoomService roomService;
+    private final PropertyService propertyService;
 
     public TenantTransferDTO convertToTransferCreateData(TenantEditDTO tenant) {
         Double rentWithoutRoom = 0d;
@@ -27,6 +30,9 @@ public class TenantAssembler {
         if (roomData != null) {
             Double catalogRent = roomData.getCatalogRent();
             Double rentDiscount = tenant.getRentDiscount();
+            tenantData.setPropertyId(roomData.getPropertyId());
+            PropertyEditDTO propertyData = propertyService.findToEditById(roomData.getPropertyId());
+            tenantData.setPropertyName(propertyData.getWorkingName());
 
             if (rentDiscount != null) {
                 tenantData.setRoomRent(catalogRent - rentDiscount);
@@ -35,6 +41,7 @@ public class TenantAssembler {
 
         tenantData.setTenantId(tenant.getId());
         tenantData.setTenantName(tenant.getFullName());
+
         tenantData.setTransferType(TenantTransferType.CREATE);
 
         return tenantData;

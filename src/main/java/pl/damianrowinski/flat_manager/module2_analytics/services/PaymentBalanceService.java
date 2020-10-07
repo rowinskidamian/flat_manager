@@ -9,6 +9,7 @@ import pl.damianrowinski.flat_manager.module2_analytics.domain.model.entities.Pa
 import pl.damianrowinski.flat_manager.module2_analytics.domain.repositories.PaymentBalanceRepository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -19,9 +20,26 @@ public class PaymentBalanceService {
     private final PaymentBalanceRepository paymentBalanceRepository;
     private final PaymentBalanceAssembler paymentBalanceAssembler;
 
-    public void createPaymentBalanceFor(TenantTransferDTO tenantData) {
-        PaymentBalance accountToSave = paymentBalanceAssembler.openAccountForTenant(tenantData);
+    public void receiveTenantOpenPaymentBalance(TenantTransferDTO tenantData) {
+        PaymentBalance accountToSave = paymentBalanceAssembler.createTenantPaymentBalance(tenantData);
         paymentBalanceRepository.save(accountToSave);
+        if (tenantData.getPropertyId() != null)
+            checkAndUpdatePropertyPaymentBalanceFor(tenantData);
+    }
+
+    private void checkAndUpdatePropertyPaymentBalanceFor(TenantTransferDTO tenantData) {
+        Optional<PaymentBalance> optionalPaymentBalance =
+                paymentBalanceRepository.findLatestBalanceForProperty(tenantData.getPropertyId());
+
+        if (optionalPaymentBalance.isPresent()) {
+            PaymentBalance paymentBalance = optionalPaymentBalance.get();
+            PaymentBalance accountUpdated = paymentBalanceAssembler
+                    .updatePropertyPaymentBalanceWithTenant(tenantData, paymentBalance);
+            paymentBalanceRepository.save(accountUpdated);
+        } else {
+            PaymentBalance accountToCreate = paymentBalanceAssembler.createPropertyBalanceWithTenant(tenantData);
+            paymentBalanceRepository.save(accountToCreate);
+        }
     }
 
 

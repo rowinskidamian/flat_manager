@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Component
 public class PaymentBalanceAssembler {
 
-    public PaymentBalance openAccountForTenant(TenantTransferDTO tenantData) {
+    public PaymentBalance createTenantPaymentBalance(TenantTransferDTO tenantData) {
         PaymentBalance accountToCreate = new PaymentBalance();
         accountToCreate.setCurrentBalanceDate(LocalDateTime.now());
         accountToCreate.setBalanceHolderId(tenantData.getTenantId());
@@ -22,4 +22,29 @@ public class PaymentBalanceAssembler {
         return accountToCreate;
     }
 
+    public PaymentBalance updatePropertyPaymentBalanceWithTenant
+            (TenantTransferDTO tenantData, PaymentBalance paymentBalance) {
+        PaymentBalance updatedPaymentBalance = new PaymentBalance();
+        updatedPaymentBalance.setCurrentBalanceDate(LocalDateTime.now());
+        updatedPaymentBalance.setBalanceHolderId(paymentBalance.getBalanceHolderId());
+        updatedPaymentBalance.setBalanceHolderName(paymentBalance.getBalanceHolderName());
+
+        Double paymentBalanceAmount = paymentBalance.getCurrentBalance();
+        Double roomRent = tenantData.getRoomRent();
+        Double paymentBalanceAmountUpdated = paymentBalanceAmount - roomRent;
+        updatedPaymentBalance.setCurrentBalance(paymentBalanceAmountUpdated);
+        updatedPaymentBalance.setPaymentHolderType(PaymentBalanceType.PROPERTY);
+
+        return updatedPaymentBalance;
+    }
+
+    public PaymentBalance createPropertyBalanceWithTenant(TenantTransferDTO tenantData) {
+        PaymentBalance accountToCreate = new PaymentBalance();
+        accountToCreate.setCurrentBalanceDate(LocalDateTime.now());
+        accountToCreate.setBalanceHolderId(tenantData.getPropertyId());
+        accountToCreate.setBalanceHolderName(tenantData.getPropertyName());
+        accountToCreate.setCurrentBalance(-tenantData.getRoomRent());
+        accountToCreate.setPaymentHolderType(PaymentBalanceType.PROPERTY);
+        return accountToCreate;
+    }
 }

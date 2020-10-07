@@ -8,5 +8,6 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public interface PaymentBalanceRepository extends JpaRepository<PaymentBalance, Long> {
+public interface PaymentBalanceRepository extends JpaRepository<PaymentBalance, Long>, PaymentBalCustomizedRepository {
+
 }

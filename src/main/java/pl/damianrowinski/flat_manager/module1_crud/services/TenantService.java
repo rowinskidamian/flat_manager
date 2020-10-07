@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import pl.damianrowinski.flat_manager.app_common.dtos.TenantTransferDTO;
-import pl.damianrowinski.flat_manager.module1_crud.assemblers.TenantAssembler;
+import pl.damianrowinski.flat_manager.app_common.assemblers.TenantTransferAssembler;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Property;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Room;
 import pl.damianrowinski.flat_manager.module1_crud.domain.model.entities.Tenant;
@@ -32,7 +32,7 @@ import java.util.Optional;
 public class TenantService {
 
     private final TenantRepository tenantRepository;
-    private final TenantAssembler tenantAssembler;
+    private final TenantTransferAssembler tenantAssembler;
     private final ModuleCrudService tenantSender;
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;

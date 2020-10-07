@@ -11,9 +11,9 @@ public class ModuleAnalyticsService {
 
     private final PaymentBalanceService paymentBalanceService;
 
-    public void openPaymentBalanceFor(TenantTransferDTO tenantData) {
+    public void sendTenantForCreateBalance(TenantTransferDTO tenantData) {
         if (tenantData.getTransferType().equals(TenantTransferType.CREATE))
-        paymentBalanceService.createPaymentBalanceFor(tenantData);
+        paymentBalanceService.receiveTenantOpenPaymentBalance(tenantData);
     }
 
 
