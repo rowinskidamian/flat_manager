@@ -23,12 +23,22 @@ public class PaymentBalanceService {
     private final PaymentBalanceAssembler paymentBalanceAssembler;
 
     public void createPaymentBalanceForTenant(TenantPayBalCreateDTO tenantData) {
-        PaymentBalance accountToSave = paymentBalanceAssembler.createTenantPaymentBalance(tenantData);
-        paymentBalanceRepository.save(accountToSave);
-        if (tenantData.getPropertyId() != null){
-            PaymentBalanceUpdateDTO pbu = paymentBalanceAssembler.convertToPaymentBalanceUpdate(tenantData);
-            checkAndUpdatePropertyPaymentBalanceFor(pbu);
+
+        Optional<PaymentBalance> optionalPaymentBalance =
+                paymentBalanceRepository.findLatestBalanceForTenant(tenantData.getTenantId());
+
+        if (optionalPaymentBalance.isEmpty()) {
+            PaymentBalance accountToSave = paymentBalanceAssembler.createTenantPaymentBalance(tenantData);
+            paymentBalanceRepository.save(accountToSave);
+        } else {
+            PaymentBalance paymentBalance = optionalPaymentBalance.get();
+            PaymentBalance accountUpdated = paymentBalanceAssembler
+                    .updateTenantPaymentBalanceByCheckin(paymentBalance, tenantData.getRoomRent());
+            paymentBalanceRepository.save(accountUpdated);
         }
+
+        PaymentBalanceUpdateDTO pbu = paymentBalanceAssembler.convertToPaymentBalanceUpdate(tenantData);
+        checkAndUpdatePropertyPaymentBalanceFor(pbu);
     }
 
     public void updateForPayment(PaymentBalanceUpdateDTO paymentData) {
@@ -37,15 +47,20 @@ public class PaymentBalanceService {
     }
 
     private void checkAndUpdateTenantBalance(PaymentBalanceUpdateDTO paymentData) {
-        Optional<PaymentBalance> optionalPaymentBalance =
-                paymentBalanceRepository.findLatestBalanceForTenant(paymentData.getTenantId());
-
-        if (optionalPaymentBalance.isEmpty()) throw new ElementNotFoundException("Dodaj najemcę, następnie płatność.");
-
-        PaymentBalance paymentBalanceToUpdate = optionalPaymentBalance.get();
+        PaymentBalance paymentBalanceToUpdate = getTenantPaymentBalance(paymentData);
         PaymentBalance accountUpdated = paymentBalanceAssembler
                 .updateTenantPaymentBalanceWithPayment(paymentBalanceToUpdate, paymentData.getPaymentAmount());
         paymentBalanceRepository.save(accountUpdated);
+    }
+
+    private PaymentBalance getTenantPaymentBalance(PaymentBalanceUpdateDTO paymentData) {
+        Optional<PaymentBalance> optionalPaymentBalance =
+                paymentBalanceRepository.findLatestBalanceForTenant(paymentData.getTenantId());
+
+        if (optionalPaymentBalance.isEmpty())
+            throw new ElementNotFoundException("Brak założonego konta płatności dla najemcy.");
+
+        return optionalPaymentBalance.get();
     }
 
     private void checkAndUpdatePropertyPaymentBalanceFor(PaymentBalanceUpdateDTO paymentBalanceChanges) {

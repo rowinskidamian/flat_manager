@@ -3,7 +3,9 @@ package pl.damianrowinski.flat_manager.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.damianrowinski.flat_manager.assemblers.PaymentTenantAssembler;
 import pl.damianrowinski.flat_manager.assemblers.RoomAssembler;
+import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.TenantPayBalCreateDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.Property;
 import pl.damianrowinski.flat_manager.domain.model.entities.Room;
 import pl.damianrowinski.flat_manager.domain.model.entities.Tenant;
@@ -28,10 +30,12 @@ import java.util.Optional;
 
 public class RoomService {
 
-    private final RoomRepository roomRepository;
+    private final PaymentBalanceService paymentBalanceService;
+    private final PaymentTenantAssembler paymentTenantAssembler;
     private final PropertyRepository propertyRepository;
-    private final TenantRepository tenantRepository;
     private final RoomAssembler roomAssembler;
+    private final RoomRepository roomRepository;
+    private final TenantRepository tenantRepository;
 
     public RoomTransferDTO findByTenantId(Long tenantId) {
         Optional<Room> optionalRoom = roomRepository.findFirstByTenantId(tenantId);
@@ -201,19 +205,19 @@ public class RoomService {
         Optional<Room> optionalRoom = roomRepository.findById(roomId);
         if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Brak pokoju o podanym id.");
         Room room = optionalRoom.get();
-        if (!room.getLoggedUserName().equals(LoggedUsername.get()))
-            throw new ForbiddenAccessException("Brak dostępu do zasobu");
 
         Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
         if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Brak najemcy o podanym id.");
         Tenant tenant = optionalTenant.get();
-        if (!tenant.getLoggedUserName().equals(LoggedUsername.get()))
-            throw new ForbiddenAccessException("Brak dostępu.");
 
         room.setTenant(tenant);
         log.info("Checked in tenant: " + tenant.getPersonalDetails().getFullName() + ", to apartment: "
                 + room.getProperty().getWorkingName());
 
-        roomRepository.save(room);
+        Room savedRoom = roomRepository.save(room);
+
+        TenantPayBalCreateDTO tenantData = paymentTenantAssembler.getDataFromRoom(savedRoom);
+        
+        paymentBalanceService.createPaymentBalanceForTenant(tenantData);
     }
 }

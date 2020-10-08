@@ -10,4 +10,5 @@ public class TenantPayBalCreateDTO {
     private Long propertyId;
     private String tenantName;
     private String propertyName;
+    private PayBalUpdateType updateType;
 }

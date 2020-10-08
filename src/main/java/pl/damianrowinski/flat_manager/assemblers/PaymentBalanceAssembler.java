@@ -65,26 +65,19 @@ public class PaymentBalanceAssembler {
         return accountToCreate;
     }
 
-    public PaymentBalance updateBalanceForPayment(PaymentBalanceUpdateDTO paymentBalanceDataUpdate) {
-        PaymentBalance accountToUpdate = new PaymentBalance();
-        accountToUpdate.setCurrentBalanceDate(LocalDateTime.now());
-        accountToUpdate.setBalanceHolderId(paymentBalanceDataUpdate.getPropertyId());
-        accountToUpdate.setBalanceHolderName(paymentBalanceDataUpdate.getPropertyName());
-        accountToUpdate.setCurrentBalance(paymentBalanceDataUpdate.getPaymentAmount());
-        accountToUpdate.setPaymentHolderType(PaymentBalanceType.PROPERTY);
-        return accountToUpdate;
-
-    }
-
     public PaymentBalance updateTenantPaymentBalanceWithPayment(PaymentBalance paymentBalanceToUpdate,
                                                                 Double paymentAmount) {
-        PaymentBalance tenantBalanceUpdated = new PaymentBalance();
-        tenantBalanceUpdated.setCurrentBalanceDate(LocalDateTime.now());
-        tenantBalanceUpdated.setBalanceHolderId(paymentBalanceToUpdate.getBalanceHolderId());
-        tenantBalanceUpdated.setBalanceHolderName(paymentBalanceToUpdate.getBalanceHolderName());
-        tenantBalanceUpdated.setPaymentHolderType(PaymentBalanceType.TENANT);
+        PaymentBalance tenantBalanceUpdated = getBalanceToUpdate(paymentBalanceToUpdate);
 
         Double balanceAmountUpdated = paymentBalanceToUpdate.getCurrentBalance() + paymentAmount;
+        tenantBalanceUpdated.setCurrentBalance(balanceAmountUpdated);
+        return tenantBalanceUpdated;
+    }
+
+    public PaymentBalance updateTenantPaymentBalanceByCheckin(PaymentBalance paymentBalanceToUpdate, Double roomRent) {
+        PaymentBalance tenantBalanceUpdated = getBalanceToUpdate(paymentBalanceToUpdate);
+
+        Double balanceAmountUpdated = paymentBalanceToUpdate.getCurrentBalance() - roomRent;
         tenantBalanceUpdated.setCurrentBalance(balanceAmountUpdated);
         return tenantBalanceUpdated;
     }
@@ -107,5 +100,14 @@ public class PaymentBalanceAssembler {
         PaymentBalanceUpdateDTO paymentData = modelMapper.map(tenantData, PaymentBalanceUpdateDTO.class);
         paymentData.setUpdateType(PayBalUpdateType.OUTCOME);
         return paymentData;
+    }
+
+    private PaymentBalance getBalanceToUpdate(PaymentBalance paymentBalanceToUpdate) {
+        PaymentBalance tenantBalanceUpdated = new PaymentBalance();
+        tenantBalanceUpdated.setCurrentBalanceDate(LocalDateTime.now());
+        tenantBalanceUpdated.setBalanceHolderId(paymentBalanceToUpdate.getBalanceHolderId());
+        tenantBalanceUpdated.setBalanceHolderName(paymentBalanceToUpdate.getBalanceHolderName());
+        tenantBalanceUpdated.setPaymentHolderType(PaymentBalanceType.TENANT);
+        return tenantBalanceUpdated;
     }
 }
