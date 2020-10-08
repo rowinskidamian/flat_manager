@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import pl.damianrowinski.flat_manager.domain.model.entities.common.BaseEntityOwner;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;

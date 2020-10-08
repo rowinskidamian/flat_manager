@@ -6,6 +6,7 @@ import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import pl.damianrowinski.flat_manager.domain.model.common.Address;
+import pl.damianrowinski.flat_manager.domain.model.entities.common.BaseEntity;
 import pl.damianrowinski.flat_manager.domain.model.common.PersonNameContact;
 
 import javax.persistence.*;

@@ -1,7 +1,7 @@
 package pl.damianrowinski.flat_manager.domain.model.dtos.property;
 
 import lombok.Data;
-import pl.damianrowinski.flat_manager.domain.model.entities.BaseEntityState;
+import pl.damianrowinski.flat_manager.domain.model.entities.common.BaseEntityState;
 import pl.damianrowinski.flat_manager.domain.model.entities.Room;
 
 import javax.validation.constraints.*;

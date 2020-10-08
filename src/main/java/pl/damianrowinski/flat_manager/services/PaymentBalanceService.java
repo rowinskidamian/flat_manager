@@ -3,11 +3,12 @@ package pl.damianrowinski.flat_manager.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.damianrowinski.flat_manager.domain.model.dtos.PaymentTransferDTO;
-import pl.damianrowinski.flat_manager.domain.model.dtos.TenantTransferDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentBalanceUpdateDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.TenantPayBalCreateDTO;
 import pl.damianrowinski.flat_manager.assemblers.PaymentBalanceAssembler;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalance;
 import pl.damianrowinski.flat_manager.domain.repositories.PaymentBalanceRepository;
+import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -21,47 +22,46 @@ public class PaymentBalanceService {
     private final PaymentBalanceRepository paymentBalanceRepository;
     private final PaymentBalanceAssembler paymentBalanceAssembler;
 
-    public void updatePaymentBalanceForTenant(TenantTransferDTO tenantData) {
+    public void createPaymentBalanceForTenant(TenantPayBalCreateDTO tenantData) {
         PaymentBalance accountToSave = paymentBalanceAssembler.createTenantPaymentBalance(tenantData);
         paymentBalanceRepository.save(accountToSave);
-        if (tenantData.getPropertyId() != null)
-            checkAndUpdatePropertyPaymentBalanceFor(tenantData);
+        if (tenantData.getPropertyId() != null){
+            PaymentBalanceUpdateDTO pbu = paymentBalanceAssembler.convertToPaymentBalanceUpdate(tenantData);
+            checkAndUpdatePropertyPaymentBalanceFor(pbu);
+        }
     }
 
-    private void checkAndUpdatePropertyPaymentBalanceFor(TenantTransferDTO tenantData) {
+    public void updateForPayment(PaymentBalanceUpdateDTO paymentData) {
+        checkAndUpdateTenantBalance(paymentData);
+        checkAndUpdatePropertyPaymentBalanceFor(paymentData);
+    }
+
+    private void checkAndUpdateTenantBalance(PaymentBalanceUpdateDTO paymentData) {
         Optional<PaymentBalance> optionalPaymentBalance =
-                paymentBalanceRepository.findLatestBalanceForProperty(tenantData.getPropertyId());
+                paymentBalanceRepository.findLatestBalanceForTenant(paymentData.getTenantId());
+
+        if (optionalPaymentBalance.isEmpty()) throw new ElementNotFoundException("Dodaj najemcę, następnie płatność.");
+
+        PaymentBalance paymentBalanceToUpdate = optionalPaymentBalance.get();
+        PaymentBalance accountUpdated = paymentBalanceAssembler
+                .updateTenantPaymentBalanceWithPayment(paymentBalanceToUpdate, paymentData.getPaymentAmount());
+        paymentBalanceRepository.save(accountUpdated);
+    }
+
+    private void checkAndUpdatePropertyPaymentBalanceFor(PaymentBalanceUpdateDTO paymentBalanceChanges) {
+        Optional<PaymentBalance> optionalPaymentBalance =
+                paymentBalanceRepository.findLatestBalanceForProperty(paymentBalanceChanges.getPropertyId());
 
         if (optionalPaymentBalance.isPresent()) {
-            PaymentBalance paymentBalanceToUpdate = optionalPaymentBalance.get();
+            PaymentBalance paymentBalanceCurrent = optionalPaymentBalance.get();
             PaymentBalance accountUpdated = paymentBalanceAssembler
-                    .updatePropertyPaymentBalanceWithTenant(tenantData, paymentBalanceToUpdate);
+                    .updatePropertyPaymentBalance(paymentBalanceChanges, paymentBalanceCurrent);
             paymentBalanceRepository.save(accountUpdated);
         } else {
-            PaymentBalance accountToCreate = paymentBalanceAssembler.createPropertyBalanceFromTenant(tenantData);
+            PaymentBalance accountToCreate = paymentBalanceAssembler
+                    .createPropertyBalanceForTenant(paymentBalanceChanges);
             paymentBalanceRepository.save(accountToCreate);
         }
     }
 
-
-    public void updatePaymentBalanceForTenantPayment(PaymentTransferDTO tenantPaymentData) {
-        PaymentBalance tenantPaymentBalanceUpdate = paymentBalanceAssembler.createPaymentBalanceFor(tenantPaymentData);
-        checkAndUpdateTenantBalance(tenantPaymentBalanceUpdate);
-        checkAndUpdatePropertyPaymentBalanceFor(tenantPaymentBalanceUpdate);
-    }
-
-    private void checkAndUpdateTenantBalance(PaymentBalance tenantBalance) {
-        Optional<PaymentBalance> optionalPaymentBalance =
-                paymentBalanceRepository.findLatestBalanceForTenant(tenantBalance.getBalanceHolderId());
-
-        if (optionalPaymentBalance.isPresent()) {
-            PaymentBalance paymentBalanceToUpdate = optionalPaymentBalance.get();
-            PaymentBalance accountUpdated = paymentBalanceAssembler
-                    .updateTenantPaymentBalanceWithPayment(paymentBalanceToUpdate, tenantBalance.getCurrentBalance());
-            paymentBalanceRepository.save(accountUpdated);
-        }
-    }
-
-    private void checkAndUpdatePropertyPaymentBalanceFor(PaymentBalance balanceToUpdate) {
-    }
 }

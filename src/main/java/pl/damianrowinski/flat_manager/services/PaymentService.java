@@ -3,7 +3,9 @@ package pl.damianrowinski.flat_manager.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.damianrowinski.flat_manager.assemblers.PaymentBalanceAssembler;
 import pl.damianrowinski.flat_manager.assemblers.PaymentDataAssembler;
+import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentBalanceUpdateDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.Payment;
 import pl.damianrowinski.flat_manager.domain.model.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
@@ -26,9 +28,12 @@ import java.util.Optional;
 @Slf4j
 public class PaymentService {
 
+    private final PaymentBalanceAssembler paymentBalanceAssembler;
+    private final PaymentBalanceService paymentBalanceService;
     private final PaymentRepository paymentRepository;
-    private final TenantRepository tenantRepository;
     private final PropertyService propertyService;
+    private final TenantRepository tenantRepository;
+
 
     public void edit(PaymentEditDTO paymentData) {
         Payment paymentToEdit = getPaymentOrThrow(paymentData.getId());
@@ -48,6 +53,8 @@ public class PaymentService {
 
         log.info("Attempt to save payment: " + paymentData);
         paymentRepository.save(paymentToSave);
+        PaymentBalanceUpdateDTO paymentUpdateData = paymentBalanceAssembler.convertFromPaymentToUpdateData(paymentData);
+        paymentBalanceService.updateForPayment(paymentUpdateData);
     }
 
     public void delete(Long paymentDeleteId) {

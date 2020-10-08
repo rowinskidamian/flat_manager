@@ -1,4 +1,4 @@
-package pl.damianrowinski.flat_manager.domain.model.entities;
+package pl.damianrowinski.flat_manager.domain.model.entities.common;
 
 import lombok.Getter;
 import lombok.Setter;

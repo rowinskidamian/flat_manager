@@ -1,7 +1,7 @@
 package pl.damianrowinski.flat_manager.listeners;
 
 import org.springframework.stereotype.Component;
-import pl.damianrowinski.flat_manager.domain.model.entities.BaseEntityOwner;
+import pl.damianrowinski.flat_manager.domain.model.entities.common.BaseEntityOwner;
 import pl.damianrowinski.flat_manager.exceptions.ForbiddenAccessException;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 

@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import pl.damianrowinski.flat_manager.domain.model.dtos.TenantTransferDTO;
-import pl.damianrowinski.flat_manager.assemblers.TenantTransferAssembler;
+import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.TenantPayBalCreateDTO;
+import pl.damianrowinski.flat_manager.assemblers.PaymentTenantAssembler;
 import pl.damianrowinski.flat_manager.domain.model.entities.Property;
 import pl.damianrowinski.flat_manager.domain.model.entities.Room;
 import pl.damianrowinski.flat_manager.domain.model.entities.Tenant;
@@ -32,8 +32,8 @@ import java.util.Optional;
 public class TenantService {
 
     private final TenantRepository tenantRepository;
-    private final TenantTransferAssembler tenantAssembler;
-    private final ModuleCrudService tenantSender;
+    private final PaymentTenantAssembler tenantAssembler;
+    private final PaymentBalanceService paymentBalanceService;
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
 
@@ -119,9 +119,9 @@ public class TenantService {
         }
 
         tenantDataToAdd.setId(savedTenant.getId());
-        TenantTransferDTO tenantTransferDTO = tenantAssembler.convertFromEditToTransferData(tenantDataToAdd);
+        TenantPayBalCreateDTO tenantPayBalCreateDTO = tenantAssembler.getTenantPaymentBalanceData(tenantDataToAdd);
 
-        tenantSender.openPaymentBalanceFor(tenantTransferDTO);
+        paymentBalanceService.createPaymentBalanceForTenant(tenantPayBalCreateDTO);
 
     }
 
