@@ -82,7 +82,7 @@ public class PaymentBalanceAssembler {
         tenantBalanceUpdated.setCurrentBalanceDate(LocalDateTime.now());
         tenantBalanceUpdated.setBalanceHolderId(paymentBalanceToUpdate.getBalanceHolderId());
         tenantBalanceUpdated.setBalanceHolderName(paymentBalanceToUpdate.getBalanceHolderName());
-        tenantBalanceUpdated.setPaymentHolderType(PaymentBalanceType.PROPERTY);
+        tenantBalanceUpdated.setPaymentHolderType(PaymentBalanceType.TENANT);
 
         Double balanceAmountUpdated = paymentBalanceToUpdate.getCurrentBalance() + paymentAmount;
         tenantBalanceUpdated.setCurrentBalance(balanceAmountUpdated);
