@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.damianrowinski.flat_manager.assemblers.PaymentBalanceAssembler;
 import pl.damianrowinski.flat_manager.assemblers.PaymentDataAssembler;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentBalanceUpdateDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.room.RoomTransferDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.Payment;
 import pl.damianrowinski.flat_manager.domain.model.entities.Tenant;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
@@ -32,6 +33,7 @@ public class PaymentService {
     private final PaymentBalanceService paymentBalanceService;
     private final PaymentRepository paymentRepository;
     private final PropertyService propertyService;
+    private final RoomService roomService;
     private final TenantRepository tenantRepository;
 
 
@@ -53,7 +55,9 @@ public class PaymentService {
 
         log.info("Attempt to save payment: " + paymentData);
         paymentRepository.save(paymentToSave);
-        PaymentBalanceUpdateDTO paymentUpdateData = paymentBalanceAssembler.convertFromPaymentToUpdateData(paymentData);
+        RoomTransferDTO roomData = roomService.findByTenantId(tenant.getId());
+        PaymentBalanceUpdateDTO paymentUpdateData = paymentBalanceAssembler
+                .convertFromPaymentToUpdateData(paymentData, roomData);
         paymentBalanceService.updateForPayment(paymentUpdateData);
     }
 

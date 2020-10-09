@@ -18,6 +18,8 @@ public class RoomAssembler {
         roomData.setTenantId(roomToConvert.getTenant().getId());
         roomData.setTenantName(roomToConvert.getTenant().getPersonalDetails().getFullName());
 
+        roomData.setCatalogRent(roomToConvert.getCatalogRent());
+
         return roomData;
     }
 }

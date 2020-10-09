@@ -9,4 +9,5 @@ public class RoomTransferDTO {
     private String tenantName;
     private Long propertyId;
     private String propertyName;
+    private Double catalogRent;
 }

@@ -1,6 +1,7 @@
 package pl.damianrowinski.flat_manager.assemblers;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PayBalUpdateType;
@@ -10,16 +11,15 @@ import pl.damianrowinski.flat_manager.domain.model.dtos.payment.PaymentEditDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.room.RoomTransferDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalance;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalanceType;
-import pl.damianrowinski.flat_manager.services.RoomService;
 
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class PaymentBalanceAssembler {
 
     private final ModelMapper modelMapper;
-    private final RoomService roomService;
 
     public PaymentBalance createTenantPaymentBalance(TenantPayBalCreateDTO tenantData) {
         PaymentBalance accountToCreate = new PaymentBalance();
@@ -82,11 +82,11 @@ public class PaymentBalanceAssembler {
         return tenantBalanceUpdated;
     }
 
-    public PaymentBalanceUpdateDTO convertFromPaymentToUpdateData(PaymentEditDTO paymentToConvert) {
+    public PaymentBalanceUpdateDTO convertFromPaymentToUpdateData(PaymentEditDTO paymentToConvert,
+                                                                  RoomTransferDTO roomData) {
         PaymentBalanceUpdateDTO paymentConverted = new PaymentBalanceUpdateDTO();
         paymentConverted.setPaymentAmount(paymentToConvert.getAmount());
 
-        RoomTransferDTO roomData = roomService.findByTenantId(paymentToConvert.getTenantId());
         paymentConverted.setPropertyId(roomData.getPropertyId());
         paymentConverted.setPropertyName(roomData.getPropertyName());
 
@@ -99,6 +99,8 @@ public class PaymentBalanceAssembler {
     public PaymentBalanceUpdateDTO convertToPaymentBalanceUpdate(TenantPayBalCreateDTO tenantData) {
         PaymentBalanceUpdateDTO paymentData = modelMapper.map(tenantData, PaymentBalanceUpdateDTO.class);
         paymentData.setUpdateType(PayBalUpdateType.OUTCOME);
+        paymentData.setPaymentAmount(tenantData.getRoomRent());
+        log.info("Converted tenantData to paymentData: " + paymentData);
         return paymentData;
     }
 
@@ -108,6 +110,7 @@ public class PaymentBalanceAssembler {
         tenantBalanceUpdated.setBalanceHolderId(paymentBalanceToUpdate.getBalanceHolderId());
         tenantBalanceUpdated.setBalanceHolderName(paymentBalanceToUpdate.getBalanceHolderName());
         tenantBalanceUpdated.setPaymentHolderType(PaymentBalanceType.TENANT);
+        tenantBalanceUpdated.setCurrentBalance(paymentBalanceToUpdate.getCurrentBalance());
         return tenantBalanceUpdated;
     }
 }

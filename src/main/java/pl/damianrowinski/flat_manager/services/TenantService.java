@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import pl.damianrowinski.flat_manager.assemblers.RoomAssembler;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.TenantPayBalCreateDTO;
 import pl.damianrowinski.flat_manager.assemblers.PaymentTenantAssembler;
+import pl.damianrowinski.flat_manager.domain.model.dtos.room.RoomTransferDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.Property;
 import pl.damianrowinski.flat_manager.domain.model.entities.Room;
 import pl.damianrowinski.flat_manager.domain.model.entities.Tenant;
@@ -35,6 +37,7 @@ public class TenantService {
     private final PaymentTenantAssembler tenantAssembler;
     private final PaymentBalanceService paymentBalanceService;
     private final RoomRepository roomRepository;
+    private final RoomAssembler roomAssembler;
     private final ModelMapper modelMapper;
 
     public List<TenantListDTO> findAllWithoutRooms(String loggedUserName) {
@@ -110,19 +113,24 @@ public class TenantService {
         Tenant savedTenant = tenantRepository.save(tenantToAdd);
 
         Long tenantRoomId = tenantDataToAdd.getRoomId();
+
         if (tenantRoomId != null) {
             Optional<Room> optionalRoom = roomRepository.findById(tenantRoomId);
             if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Nie znalazłem pokoju o podanym id.");
+
             Room room = optionalRoom.get();
             room.setTenant(savedTenant);
-            roomRepository.save(room);
+            tenantDataToAdd.setId(savedTenant.getId());
+
+            Room roomWithTenant = roomRepository.save(room);
+
+            RoomTransferDTO roomToTransfer = roomAssembler.convertRoomToTransferData(roomWithTenant);
+
+            TenantPayBalCreateDTO tenantPayBalCreateDTO = tenantAssembler
+                    .getTenantPaymentBalanceData(tenantDataToAdd, roomToTransfer);
+
+            paymentBalanceService.createPaymentBalanceForTenant(tenantPayBalCreateDTO);
         }
-
-        tenantDataToAdd.setId(savedTenant.getId());
-        TenantPayBalCreateDTO tenantPayBalCreateDTO = tenantAssembler.getTenantPaymentBalanceData(tenantDataToAdd);
-
-        paymentBalanceService.createPaymentBalanceForTenant(tenantPayBalCreateDTO);
-
     }
 
     private void formatLeaseDates(TenantEditDTO tenantDataToAdd, Tenant tenantToAdd) {
