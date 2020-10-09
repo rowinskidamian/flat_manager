@@ -9,8 +9,11 @@ import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentB
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.TenantPayBalCreateDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment.PaymentEditDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.room.RoomTransferDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserListDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalance;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalanceType;
+import pl.damianrowinski.flat_manager.services.UserService;
+import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +23,7 @@ import java.time.LocalDateTime;
 public class PaymentBalanceAssembler {
 
     private final ModelMapper modelMapper;
+    private final UserService userService;
 
     public PaymentBalance createTenantPaymentBalance(TenantPayBalCreateDTO tenantData) {
         PaymentBalance accountToCreate = new PaymentBalance();
@@ -31,8 +35,39 @@ public class PaymentBalanceAssembler {
         return accountToCreate;
     }
 
+    public PaymentBalance createPropertyBalanceForTenant(PaymentBalanceUpdateDTO tenantData) {
+        PaymentBalance accountToCreate = new PaymentBalance();
+        accountToCreate.setCurrentBalanceDate(LocalDateTime.now());
+        accountToCreate.setBalanceHolderId(tenantData.getPropertyId());
+        accountToCreate.setBalanceHolderName(tenantData.getPropertyName());
+        accountToCreate.setCurrentBalance(-tenantData.getPaymentAmount());
+        accountToCreate.setPaymentHolderType(PaymentBalanceType.PROPERTY);
+        return accountToCreate;
+    }
+
+    public PaymentBalance createUserBalance(PaymentBalanceUpdateDTO paymentBalanceChanges) {
+        PaymentBalance accountToCreate = new PaymentBalance();
+        accountToCreate.setCurrentBalanceDate(LocalDateTime.now());
+        UserListDTO userData = userService.findByLoginPreview(LoggedUsername.get());
+        accountToCreate.setBalanceHolderId(userData.getId());
+        accountToCreate.setBalanceHolderName(userData.getFullName());
+        accountToCreate.setCurrentBalance(-paymentBalanceChanges.getPaymentAmount());
+        accountToCreate.setPaymentHolderType(PaymentBalanceType.USER);
+        return accountToCreate;
+    }
+
     public PaymentBalance updatePropertyPaymentBalance
             (PaymentBalanceUpdateDTO changesForBalance, PaymentBalance currentBalance) {
+        return updatePaymentBalance(changesForBalance, currentBalance, PaymentBalanceType.PROPERTY);
+    }
+
+    public PaymentBalance updateUserPaymentBalance(PaymentBalanceUpdateDTO paymentBalanceChanges,
+                                                   PaymentBalance currentBalance) {
+        return updatePaymentBalance(paymentBalanceChanges, currentBalance, PaymentBalanceType.USER);
+    }
+
+    private PaymentBalance updatePaymentBalance(PaymentBalanceUpdateDTO changesForBalance, PaymentBalance currentBalance,
+                                                PaymentBalanceType paymentBalanceType) {
         PaymentBalance updatedPaymentBalance = new PaymentBalance();
         updatedPaymentBalance.setCurrentBalanceDate(LocalDateTime.now());
         updatedPaymentBalance.setBalanceHolderId(currentBalance.getBalanceHolderId());
@@ -50,19 +85,9 @@ public class PaymentBalanceAssembler {
         }
 
         updatedPaymentBalance.setCurrentBalance(paymentBalanceAmountUpdated);
-        updatedPaymentBalance.setPaymentHolderType(PaymentBalanceType.PROPERTY);
+        updatedPaymentBalance.setPaymentHolderType(paymentBalanceType);
 
         return updatedPaymentBalance;
-    }
-
-    public PaymentBalance createPropertyBalanceForTenant(PaymentBalanceUpdateDTO tenantData) {
-        PaymentBalance accountToCreate = new PaymentBalance();
-        accountToCreate.setCurrentBalanceDate(LocalDateTime.now());
-        accountToCreate.setBalanceHolderId(tenantData.getPropertyId());
-        accountToCreate.setBalanceHolderName(tenantData.getPropertyName());
-        accountToCreate.setCurrentBalance(-tenantData.getPaymentAmount());
-        accountToCreate.setPaymentHolderType(PaymentBalanceType.PROPERTY);
-        return accountToCreate;
     }
 
     public PaymentBalance updateTenantPaymentBalanceWithPayment(PaymentBalance paymentBalanceToUpdate,
@@ -113,4 +138,5 @@ public class PaymentBalanceAssembler {
         tenantBalanceUpdated.setCurrentBalance(paymentBalanceToUpdate.getCurrentBalance());
         return tenantBalanceUpdated;
     }
+
 }

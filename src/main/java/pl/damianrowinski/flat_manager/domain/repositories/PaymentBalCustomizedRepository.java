@@ -9,4 +9,6 @@ public interface PaymentBalCustomizedRepository {
     Optional<PaymentBalance> findLatestBalanceForProperty(Long propertyId);
 
     Optional<PaymentBalance> findLatestBalanceForTenant(Long tenantId);
+
+    Optional<PaymentBalance> findLatestBalanceLoggedUser();
 }
