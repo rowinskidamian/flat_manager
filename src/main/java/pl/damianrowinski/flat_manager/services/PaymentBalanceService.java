@@ -6,11 +6,14 @@ import org.springframework.stereotype.Service;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentBalanceUpdateDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.TenantPayBalCreateDTO;
 import pl.damianrowinski.flat_manager.assemblers.PaymentBalanceAssembler;
+import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantListDTO;
+import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantShowDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalance;
 import pl.damianrowinski.flat_manager.domain.repositories.PaymentBalanceRepository;
 import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,10 +51,23 @@ public class PaymentBalanceService {
         checkAndUpdateUserPaymentBalance(paymentData);
     }
 
+    public void collectRentFromTenants(List<TenantShowDTO> tenantList) {
+        for (TenantShowDTO tenantData : tenantList) {
+            Long roomId = tenantData.getRoomId();
+            if (roomId != null) {
+
+                PaymentBalanceUpdateDTO accountToUpdate = paymentBalanceAssembler
+                        .convertToAccountUpdateWithRentRequest(tenantData);
+                log.info("Updated account balance: " + accountToUpdate);
+                updateForPayment(accountToUpdate);
+            }
+        }
+    }
+
     private void checkAndUpdateTenantBalance(PaymentBalanceUpdateDTO paymentData) {
         PaymentBalance paymentBalanceToUpdate = getTenantPaymentBalance(paymentData);
         PaymentBalance accountUpdated = paymentBalanceAssembler
-                .updateTenantPaymentBalanceWithPayment(paymentBalanceToUpdate, paymentData.getPaymentAmount());
+                .updateTenantPaymentBalanceWithPayment(paymentBalanceToUpdate, paymentData);
         paymentBalanceRepository.save(accountUpdated);
     }
 

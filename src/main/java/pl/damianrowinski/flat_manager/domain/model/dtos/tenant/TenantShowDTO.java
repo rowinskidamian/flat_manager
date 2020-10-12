@@ -7,7 +7,7 @@ import java.time.LocalDate;
 @Data
 public class TenantShowDTO {
 
-    private String id;
+    private Long id;
     private String fullName;
     private String apartmentName;
     private Long propertyId;
