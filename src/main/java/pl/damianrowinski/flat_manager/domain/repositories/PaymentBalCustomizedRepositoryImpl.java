@@ -7,8 +7,9 @@ import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.Optional;
+import java.util.*;
 
 @Transactional
 public class PaymentBalCustomizedRepositoryImpl implements PaymentBalCustomizedRepository {
@@ -45,6 +46,28 @@ public class PaymentBalCustomizedRepositoryImpl implements PaymentBalCustomizedR
         q.setParameter("loggedUserName", loggedUserName);
         q.setParameter("holderType", PaymentBalanceType.USER);
         return getPaymentBalance(q);
+    }
+
+    @Override
+    public List<PaymentBalance> getListLatestBalanceFor(PaymentBalanceType type) {
+        String sqlQuery = "SELECT pb FROM PaymentBalance pb WHERE pb.paymentHolderType = " +
+                "'" + type + "' ORDER BY pb.currentBalanceDate DESC";
+        TypedQuery<PaymentBalance> query = entityManager.createQuery(sqlQuery, PaymentBalance.class);
+
+        List<PaymentBalance> listToFilter = query.getResultList();
+
+        return getUniqueValuesList(listToFilter);
+    }
+
+    private List<PaymentBalance> getUniqueValuesList(List<PaymentBalance> listToFilter) {
+        Map<Long, PaymentBalance> filteredMap = new HashMap<>();
+
+        for (int i = 0; i < listToFilter.size(); i++) {
+            PaymentBalance currentPB = listToFilter.get(i);
+            Long balanceHolderId = currentPB.getBalanceHolderId();
+            filteredMap.computeIfAbsent(balanceHolderId, v -> currentPB);
+        }
+        return new ArrayList<>(filteredMap.values());
     }
 
     private Optional<PaymentBalance> getPaymentBalance(Query q) {
