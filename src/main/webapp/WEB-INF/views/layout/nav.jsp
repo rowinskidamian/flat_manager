@@ -8,52 +8,32 @@
         </a>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-           data-target="navbarBasicExample">
+           data-target="navbar">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
         </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div id="navbar" class="navbar-menu">
         <div class="navbar-start">
             <sec:authorize access="isAuthenticated()">
                 <a class="navbar-item" href="/property">
                     Mieszkania
                 </a>
-
                 <a class="navbar-item" href="/room">
                     Pokoje
                 </a>
-
                 <a class="navbar-item" href="/tenant">
                     Najemcy
                 </a>
-
                 <a class="navbar-item" href="/payment">
                     Płatności
                 </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        Rozwiń
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            O nas
-                        </a>
-                        <a class="navbar-item">
-                            Kontakt
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item" href="/user/details">
-                            Twoje konto
-                        </a>
-                    </div>
-                </div>
+                <a class="navbar-item" href="/payment_balance">
+                    Salda kont
+                </a>
             </sec:authorize>
-
         </div>
 
         <div class="navbar-end">

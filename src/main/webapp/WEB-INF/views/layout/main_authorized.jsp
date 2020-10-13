@@ -5,8 +5,9 @@
     <div class="buttons is-centered">
         <a class="button is-link is-large" href="/property">Mieszkania</a>
         <a class="button is-info is-large" href="/room">Pokoje</a>
-        <a class="button is-success is-large" href="/tenant">Najemcy</a>
-        <a class="button is-warning is-large" href="/payment">Płatności</a>
+        <a class="button is-primary is-large" href="/tenant">Najemcy</a>
+        <a class="button is-success is-large" href="/payment">Płatności</a>
+        <a class="button is-warning is-large" href="/payment_balance/">Salda kont</a>
     </div>
 </div>
 

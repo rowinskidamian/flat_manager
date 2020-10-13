@@ -29,7 +29,7 @@ public class PaymentBalanceController {
     private final PaymentBalanceService paymentBalanceService;
     private final TenantService tenantService;
 
-    @RequestMapping("/list")
+    @RequestMapping
     public String balanceForAllUnits(Model model) {
 
         PaymentBalanceShowDTO userBalance = paymentBalanceService.getCurrentUserBalance();

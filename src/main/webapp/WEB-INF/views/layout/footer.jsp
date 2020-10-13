@@ -5,7 +5,6 @@
 </head>
 <body>
 
-
     <div class="content has-text-centered">
         <p>
             <strong>Flat Manager</strong> aplikacja napisana przez Damiana Rowińskiego w 2020r.
@@ -16,6 +15,7 @@
         </p>
     </div>
 
+    <script src="/scripts/navbar_burger_anim.js" type="text/javascript"></script>
 
 </body>
 </html>
