@@ -32,13 +32,13 @@ public class PaymentBalanceController {
     @RequestMapping
     public String balanceForAllUnits(Model model) {
 
-        PaymentBalanceShowDTO userBalance = paymentBalanceService.getCurrentUserBalance();
+        List<PaymentBalanceShowDTO> userBalance = paymentBalanceService.getCurrentUserBalance();
 
         List<PaymentBalanceShowDTO> propertiesBalances = paymentBalanceService.getCurrentPropertiesBalances();
 
         List<PaymentBalanceShowDTO> tenantsBalances = paymentBalanceService.getCurrentTenantsBalances();
 
-        model.addAttribute("userBalance", userBalance);
+        model.addAttribute("userBalance", userBalance.get(0));
         model.addAttribute("propertyBalanceList", propertiesBalances);
         model.addAttribute("tenantBalanceList", tenantsBalances);
 

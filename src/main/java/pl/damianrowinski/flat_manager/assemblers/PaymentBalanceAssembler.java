@@ -18,7 +18,6 @@ import pl.damianrowinski.flat_manager.services.UserService;
 import pl.damianrowinski.flat_manager.utils.CurrentLocalDateTimeFormatted;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
@@ -64,6 +63,11 @@ public class PaymentBalanceAssembler {
         return updatePaymentBalance(changesForBalance, currentBalance, PaymentBalanceType.PROPERTY);
     }
 
+    public PaymentBalance updateTenantPaymentBalance(PaymentBalanceUpdateDTO updateData,
+                                                     PaymentBalance paymentBalanceToUpdate) {
+        return updatePaymentBalance(updateData, paymentBalanceToUpdate, PaymentBalanceType.TENANT);
+    }
+
     public PaymentBalance updateUserPaymentBalance(PaymentBalanceUpdateDTO paymentBalanceChanges,
                                                    PaymentBalance currentBalance) {
         return updatePaymentBalance(paymentBalanceChanges, currentBalance, PaymentBalanceType.USER);
@@ -83,15 +87,6 @@ public class PaymentBalanceAssembler {
         updatedPaymentBalance.setPaymentHolderType(paymentBalanceType);
 
         return updatedPaymentBalance;
-    }
-
-    public PaymentBalance updateTenantPaymentBalanceWithPayment(PaymentBalance paymentBalanceToUpdate,
-                                                                PaymentBalanceUpdateDTO updateData) {
-
-        Double paymentBalanceAmountUpdated = updateAmountBalance(updateData, paymentBalanceToUpdate);
-
-        paymentBalanceToUpdate.setCurrentBalance(paymentBalanceAmountUpdated);
-        return paymentBalanceToUpdate;
     }
 
     private Double updateAmountBalance(PaymentBalanceUpdateDTO changesForBalance, PaymentBalance paymentBalanceToUpdate) {
@@ -166,5 +161,11 @@ public class PaymentBalanceAssembler {
 
     public PaymentBalanceShowDTO convertToPaymentBalanceShow(PaymentBalance paymentBalance) {
         return modelMapper.map(paymentBalance, PaymentBalanceShowDTO.class);
+    }
+
+    public TenantPayBalCreateDTO convertFromUpdateToTenantPayBal(PaymentBalanceUpdateDTO paymentData) {
+        TenantPayBalCreateDTO tenantData = modelMapper.map(paymentData, TenantPayBalCreateDTO.class);
+        tenantData.setRoomRent(paymentData.getPaymentAmount());
+        return tenantData;
     }
 }

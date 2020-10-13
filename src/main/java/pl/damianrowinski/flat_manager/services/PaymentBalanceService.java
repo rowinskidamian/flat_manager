@@ -7,7 +7,6 @@ import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentB
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentBalanceUpdateDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.TenantPayBalCreateDTO;
 import pl.damianrowinski.flat_manager.assemblers.PaymentBalanceAssembler;
-import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantListDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantShowDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalance;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalanceType;
@@ -75,22 +74,38 @@ public class PaymentBalanceService {
         return getListOfCurrentBalanceFor(PaymentBalanceType.PROPERTY);
     }
 
-    public PaymentBalanceShowDTO getCurrentUserBalance() {
-        Optional<PaymentBalance> optionalPayment = paymentBalanceRepository
-                .findFirstByPaymentHolderTypeOrderByCurrentBalanceDateDesc(PaymentBalanceType.USER);
-
-        if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Brak salda konta dla użytkownika aplikacji.");
-
-        PaymentBalance paymentBalance = optionalPayment.get();
-        return paymentBalanceAssembler.convertToPaymentBalanceShow(paymentBalance);
+    public List<PaymentBalanceShowDTO> getCurrentUserBalance() {
+        return getListOfCurrentBalanceFor(PaymentBalanceType.USER);
     }
+
+//    public PaymentBalanceShowDTO getCurrentUserBalance() {
+//        Optional<PaymentBalance> optionalPayment = paymentBalanceRepository
+//                .findFirstByPaymentHolderTypeOrderByCurrentBalanceDateDesc(PaymentBalanceType.USER);
+//
+//        if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Brak salda konta dla użytkownika aplikacji.");
+//
+//        PaymentBalance paymentBalance = optionalPayment.get();
+//        return paymentBalanceAssembler.convertToPaymentBalanceShow(paymentBalance);
+//    }
 
 
     private void checkAndUpdateTenantBalance(PaymentBalanceUpdateDTO paymentData) {
-        PaymentBalance paymentBalanceToUpdate = getTenantPaymentBalance(paymentData);
-        PaymentBalance accountUpdated = paymentBalanceAssembler
-                .updateTenantPaymentBalanceWithPayment(paymentBalanceToUpdate, paymentData);
-        paymentBalanceRepository.save(accountUpdated);
+
+        Optional<PaymentBalance> optionalPaymentBalance =
+                paymentBalanceRepository.findLatestBalanceForTenant(paymentData.getTenantId());
+
+        if (optionalPaymentBalance.isPresent()) {
+            PaymentBalance paymentBalanceCurrent = optionalPaymentBalance.get();
+            PaymentBalance accountUpdated = paymentBalanceAssembler
+                    .updateTenantPaymentBalance(paymentData, paymentBalanceCurrent);
+            paymentBalanceRepository.save(accountUpdated);
+        } else {
+            TenantPayBalCreateDTO tenantData = paymentBalanceAssembler.convertFromUpdateToTenantPayBal(paymentData);
+            PaymentBalance accountToCreate = paymentBalanceAssembler
+                    .createTenantPaymentBalance(tenantData);
+            paymentBalanceRepository.save(accountToCreate);
+        }
+
     }
 
     private void checkAndUpdatePropertyPaymentBalanceFor(PaymentBalanceUpdateDTO paymentBalanceChanges) {
@@ -124,15 +139,7 @@ public class PaymentBalanceService {
         }
     }
 
-    private PaymentBalance getTenantPaymentBalance(PaymentBalanceUpdateDTO paymentData) {
-        Optional<PaymentBalance> optionalPaymentBalance =
-                paymentBalanceRepository.findLatestBalanceForTenant(paymentData.getTenantId());
 
-        if (optionalPaymentBalance.isEmpty())
-            throw new ElementNotFoundException("Brak założonego konta płatności dla najemcy.");
-
-        return optionalPaymentBalance.get();
-    }
 
     private List<PaymentBalanceShowDTO> getListOfCurrentBalanceFor(PaymentBalanceType balanceType) {
         List<PaymentBalance> latestBalance = paymentBalanceRepository
