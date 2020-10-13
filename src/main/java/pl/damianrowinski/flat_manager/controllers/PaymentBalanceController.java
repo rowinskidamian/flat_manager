@@ -4,8 +4,10 @@ package pl.damianrowinski.flat_manager.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentBalanceShowDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantShowDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalance;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalanceType;
@@ -21,32 +23,27 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/payment_balance")
 public class PaymentBalanceController {
 
-    private final PaymentBalanceRepository paymentBalanceRepository;
     private final PaymentBalanceService paymentBalanceService;
     private final TenantService tenantService;
 
-    @RequestMapping("/paymentbalance")
-    @ResponseBody
-    public String balanceForProperties() {
-        List<PaymentBalance> listLatestBalanceProperty = paymentBalanceRepository
-                .getListLatestBalanceFor(PaymentBalanceType.PROPERTY);
-        listLatestBalanceProperty.forEach(paymentBalance -> log.info(paymentBalance.toString()));
-        return "";
-    }
+    @RequestMapping("/list")
+    public String balanceForAllUnits(Model model) {
 
-    @RequestMapping("/userbalance")
-    @ResponseBody
-    public String balanceForUser() {
-        Optional<PaymentBalance> optionalPayment = paymentBalanceRepository
-                .findFirstByPaymentHolderTypeOrderByCurrentBalanceDateDesc(PaymentBalanceType.USER);
+        PaymentBalanceShowDTO userBalance = paymentBalanceService.getCurrentUserBalance();
 
-        if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Brak salda konta dla użytkownika aplikacji.");
+        List<PaymentBalanceShowDTO> propertiesBalances = paymentBalanceService.getCurrentPropertiesBalances();
 
-        PaymentBalance paymentBalance = optionalPayment.get();
-        log.info(paymentBalance.toString());
-        return "";
+        List<PaymentBalanceShowDTO> tenantsBalances = paymentBalanceService.getCurrentTenantsBalances();
+
+        model.addAttribute("userBalance", userBalance);
+        model.addAttribute("propertyBalanceList", propertiesBalances);
+        model.addAttribute("tenantBalanceList", tenantsBalances);
+
+        return "/payment_balance/list";
+
     }
 
     @RequestMapping("/collectrent")

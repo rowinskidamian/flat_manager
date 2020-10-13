@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PayBalUpdateType;
+import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentBalanceShowDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentBalanceUpdateDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.TenantPayBalCreateDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment.PaymentEditDTO;
@@ -162,5 +163,7 @@ public class PaymentBalanceAssembler {
         return tenantBalanceUpdated;
     }
 
-
+    public PaymentBalanceShowDTO convertToPaymentBalanceShow(PaymentBalance paymentBalance) {
+        return modelMapper.map(paymentBalance, PaymentBalanceShowDTO.class);
+    }
 }
