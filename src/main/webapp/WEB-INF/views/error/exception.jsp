@@ -14,9 +14,18 @@
 <section class="section">
     <div class="container has-text-centered">
         <div class="notification is-danger">
-            <h3 class="title is-3">WYSTĄPIŁ BŁĄD</h3>
-            ${errorMessage}
+            <div class="block">
+                <h3 class="title is-3">WYSTĄPIŁ BŁĄD</h3>
+                ${errorMessage}
+            </div>
+            <div class="block">
+                <button class="button is-light" onclick="history.go(-1)">
+                    Powrót
+                </button>
+            </div>
         </div>
+    </div>
+
     </div>
 </section>
 

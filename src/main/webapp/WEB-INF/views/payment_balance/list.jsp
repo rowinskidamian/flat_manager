@@ -28,7 +28,7 @@
                     Salda kont
                 </h1>
                 <h2 class="subtitle">
-                    Przeglądaj saldo konta biznesu, dla mieszkań i pokoi. Sprawdź czy masz dłużników. </strong>
+                    Przeglądaj saldo kont dla biznesu, mieszkań i pokoi. Sprawdź czy masz dłużników. </strong>
                 </h2>
             </div>
         </div>
