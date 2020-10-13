@@ -15,6 +15,7 @@ import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserListDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalance;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalanceType;
 import pl.damianrowinski.flat_manager.services.UserService;
+import pl.damianrowinski.flat_manager.utils.CurrentLocalDateTimeFormatted;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class PaymentBalanceAssembler {
 
     public PaymentBalance createTenantPaymentBalance(TenantPayBalCreateDTO tenantData) {
         PaymentBalance accountToCreate = new PaymentBalance();
-        accountToCreate.setCurrentBalanceDate(LocalDateTime.now());
+        accountToCreate.setCurrentBalanceDate(CurrentLocalDateTimeFormatted.get());
         accountToCreate.setBalanceHolderId(tenantData.getTenantId());
         accountToCreate.setBalanceHolderName(tenantData.getTenantName());
         accountToCreate.setCurrentBalance(-tenantData.getRoomRent());
@@ -39,7 +40,7 @@ public class PaymentBalanceAssembler {
 
     public PaymentBalance createPropertyBalanceForTenant(PaymentBalanceUpdateDTO tenantData) {
         PaymentBalance accountToCreate = new PaymentBalance();
-        accountToCreate.setCurrentBalanceDate(LocalDateTime.now());
+        accountToCreate.setCurrentBalanceDate(CurrentLocalDateTimeFormatted.get());
         accountToCreate.setBalanceHolderId(tenantData.getPropertyId());
         accountToCreate.setBalanceHolderName(tenantData.getPropertyName());
         accountToCreate.setCurrentBalance(-tenantData.getPaymentAmount());
@@ -49,7 +50,7 @@ public class PaymentBalanceAssembler {
 
     public PaymentBalance createUserBalance(PaymentBalanceUpdateDTO paymentBalanceChanges) {
         PaymentBalance accountToCreate = new PaymentBalance();
-        accountToCreate.setCurrentBalanceDate(LocalDateTime.now());
+        accountToCreate.setCurrentBalanceDate(CurrentLocalDateTimeFormatted.get());
         UserListDTO userData = userService.findByLoginPreview(LoggedUsername.get());
         accountToCreate.setBalanceHolderId(userData.getId());
         accountToCreate.setBalanceHolderName(userData.getFullName());
@@ -72,7 +73,7 @@ public class PaymentBalanceAssembler {
                                                 PaymentBalance paymentBalanceToUpdate,
                                                 PaymentBalanceType paymentBalanceType) {
         PaymentBalance updatedPaymentBalance = new PaymentBalance();
-        updatedPaymentBalance.setCurrentBalanceDate(LocalDateTime.now());
+        updatedPaymentBalance.setCurrentBalanceDate(CurrentLocalDateTimeFormatted.get());
         updatedPaymentBalance.setBalanceHolderId(paymentBalanceToUpdate.getBalanceHolderId());
         updatedPaymentBalance.setBalanceHolderName(paymentBalanceToUpdate.getBalanceHolderName());
 
@@ -155,7 +156,7 @@ public class PaymentBalanceAssembler {
 
     private PaymentBalance getBalanceToUpdate(PaymentBalance paymentBalanceToUpdate) {
         PaymentBalance tenantBalanceUpdated = new PaymentBalance();
-        tenantBalanceUpdated.setCurrentBalanceDate(LocalDateTime.now());
+        tenantBalanceUpdated.setCurrentBalanceDate(CurrentLocalDateTimeFormatted.get());
         tenantBalanceUpdated.setBalanceHolderId(paymentBalanceToUpdate.getBalanceHolderId());
         tenantBalanceUpdated.setBalanceHolderName(paymentBalanceToUpdate.getBalanceHolderName());
         tenantBalanceUpdated.setPaymentHolderType(PaymentBalanceType.TENANT);

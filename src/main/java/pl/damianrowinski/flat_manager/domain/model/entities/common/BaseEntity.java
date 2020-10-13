@@ -3,9 +3,11 @@ package pl.damianrowinski.flat_manager.domain.model.entities.common;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pl.damianrowinski.flat_manager.utils.CurrentLocalDateTimeFormatted;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @MappedSuperclass
@@ -31,13 +33,13 @@ public abstract class BaseEntity {
 
     @PrePersist
     public void addCreatedDate() {
-        createdDate = LocalDateTime.now();
+        createdDate = CurrentLocalDateTimeFormatted.get();
         state = BaseEntityState.ACTIVE;
     }
 
     @PreUpdate
     public void updatedDate() {
-        updatedDate = LocalDateTime.now();
+        updatedDate = CurrentLocalDateTimeFormatted.get();
     }
 
     @PreRemove
@@ -57,5 +59,7 @@ public abstract class BaseEntity {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 
 }
