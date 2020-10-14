@@ -11,7 +11,6 @@ import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantShowDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalance;
 import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalanceType;
 import pl.damianrowinski.flat_manager.domain.repositories.PaymentBalanceRepository;
-import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -78,17 +77,6 @@ public class PaymentBalanceService {
         return getListOfCurrentBalanceFor(PaymentBalanceType.USER);
     }
 
-//    public PaymentBalanceShowDTO getCurrentUserBalance() {
-//        Optional<PaymentBalance> optionalPayment = paymentBalanceRepository
-//                .findFirstByPaymentHolderTypeOrderByCurrentBalanceDateDesc(PaymentBalanceType.USER);
-//
-//        if (optionalPayment.isEmpty()) throw new ElementNotFoundException("Brak salda konta dla użytkownika aplikacji.");
-//
-//        PaymentBalance paymentBalance = optionalPayment.get();
-//        return paymentBalanceAssembler.convertToPaymentBalanceShow(paymentBalance);
-//    }
-
-
     private void checkAndUpdateTenantBalance(PaymentBalanceUpdateDTO paymentData) {
 
         Optional<PaymentBalance> optionalPaymentBalance =
@@ -96,8 +84,14 @@ public class PaymentBalanceService {
 
         if (optionalPaymentBalance.isPresent()) {
             PaymentBalance paymentBalanceCurrent = optionalPaymentBalance.get();
+            log.info("paymentData:");
+            log.info(paymentData.toString());
+            log.info("paymentBalanceCurrent:");
+            log.info(paymentBalanceCurrent.toString());
             PaymentBalance accountUpdated = paymentBalanceAssembler
                     .updateTenantPaymentBalance(paymentData, paymentBalanceCurrent);
+            log.info("accountUpdated:");
+            log.info(accountUpdated.toString());
             paymentBalanceRepository.save(accountUpdated);
         } else {
             TenantPayBalCreateDTO tenantData = paymentBalanceAssembler.convertFromUpdateToTenantPayBal(paymentData);
@@ -138,8 +132,6 @@ public class PaymentBalanceService {
             paymentBalanceRepository.save(accountToCreate);
         }
     }
-
-
 
     private List<PaymentBalanceShowDTO> getListOfCurrentBalanceFor(PaymentBalanceType balanceType) {
         List<PaymentBalance> latestBalance = paymentBalanceRepository

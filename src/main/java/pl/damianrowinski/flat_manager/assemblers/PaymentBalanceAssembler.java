@@ -89,7 +89,8 @@ public class PaymentBalanceAssembler {
         return updatedPaymentBalance;
     }
 
-    private Double updateAmountBalance(PaymentBalanceUpdateDTO changesForBalance, PaymentBalance paymentBalanceToUpdate) {
+    private Double updateAmountBalance(PaymentBalanceUpdateDTO changesForBalance,
+                                       PaymentBalance paymentBalanceToUpdate) {
         Double paymentBalanceAmount = paymentBalanceToUpdate.getCurrentBalance();
         PayBalUpdateType updateType = changesForBalance.getUpdateType();
         double paymentBalanceAmountUpdated = 0d;
@@ -139,12 +140,7 @@ public class PaymentBalanceAssembler {
         paymentData.setPropertyId(tenantData.getPropertyId());
         paymentData.setTenantName(tenantData.getFullName());
         paymentData.setPropertyName(tenantData.getApartmentName());
-        Double rentDiscount = tenantData.getRentDiscount();
-        Double currentRent = tenantData.getCurrentRent();
-        if (rentDiscount != null) {
-            currentRent = currentRent - rentDiscount;
-        }
-        paymentData.setPaymentAmount(currentRent);
+        paymentData.setPaymentAmount(tenantData.getCurrentRent());
         paymentData.setUpdateType(PayBalUpdateType.OUTCOME);
         return paymentData;
     }
