@@ -98,7 +98,7 @@
 
                     <div class="field is-grouped">
                         <div class="control">
-                            <a class="button is-warning" href="/property/add">Dodaj mieszkanie</a>
+                            <a class="button is-success" href="/property/add">Dodaj mieszkanie</a>
                         </div>
                     </div>
 

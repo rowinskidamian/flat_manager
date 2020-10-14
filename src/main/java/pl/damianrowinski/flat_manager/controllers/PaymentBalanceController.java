@@ -31,7 +31,8 @@ public class PaymentBalanceController {
         List<PaymentBalanceShowDTO> propertiesBalances = paymentBalanceService.getCurrentPropertiesBalances();
         List<PaymentBalanceShowDTO> tenantsBalances = paymentBalanceService.getCurrentTenantsBalances();
 
-        model.addAttribute("userBalance", userBalance.get(0));
+        if (userBalance.size() > 0)
+            model.addAttribute("userBalance", userBalance.get(0));
         model.addAttribute("propertyBalanceList", propertiesBalances);
         model.addAttribute("tenantBalanceList", tenantsBalances);
 

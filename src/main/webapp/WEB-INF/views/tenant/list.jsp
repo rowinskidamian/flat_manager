@@ -37,7 +37,7 @@
 
         <div class="columns is-flex is-vcentered is-centered">
 
-            <div class="column">
+            <div class="column is-three-quarters">
 
                 <div class="notification has-text-centered is-light">
                     <strong>Szczegóły najemców</strong>
