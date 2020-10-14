@@ -13,7 +13,7 @@
 
                 <div class="content">
                     <ol type="1">
-                        <li>Założyć konto i zbudować swoją prywantą bazę</li>
+                        <li>Założyć konto i zbudować swoją prywatną bazę</li>
                         <li>Dodawać mieszkania i pokoje (jednostki najmu)</li>
                         <li>Dodawać najemców i ich dane</li>
                         <li>Dodawać płatności od najemców</li>

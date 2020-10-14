@@ -143,7 +143,8 @@
                         </div>
 
                         <div class="block">
-                            <h3 class="subtitle">Aktualny wynik:</h3>
+                            <p><strong>Potencjalny wynik:</strong></p>
+                            <p>(szacowany według cen katalogowych pokoi)</p>
                         </div>
 
                         <c:set var="billsForApartment"
