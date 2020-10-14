@@ -5,20 +5,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment_balance.PaymentBalanceShowDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantShowDTO;
-import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalance;
-import pl.damianrowinski.flat_manager.domain.model.entities.PaymentBalanceType;
-import pl.damianrowinski.flat_manager.domain.repositories.PaymentBalanceRepository;
-import pl.damianrowinski.flat_manager.exceptions.ElementNotFoundException;
 import pl.damianrowinski.flat_manager.services.PaymentBalanceService;
 import pl.damianrowinski.flat_manager.services.TenantService;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,11 +27,8 @@ public class PaymentBalanceController {
 
     @RequestMapping
     public String balanceForAllUnits(Model model) {
-
         List<PaymentBalanceShowDTO> userBalance = paymentBalanceService.getCurrentUserBalance();
-
         List<PaymentBalanceShowDTO> propertiesBalances = paymentBalanceService.getCurrentPropertiesBalances();
-
         List<PaymentBalanceShowDTO> tenantsBalances = paymentBalanceService.getCurrentTenantsBalances();
 
         model.addAttribute("userBalance", userBalance.get(0));
@@ -43,14 +36,18 @@ public class PaymentBalanceController {
         model.addAttribute("tenantBalanceList", tenantsBalances);
 
         return "/payment_balance/list";
-
     }
 
-    @RequestMapping("/collectrent")
-    @ResponseBody
-    public String collectRent() {
+    @GetMapping("/collectrent")
+    public String generateCollectRentPage() {
+        return "payment_balance/rent_collect_confirm";
+    }
+
+    @PostMapping("/collectrent")
+    public String confirmCollectRent() {
         List<TenantShowDTO> tenantList = tenantService.findAllLoggedUser(LoggedUsername.get());
         paymentBalanceService.collectRentFromTenants(tenantList);
-        return "";
+        return "redirect:/payment_balance";
     }
+
 }
