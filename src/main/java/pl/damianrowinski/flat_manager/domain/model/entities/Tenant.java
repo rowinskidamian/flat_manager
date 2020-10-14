@@ -2,6 +2,7 @@ package pl.damianrowinski.flat_manager.domain.model.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -12,6 +13,7 @@ import pl.damianrowinski.flat_manager.domain.model.common.PersonNameContact;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,6 +42,9 @@ public class Tenant extends BaseEntityOwner {
 
     @OneToOne(mappedBy = "tenant")
     private Room room;
+
+    @OneToMany(mappedBy = "tenant", cascade = CascadeType.REMOVE)
+    private List<Payment> paymentList;
 
     private PersonNameContact personalDetails;
 

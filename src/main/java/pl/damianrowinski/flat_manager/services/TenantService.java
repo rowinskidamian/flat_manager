@@ -33,12 +33,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TenantService {
 
-    private final TenantRepository tenantRepository;
+    private final ModelMapper modelMapper;
     private final PaymentTenantAssembler tenantAssembler;
     private final PaymentBalanceService paymentBalanceService;
     private final RoomRepository roomRepository;
     private final RoomAssembler roomAssembler;
-    private final ModelMapper modelMapper;
+    private final TenantRepository tenantRepository;
 
     public List<TenantListDTO> findAllWithoutRooms(String loggedUserName) {
         List<Tenant> tenantList = tenantRepository.findAllByLoggedUserNameAndRoomIsNull(loggedUserName);
@@ -221,8 +221,8 @@ public class TenantService {
         Optional<Tenant> optionalTenant = tenantRepository.findById(tenantId);
         if (optionalTenant.isEmpty()) throw new ElementNotFoundException("Nie znalazłem najemcy o podanym id.");
         Tenant tenant = optionalTenant.get();
-        if (tenant.getRoom() != null)
-            throw new ObjectInRelationshipException("Pokój ma najemcę, najpierw usuń najemcę, a później pokój");
+        if (tenant.getRoom() != null) throw new ObjectInRelationshipException("Najemca zajmuje pokój, " +
+                "najpierw wykwateruj najemcę, następnie usuń najemcę.");
         tenantRepository.delete(tenant);
     }
 
