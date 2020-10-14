@@ -133,6 +133,10 @@ public class TenantService {
         }
     }
 
+    public long findNoOfTotalTenantsLoggedUser() {
+        return tenantRepository.findNoOfUserTenants(LoggedUsername.get());
+    }
+
     private void formatLeaseDates(TenantEditDTO tenantDataToAdd, Tenant tenantToAdd) {
         String leaseDateStart = tenantDataToAdd.getLeaseDateStart();
         String leaseDateEnd = tenantDataToAdd.getLeaseDateEnd();

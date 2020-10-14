@@ -17,6 +17,7 @@ import pl.damianrowinski.flat_manager.domain.model.dtos.property.PropertyShowDTO
 import pl.damianrowinski.flat_manager.domain.model.dtos.room.RoomShowDTO;
 import pl.damianrowinski.flat_manager.domain.repositories.PropertyRepository;
 import pl.damianrowinski.flat_manager.domain.repositories.RoomRepository;
+import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -187,6 +188,10 @@ public class PropertyService {
         propertyRooms.forEach(roomRepository::delete);
 
         propertyRepository.delete(optionalProperty.get());
+    }
+
+    public long findNoOfTotalPropertiesLoggedUser() {
+        return propertyRepository.findnoOfPropertiesForUser(LoggedUsername.get());
     }
 
     private void addOwnerToPropertyData(Property property, PropertyShowDTO propertyToShowData) {

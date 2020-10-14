@@ -14,6 +14,9 @@ import java.util.List;
 public class HomeService {
 
     private final PaymentBalanceService paymentBalanceService;
+    private final RoomService roomService;
+    private final TenantService tenantService;
+    private final PropertyService propertyService;
 
     public double getCurrentBalance() {
         List<PaymentBalanceShowDTO> userBalance = paymentBalanceService.getCurrentUserBalance();
@@ -22,4 +25,21 @@ public class HomeService {
             userPaymentBalance = userBalance.get(0).getCurrentBalance();
         return userPaymentBalance;
     }
+
+    public long findNoOfTotalRooms() {
+        return roomService.findNoOfRoomsForLoggedUser();
+    }
+
+    public long findNoOfRentedRooms(){
+        return roomService.findNoOfRentedRooms();
+    }
+
+    public long findNoOfTotalTenants() {
+        return tenantService.findNoOfTotalTenantsLoggedUser();
+    }
+
+    public long findNoOfTotalProperties() {
+        return propertyService.findNoOfTotalPropertiesLoggedUser();
+    }
+
 }

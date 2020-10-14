@@ -220,4 +220,12 @@ public class RoomService {
         
         paymentBalanceService.createPaymentBalanceForTenant(tenantData);
     }
+
+    public long findNoOfRoomsForLoggedUser() {
+        return roomRepository.findNoOfUserRooms(LoggedUsername.get());
+    }
+
+    public long findNoOfRentedRooms() {
+        return roomRepository.findNoOfRentedRooms(LoggedUsername.get());
+    }
 }

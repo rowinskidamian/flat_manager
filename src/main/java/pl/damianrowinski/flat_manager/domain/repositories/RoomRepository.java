@@ -1,6 +1,7 @@
 package pl.damianrowinski.flat_manager.domain.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pl.damianrowinski.flat_manager.domain.model.entities.Room;
 
@@ -19,5 +20,11 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     List<Room> findAllByLoggedUserNameAndTenantIsNull(String loggedUserName);
 
     Optional<Room> findFirstByTenantId(Long tenantId);
+
+    @Query(value = "SELECT COUNT(r.id) FROM Room r WHERE r.loggedUserName = ?1")
+    long findNoOfUserRooms(String loggedUserName);
+
+    @Query(value = "SELECT COUNT(r.id) FROM Room r WHERE r.loggedUserName = ?1 AND r.tenant IS NOT NULL")
+    long findNoOfRentedRooms(String loggedUserName);
 
 }

@@ -25,10 +25,18 @@ public class HomeController {
         if (principal != null) {
             String loggedUserName = principal.getName();
             UserListDTO loggedUser = userService.findByLoginPreview(loggedUserName);
-            model.addAttribute("userFirstName", loggedUser.getFirstName());
-
             double currentBalance = homeService.getCurrentBalance();
+            long noOfTotalRooms = homeService.findNoOfTotalRooms();
+            long noOfRentedRooms = homeService.findNoOfRentedRooms();
+            long noOfTotalTenants = homeService.findNoOfTotalTenants();
+            long noOfTotalProperties = homeService.findNoOfTotalProperties();
+
+            model.addAttribute("userFirstName", loggedUser.getFirstName());
             model.addAttribute("currentBalance", currentBalance);
+            model.addAttribute("noOfRoomsTotal", noOfTotalRooms);
+            model.addAttribute("noOfRoomsRented", noOfRentedRooms);
+            model.addAttribute("noOfTenantsTotal", noOfTotalTenants);
+            model.addAttribute("noOfPropertiesTotal", noOfTotalProperties);
         }
         return "home";
     }

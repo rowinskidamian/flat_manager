@@ -18,9 +18,9 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>${noOfRooms}</td>
-                            <td>${noOfRoomsWithTenants}</td>
-                            <td>${noOfRooms - noOfRoomsWithTenants}</td>
+                            <td>${noOfRoomsTotal}</td>
+                            <td>${noOfRoomsRented}</td>
+                            <td>${noOfRoomsTotal - noOfRoomsRented}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -34,9 +34,9 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>${noOfTenants}</td>
-                            <td>${noOfTenantsRooms}</td>
-                            <td>${noOfTenants - noOfTenantsRooms}</td>
+                            <td>${noOfTenantsTotal}</td>
+                            <td>${noOfRoomsRented}</td>
+                            <td>${noOfTenantsTotal - noOfRoomsRented}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -45,7 +45,7 @@
                             <th>Liczba mieszkań</th>
                         </tr>
                         <tr>
-                            <td>${noOfApartments}</td>
+                            <td>${noOfPropertiesTotal}</td>
                         </tr>
                     </table>
                 </div>
@@ -55,7 +55,13 @@
                 <p class="title is-4">Stan płatności najemców:</p>
 
                 <div class="content">
-                    <c:if test="${currentBalance >= 0}">
+                    <c:if test="${currentBalance eq 0}">
+                        <div class="notification is-info">
+                            Kwota: <c:out value="${currentBalance}"/>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${currentBalance > 0}">
                         <div class="notification is-success">
                             Nadpłata: <c:out value="${currentBalance}"/>
                         </div>
