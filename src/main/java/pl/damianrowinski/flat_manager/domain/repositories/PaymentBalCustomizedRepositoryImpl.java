@@ -22,20 +22,21 @@ public class PaymentBalCustomizedRepositoryImpl implements PaymentBalCustomizedR
     public Optional<PaymentBalance> findLatestBalanceForTenant(Long tenantId) {
         Query q = entityManager
                 .createQuery("SELECT pb FROM PaymentBalance pb WHERE pb.balanceHolderId = :tenantId AND " +
-                        "pb.paymentHolderType = :holderType ORDER BY pb.id DESC");
+                        "pb.paymentHolderType = :holderType AND pb.loggedUserName = :loggedUserName ORDER BY pb.id DESC");
         q.setParameter("tenantId", tenantId);
         q.setParameter("holderType", PaymentBalanceType.TENANT);
-        Optional<PaymentBalance> optionalPaymentBalance = getPaymentBalance(q);
-        return optionalPaymentBalance;
+        q.setParameter("loggedUserName", LoggedUsername.get());
+        return getPaymentBalance(q);
     }
 
     @Override
     public Optional<PaymentBalance> findLatestBalanceForProperty(Long propertyId) {
         Query q = entityManager
                 .createQuery("SELECT pb FROM PaymentBalance pb WHERE pb.balanceHolderId = :propertyId AND " +
-                        "pb.paymentHolderType = :holderType ORDER BY pb.id DESC");
+                        "pb.paymentHolderType = :holderType AND pb.loggedUserName = :loggedUserName ORDER BY pb.id DESC");
         q.setParameter("propertyId", propertyId);
         q.setParameter("holderType", PaymentBalanceType.PROPERTY);
+        q.setParameter("loggedUserName", LoggedUsername.get());
         return getPaymentBalance(q);
     }
 
@@ -52,20 +53,19 @@ public class PaymentBalCustomizedRepositoryImpl implements PaymentBalCustomizedR
 
     @Override
     public List<PaymentBalance> getListLatestBalanceFor(PaymentBalanceType type) {
-        String sqlQuery = "SELECT pb FROM PaymentBalance pb WHERE pb.paymentHolderType = " +
-                "'" + type + "' ORDER BY pb.id DESC";
+        String sqlQuery = "SELECT pb FROM PaymentBalance pb WHERE pb.paymentHolderType = :balanceType " +
+                " AND pb.loggedUserName = :loggedUserName ORDER BY pb.id DESC";
         TypedQuery<PaymentBalance> query = entityManager.createQuery(sqlQuery, PaymentBalance.class);
-
+        query.setParameter("balanceType", type);
+        query.setParameter("loggedUserName", LoggedUsername.get());
         List<PaymentBalance> listToFilter = query.getResultList();
-
         return getUniqueValuesList(listToFilter);
     }
 
     private List<PaymentBalance> getUniqueValuesList(List<PaymentBalance> listToFilter) {
         Map<Long, PaymentBalance> filteredMap = new HashMap<>();
 
-        for (int i = 0; i < listToFilter.size(); i++) {
-            PaymentBalance currentPB = listToFilter.get(i);
+        for (PaymentBalance currentPB : listToFilter) {
             Long balanceHolderId = currentPB.getBalanceHolderId();
             filteredMap.putIfAbsent(balanceHolderId, currentPB);
         }
