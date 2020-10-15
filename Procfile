@@ -1,2 +1,2 @@
-web: java -Dserver.port=$PORT -war target/flat_manager-0.0.1-SNAPSHOT.war
+web: java -Dserver.port=$PORT -jar target/flat_manager-0.0.1-SNAPSHOT.war
 
