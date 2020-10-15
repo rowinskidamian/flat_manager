@@ -32,6 +32,13 @@
 <section class="section">
     <div class="container is-fluid">
         <sec:authorize access="isAnonymous()">
+            <div class="columns is-flex is-vcentered is-centered">
+                <div class="notification is-danger is-light">
+                    <button class="delete"></button>
+                    <h1 class="title">Wersja demonstracyjna aplikacji.</h1>
+                    <h2 class="subtitle">Wpisz użytkownik: <strong>damian</strong> i hasło: <strong>pass</strong></h2>
+                </div>
+            </div>
             <jsp:include page="layout/main_public.jsp"/>
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
@@ -43,6 +50,8 @@
 <footer class="footer">
     <jsp:include page="layout/footer.jsp"/>
 </footer>
+
+<script src="/scripts/notification.js" type="text/javascript"></script>
 
 </body>
 </html>

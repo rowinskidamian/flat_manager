@@ -35,6 +35,10 @@ public class PropertyService {
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
 
+    public void deleteAll() {
+        propertyRepository.deleteAll();
+    }
+
     public Property save(PropertyEditDTO propertyEditDTO) {
         Property property = modelMapper.map(propertyEditDTO, Property.class);
         Address address = modelMapper.map(propertyEditDTO, Address.class);

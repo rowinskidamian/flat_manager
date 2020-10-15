@@ -142,4 +142,7 @@ public class PaymentBalanceService {
                 .collect(Collectors.toList());
     }
 
+    public void deleteAll() {
+        paymentBalanceRepository.deleteAll();
+    }
 }

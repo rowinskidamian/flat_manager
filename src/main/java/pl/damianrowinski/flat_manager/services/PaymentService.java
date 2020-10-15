@@ -36,6 +36,10 @@ public class PaymentService {
     private final RoomService roomService;
     private final TenantRepository tenantRepository;
 
+    public void deleteAll() {
+        paymentRepository.deleteAll();
+    }
+
 
     public void edit(PaymentEditDTO paymentData) {
         Payment paymentToEdit = getPaymentOrThrow(paymentData.getId());

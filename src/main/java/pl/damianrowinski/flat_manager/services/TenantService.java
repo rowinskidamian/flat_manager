@@ -40,6 +40,10 @@ public class TenantService {
     private final RoomAssembler roomAssembler;
     private final TenantRepository tenantRepository;
 
+    public void deleteAll() {
+        tenantRepository.deleteAll();
+    }
+
     public List<TenantListDTO> findAllWithoutRooms(String loggedUserName) {
         List<Tenant> tenantList = tenantRepository.findAllByLoggedUserNameAndRoomIsNull(loggedUserName);
         List<TenantListDTO> tenantDataList = new ArrayList<>();
@@ -239,4 +243,6 @@ public class TenantService {
         tenantData.setLoggedUserName(tenant.getLoggedUserName());
         return tenantData;
     }
+
+
 }

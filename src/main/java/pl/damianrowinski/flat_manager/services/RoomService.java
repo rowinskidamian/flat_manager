@@ -37,6 +37,10 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final TenantRepository tenantRepository;
 
+    public void deleteAll() {
+        roomRepository.deleteAll();
+    }
+
     public RoomTransferDTO findByTenantId(Long tenantId) {
         Optional<Room> optionalRoom = roomRepository.findFirstByTenantId(tenantId);
         if (optionalRoom.isEmpty()) throw new ElementNotFoundException("Brak pokoju dla najemcy o podanym id");

@@ -78,13 +78,23 @@
         </div>
         <div class="tile is-parent">
             <div class="tile is-child box">
-                <p class="title is-4">Przejdź do wybranej sekcji:</p>
+                <h2 class="subtitle">Kliknij i wprowadź losowe dane:</h2>
+                <div class="buttons is-centered">
+                    <a class="button is-success is-large" href="/database/randomizeData">Losowe dane</a>
+                </div>
+
+                <h2 class="subtitle">Przejdź do wybranej sekcji:</h2>
                 <div class="buttons is-centered">
                     <a class="button is-link is-large" href="/property">Mieszkania</a>
                     <a class="button is-info is-large" href="/room">Pokoje</a>
                     <a class="button is-primary is-large" href="/tenant">Najemcy</a>
-                    <a class="button is-success is-large" href="/payment">Płatności</a>
-                    <a class="button is-warning is-large" href="/payment_balance/">Salda kont</a>
+                    <a class="button is-link is-large" href="/payment">Płatności</a>
+                    <a class="button is-info is-large" href="/payment_balance/">Salda kont</a>
+                </div>
+
+                <h2 class="subtitle">Kliknij i wyczyść bazę:</h2>
+                <div class="buttons is-centered">
+                    <a class="button is-warning is-large" href="/database/deleteData">Wyczyść bazę</a>
                 </div>
             </div>
         </div>

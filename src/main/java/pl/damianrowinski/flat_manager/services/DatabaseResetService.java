@@ -24,14 +24,14 @@ import java.util.Random;
 @Slf4j
 public class DatabaseResetService {
 
+    private final PaymentBalanceService paymentBalanceService;
+    private final PaymentService paymentService;
     private final PropertyService propertyService;
     private final RoomService roomService;
-    private final TenantService tenantService;
-    private final PaymentService paymentService;
     private final TenantAssembler tenantAssembler;
+    private final TenantService tenantService;
 
     public void generateRandomizedDatabase() {
-
         final int NO_OF_RANDOM_PROPERTIES = 3;
         final double ROOM_CATALOG_RENT = 1000d;
 
@@ -46,6 +46,15 @@ public class DatabaseResetService {
                 generatePayment(savedTenant, ROOM_CATALOG_RENT);
             }
         }
+    }
+
+    public void deleteAll() {
+
+        tenantService.deleteAll();
+        roomService.deleteAll();
+        propertyService.deleteAll();
+        paymentService.deleteAll();
+        paymentBalanceService.deleteAll();
 
     }
 
