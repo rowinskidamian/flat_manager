@@ -182,8 +182,10 @@ public class DatabaseResetService {
     }
 
     private Double generateUtilitiesAmount() {
-        int i = new Random()
-                .nextInt(10);
-        return (double) i;
+        final int UTILITIES_BASE = 10;
+        final int UTILITIES_MULTIPLAYER = 100;
+        int base = new Random()
+                .nextInt(UTILITIES_BASE);
+        return (double) base * UTILITIES_MULTIPLAYER;
     }
 }

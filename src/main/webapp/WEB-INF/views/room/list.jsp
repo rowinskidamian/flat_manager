@@ -48,7 +48,7 @@
                     <tr>
                         <th>Lp.</th>
                         <th>Nazwa mieszkania</th>
-                        <th>Czynsz</th>
+                        <th>Cena katalogowa</th>
                         <th>Najemca</th>
                         <th>Opcja najemcy</th>
                         <th>Akcje pokoju</th>
