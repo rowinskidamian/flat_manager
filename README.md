@@ -28,7 +28,10 @@ What you can do in app:
 Here you can find demo version with randomly generated data. Feel free to check it:
 user: damian
 pass: pass
+
 You can additionally register your account, however data will be automatically cleared and randomized during next loggin in.
 
+============================================================================
 ====================== You can check working demo app here: ================
 ====================== http://flatmanagerpl.herokuapp.com/ =================
+============================================================================
