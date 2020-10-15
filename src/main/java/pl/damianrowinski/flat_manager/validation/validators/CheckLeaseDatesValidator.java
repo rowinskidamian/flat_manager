@@ -18,6 +18,8 @@ public class CheckLeaseDatesValidator implements ConstraintValidator<CheckLeaseD
         String leaseDateStartString = tenantEditDTO.getLeaseDateStart();
         String leaseDateEndString = tenantEditDTO.getLeaseDateEnd();
 
+        if (("").equals(leaseDateStartString) || ("").equals(leaseDateEndString)) return false;
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate leaseDateStart = LocalDate.parse(leaseDateStartString, formatter);
         LocalDate leaseDateEnd = LocalDate.parse(leaseDateEndString, formatter);
