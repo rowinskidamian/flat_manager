@@ -40,6 +40,7 @@ public abstract class BaseEntity {
     @PreUpdate
     public void updatedDate() {
         updatedDate = CurrentLocalDateTimeFormatted.get();
+        state = BaseEntityState.ACTIVE;
     }
 
     @PreRemove
@@ -59,7 +60,6 @@ public abstract class BaseEntity {
     public int hashCode() {
         return Objects.hash(id);
     }
-
 
 
 }

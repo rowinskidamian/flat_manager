@@ -38,7 +38,7 @@
 
         <div class="columns is-flex is-vcentered is-centered">
 
-            <div class="column is-three-quarters">
+            <div class="column">
 
                 <div class="notification has-text-centered is-light">
                     <strong>Dane mieszkania</strong>

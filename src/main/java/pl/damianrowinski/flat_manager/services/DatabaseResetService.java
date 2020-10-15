@@ -6,11 +6,11 @@ import com.devskiller.jfairy.producer.person.Person;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.damianrowinski.flat_manager.assemblers.TenantAssembler;
 import pl.damianrowinski.flat_manager.domain.model.dtos.payment.PaymentEditDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.property.PropertyEditDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.room.RoomEditDTO;
 import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantEditDTO;
-import pl.damianrowinski.flat_manager.domain.model.entities.Payment;
 import pl.damianrowinski.flat_manager.domain.model.entities.Property;
 import pl.damianrowinski.flat_manager.domain.model.entities.Room;
 import pl.damianrowinski.flat_manager.domain.model.entities.Tenant;
@@ -28,6 +28,7 @@ public class DatabaseResetService {
     private final RoomService roomService;
     private final TenantService tenantService;
     private final PaymentService paymentService;
+    private final TenantAssembler tenantAssembler;
 
     public void generateRandomizedDatabase() {
 
@@ -72,8 +73,6 @@ public class DatabaseResetService {
 
         tenantToAdd.setCityName(address.getCity());
         tenantToAdd.setStreetName(address.getStreet());
-        log.info(address.getApartmentNumber());
-        log.info(address.getStreetNumber());
         tenantToAdd.setStreetNumber(Integer.parseInt(address.getStreetNumber()));
         if (!("").equals(address.getApartmentNumber()))
             tenantToAdd.setApartmentNumber(Integer.parseInt(address.getApartmentNumber()));
@@ -89,7 +88,14 @@ public class DatabaseResetService {
         roomToAdd.setTenantFullName(savedTenant.getPersonalDetails()
                 .getFullName());
         roomToAdd.setTenantId(savedTenant.getId());
-        roomService.save(roomToAdd);
+        Room savedRoom = roomService.save(roomToAdd);
+
+        generatePaymentBillForTenant(savedTenant, savedRoom);
+    }
+
+    private void generatePaymentBillForTenant(Tenant savedTenant, Room savedRoom) {
+        TenantEditDTO tenantDataWithRoom = tenantAssembler.convertTenantToEditWithRoom(savedTenant, savedRoom.getId());
+        tenantService.save(tenantDataWithRoom);
     }
 
     private void generatePayment(Tenant tenant, double catalogRent) {
