@@ -3,11 +3,11 @@ package pl.damianrowinski.flat_manager.domain.model.entities.common;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
 import pl.damianrowinski.flat_manager.utils.CurrentLocalDateTimeFormatted;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @MappedSuperclass

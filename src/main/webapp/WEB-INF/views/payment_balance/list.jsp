@@ -28,7 +28,8 @@
                     Salda kont
                 </h1>
                 <h2 class="subtitle">
-                    Przeglądaj saldo kont dla biznesu, mieszkań i pokoi. Sprawdź czy masz dłużników. </strong>
+                    Przeglądaj salda kont. Sprawdź czy, czy saldo jest ujemne (niedopłata), czy dodatnie (nadpłata).
+                    Obciąż każde konto czynszem za pokój. </strong>
                 </h2>
             </div>
         </div>

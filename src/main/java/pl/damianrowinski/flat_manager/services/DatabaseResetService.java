@@ -14,6 +14,7 @@ import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantEditDTO;
 import pl.damianrowinski.flat_manager.domain.model.entities.Property;
 import pl.damianrowinski.flat_manager.domain.model.entities.Room;
 import pl.damianrowinski.flat_manager.domain.model.entities.Tenant;
+import pl.damianrowinski.flat_manager.domain.repositories.DatabaseDao;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -24,6 +25,7 @@ import java.util.Random;
 @Slf4j
 public class DatabaseResetService {
 
+    private final DatabaseDao databaseDao;
     private final PaymentBalanceService paymentBalanceService;
     private final PaymentService paymentService;
     private final PropertyService propertyService;
@@ -46,6 +48,10 @@ public class DatabaseResetService {
                 generatePayment(savedTenant, ROOM_CATALOG_RENT);
             }
         }
+    }
+
+    public void deleteAllForever() {
+        databaseDao.clearDatabase();
     }
 
     public void deleteAll() {

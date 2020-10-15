@@ -10,7 +10,7 @@ import pl.damianrowinski.flat_manager.domain.model.entities.common.BaseEntityOwn
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -27,7 +27,7 @@ public class PaymentBalance extends BaseEntityOwner {
     final static String SQL_UPDATE = "UPDATE " + TABLE_NAME + " SET state = 'DELETED' WHERE id = ?";
 
     @Column(nullable = false, name = "current_balance_date")
-    private LocalDateTime currentBalanceDate;
+    private LocalDate currentBalanceDate;
 
     @Column(nullable = false, name = "current_balance")
     private Double currentBalance;

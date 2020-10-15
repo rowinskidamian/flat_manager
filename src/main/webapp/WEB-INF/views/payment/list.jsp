@@ -26,7 +26,7 @@
                 Lista płatności
             </h1>
             <h2 class="subtitle">
-                Przeglądaj i edytuj listę płatności.
+                Przeglądaj i edytuj listę płatności. Dodaj płatności od najemców, aby powiększyć stan konta.
             </h2>
         </div>
     </div>
