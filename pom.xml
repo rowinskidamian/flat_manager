@@ -16,9 +16,7 @@
     <description>Demo project of Flat Manager</description>
 
     <properties>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
-<!--        <java.version>11</java.version>-->
+        <java.version>11</java.version>
     </properties>
 
     <dependencies>
