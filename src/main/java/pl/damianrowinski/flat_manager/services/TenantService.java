@@ -101,7 +101,7 @@ public class TenantService {
         return rentDiscount != null ? catalogRent - rentDiscount : catalogRent;
     }
 
-    public void save(TenantEditDTO tenantDataToAdd) {
+    public Tenant save(TenantEditDTO tenantDataToAdd) {
         Tenant tenantToAdd = modelMapper.map(tenantDataToAdd, Tenant.class);
         Address address = modelMapper.map(tenantDataToAdd, Address.class);
         tenantToAdd.setContactAddress(address);
@@ -131,6 +131,8 @@ public class TenantService {
 
             paymentBalanceService.createPaymentBalanceForTenant(tenantPayBalCreateDTO);
         }
+
+        return savedTenant;
     }
 
     public long findNoOfTotalTenantsLoggedUser() {

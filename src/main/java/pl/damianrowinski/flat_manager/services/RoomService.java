@@ -45,7 +45,7 @@ public class RoomService {
         return roomAssembler.convertRoomToTransferData(roomWithTenant);
     }
 
-    public void save(RoomEditDTO roomData) {
+    public Room save(RoomEditDTO roomData) {
         log.info("Attempt to save room:");
         log.info(roomData.toString());
 
@@ -66,8 +66,7 @@ public class RoomService {
         }
 
         roomToSave.setCatalogRent(roomData.getCatalogRent());
-        roomRepository.save(roomToSave);
-
+        return roomRepository.save(roomToSave);
     }
 
     public void addNewToProperty(RoomEditDTO roomData) {
