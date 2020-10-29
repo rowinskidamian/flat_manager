@@ -3,15 +3,13 @@ Spring Boot Examplary App to manage flat and rentals
 
 <b>Tech stack</b>
 
-<b>Language:</b> Java 11,
-basic JavaScript
+<b>Language:</b> Java 11, basic JavaScript
 
-<b>Frameworks:</b>
-Spring Boot, Spring Security, Spring Data JPA/Hibernate, Spring Web (MVC), bulma.io (front-end CSS).
+<b>Frameworks:</b> Spring Boot, Spring Security, Spring Data JPA/Hibernate, Spring Web (MVC), bulma.io (front-end CSS).
 
 <b>Database:</b> H2 database.
 
-<b>Project build:<b/> Maven.
+<b>Project build:</b> Maven.
 
 <b>Deployed:</b> Heroku.
 
@@ -31,5 +29,5 @@ You can additionally register your account, however data will be automatically c
 
 *when you will check app at Heroku, it will require about 2 minutes for Heroku containter to startup.
 
-====================== You can check working demo app here: ================
-====================== http://flatmanagerpl.herokuapp.com/ =================
+=== You can check working demo app here ===
+=== http://flatmanagerpl.herokuapp.com/ ===
