@@ -3,17 +3,10 @@ You can use this app to manage flats, rooms, tenants, payments. It is your small
 
 <b>Tech stack</b>
 <b>Language:</b> Java 11, basic JavaScript
-
 <b>Frameworks:</b> Spring Boot, Spring Security, Spring Data JPA/Hibernate, Spring Web (MVC), bulma.io (front-end CSS).
-
 <b>Database:</b> H2 database.
-
 <b>Project build:</b> Maven.
-
 <b>Deployed:</b> Heroku.
-
-<b>About app:</b>
-CRUD app with elements of data analytics.
 
 <b>What you can do in app:</b>
 - add/edit/remove: flats, rooms, tenants, payments,
