@@ -1,36 +1,35 @@
 # flat_manager
 Spring Boot Examplary App to manage flat and rentals
 
+<b>Tech stack</b>
 
-
-[Tech stack:]
-
-Language: Java 11,
+<b>Language:</b> Java 11,
 basic JavaScript
 
-Frameworks:
+<b>Frameworks:</b>
 Spring Boot, Spring Security, Spring Data JPA/Hibernate, Spring Web (MVC), bulma.io (front-end CSS).
 
-Database: H2 database.
+<b>Database:</b> H2 database.
 
-Project build: Maven.
+<b>Project build:<b/> Maven.
 
-Deployed: Heroku.
+<b>Deployed:</b> Heroku.
 
-About app:
+<b>About app:</b>
 CRUD app with elements of data analytics.
 
-What you can do in app:
+<b>What you can do in app:</b>
 - add/edit/remove: flats, rooms, tenants, payments,
 - you can register your account and have your own personal database,
 - app will generate for you financial summary, will help you monitor payments,
 
-Here you can find demo version with randomly generated data. Feel free to check it:
+<b>Here you can find demo version with randomly generated data. Feel free to check it:</b>
 user: damian
 pass: pass
 
 You can additionally register your account, however data will be automatically cleared and randomized during next loggin in.
 
+*when you will check app at Heroku, it will require about 2 minutes for Heroku containter to startup.
 ============================================================================
 ====================== You can check working demo app here: ================
 ====================== http://flatmanagerpl.herokuapp.com/ =================
