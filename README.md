@@ -30,7 +30,6 @@ pass: pass
 You can additionally register your account, however data will be automatically cleared and randomized during next loggin in.
 
 *when you will check app at Heroku, it will require about 2 minutes for Heroku containter to startup.
-============================================================================
+
 ====================== You can check working demo app here: ================
 ====================== http://flatmanagerpl.herokuapp.com/ =================
-============================================================================
