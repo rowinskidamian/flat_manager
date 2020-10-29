@@ -2,11 +2,11 @@
 You can use this app to manage flats, rooms, tenants, payments. It is your small business database with financial analytics. Enjoy!
 
 <b>Tech stack</b>
-<b>Language:</b> Java 11, basic JavaScript
-<b>Frameworks:</b> Spring Boot, Spring Security, Spring Data JPA/Hibernate, Spring Web (MVC), bulma.io (front-end CSS).
-<b>Database:</b> H2 database.
-<b>Project build:</b> Maven.
-<b>Deployed:</b> Heroku.
+<b>Language:</b> Java 11, basic JavaScript<br>
+<b>Frameworks:</b> Spring Boot, Spring Security, Spring Data JPA/Hibernate, Spring Web (MVC), bulma.io (front-end CSS).<br>
+<b>Database:</b> H2 database.<br>
+<b>Project build:</b> Maven.<br>
+<b>Deployed:</b> Heroku.<br>
 
 <b>What you can do in app:</b>
 - add/edit/remove: flats, rooms, tenants, payments,
