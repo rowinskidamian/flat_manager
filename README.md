@@ -2,7 +2,6 @@
 You can use this app to manage flats, rooms, tenants, payments. It is your small business database with financial analytics. Enjoy!
 
 <b>Tech stack</b>
-
 <b>Language:</b> Java 11, basic JavaScript
 
 <b>Frameworks:</b> Spring Boot, Spring Security, Spring Data JPA/Hibernate, Spring Web (MVC), bulma.io (front-end CSS).
