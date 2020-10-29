@@ -28,5 +28,5 @@ You can additionally register your account, however data will be automatically c
 
 
 === You can check working demo app here ===<br>
-=== http://flatmanagerpl.herokuapp.com/ ===
+=== http://flatmanagerpl.herokuapp.com/ ===<br>
 <i>*when you will check app at Heroku, it will require about 2 minutes for Heroku containter to startup.</i>
