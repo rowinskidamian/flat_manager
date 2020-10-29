@@ -24,10 +24,9 @@ CRUD app with elements of data analytics.
 <b>Here you can find demo version with randomly generated data. Feel free to check it:</b>
 user: damian
 pass: pass
-
 You can additionally register your account, however data will be automatically cleared and randomized during next loggin in.
 
-*when you will check app at Heroku, it will require about 2 minutes for Heroku containter to startup.
 
-=== You can check working demo app here ===
+=== You can check working demo app here ===<br>
 === http://flatmanagerpl.herokuapp.com/ ===
+<i>*when you will check app at Heroku, it will require about 2 minutes for Heroku containter to startup.</i>
