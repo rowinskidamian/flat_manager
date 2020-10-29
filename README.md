@@ -1,5 +1,5 @@
 # flat_manager
-Spring Boot Examplary App to manage flat and rentals
+You can use this app to manage flats, rooms, tenants, payments. It is your small business database with financial analytics. Enjoy!
 
 <b>Tech stack</b>
 
