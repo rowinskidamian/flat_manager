@@ -20,7 +20,7 @@ import pl.damianrowinski.flat_manager.domain.repositories.RoomRepository;
 import pl.damianrowinski.flat_manager.domain.repositories.TenantRepository;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

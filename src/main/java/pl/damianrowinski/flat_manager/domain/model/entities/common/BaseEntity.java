@@ -6,7 +6,7 @@ import lombok.ToString;
 
 import pl.damianrowinski.flat_manager.utils.CurrentLocalDateTimeFormatted;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 

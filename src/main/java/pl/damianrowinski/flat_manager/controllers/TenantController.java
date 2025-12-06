@@ -19,7 +19,7 @@ import pl.damianrowinski.flat_manager.validation.groups.AddTenantGroup;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 import pl.damianrowinski.flat_manager.validation.groups.EditTenantGroup;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 import java.util.List;
 
 @Controller

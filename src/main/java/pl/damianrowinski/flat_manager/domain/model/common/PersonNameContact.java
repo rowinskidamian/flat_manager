@@ -2,8 +2,8 @@ package pl.damianrowinski.flat_manager.domain.model.common;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
 @Data
 @Embeddable

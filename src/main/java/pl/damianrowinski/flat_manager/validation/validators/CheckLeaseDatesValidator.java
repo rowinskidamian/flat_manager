@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import pl.damianrowinski.flat_manager.domain.model.dtos.tenant.TenantEditDTO;
 import pl.damianrowinski.flat_manager.validation.constraints.CheckLeaseDates;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 

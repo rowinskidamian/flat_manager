@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import pl.damianrowinski.flat_manager.services.ValidationService;
 import pl.damianrowinski.flat_manager.validation.constraints.UniqueEmail;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 @Component
 @Slf4j

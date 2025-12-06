@@ -6,7 +6,7 @@ import pl.damianrowinski.flat_manager.validation.constraints.UniqueEmail;
 import pl.damianrowinski.flat_manager.validation.constraints.UniqueLogin;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 @Data
 @CheckPassword

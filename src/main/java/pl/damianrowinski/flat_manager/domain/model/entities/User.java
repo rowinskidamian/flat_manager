@@ -9,8 +9,8 @@ import pl.damianrowinski.flat_manager.domain.model.common.Address;
 import pl.damianrowinski.flat_manager.domain.model.entities.common.BaseEntity;
 import pl.damianrowinski.flat_manager.domain.model.common.PersonNameContact;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
+import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 
 @Entity
 @Getter

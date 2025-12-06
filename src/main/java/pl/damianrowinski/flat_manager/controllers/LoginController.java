@@ -11,8 +11,8 @@ import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserAddDTO;
 import pl.damianrowinski.flat_manager.services.AuthenticationService;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 
-import javax.validation.Valid;
-import javax.validation.groups.Default;
+import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
 
 @Controller
 @RequiredArgsConstructor

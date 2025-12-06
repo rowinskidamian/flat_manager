@@ -10,7 +10,7 @@ import pl.damianrowinski.flat_manager.domain.model.entities.User;
 import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserAddDTO;
 import pl.damianrowinski.flat_manager.domain.repositories.UserRepository;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional

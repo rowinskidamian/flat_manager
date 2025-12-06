@@ -10,8 +10,8 @@ import pl.damianrowinski.flat_manager.domain.model.common.Address;
 import pl.damianrowinski.flat_manager.domain.model.entities.common.BaseEntityOwner;
 import pl.damianrowinski.flat_manager.domain.model.common.PersonNameContact;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
+import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 

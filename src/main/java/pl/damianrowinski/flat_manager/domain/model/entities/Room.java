@@ -1,6 +1,7 @@
+
 package pl.damianrowinski.flat_manager.domain.model.entities;
 
-import com.sun.istack.NotNull;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ResultCheckStyle;
@@ -8,8 +9,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import pl.damianrowinski.flat_manager.domain.model.entities.common.BaseEntityOwner;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
+import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 
 @Entity
 @Getter

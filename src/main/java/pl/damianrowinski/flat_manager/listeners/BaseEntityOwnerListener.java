@@ -5,8 +5,8 @@ import pl.damianrowinski.flat_manager.domain.model.entities.common.BaseEntityOwn
 import pl.damianrowinski.flat_manager.exceptions.ForbiddenAccessException;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
-import javax.persistence.PostLoad;
-import javax.persistence.PreRemove;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PreRemove;
 
 @Component
 public class BaseEntityOwnerListener {
