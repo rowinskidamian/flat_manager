@@ -40,7 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/")
+                .and()
+                .requiresChannel()
+                .anyRequest()
+                .requiresSecure();
     }
 
     @Override
