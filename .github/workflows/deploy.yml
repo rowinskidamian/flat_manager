@@ -1,0 +1,59 @@
+name: Build and Deploy to Cloud Run on GKE
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER_NAME }}
+  GKE_ZONE: ${{ secrets.GKE_CLUSTER_ZONE }}
+  IMAGE: flat_manager
+  REGISTRY_PATH: gcr.io/${{ secrets.GCP_PROJECT_ID }} # Placeholder for registry path
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Build and Test with Maven
+      run: mvn clean test
+
+    - name: Authenticate to Google Cloud
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Configure Docker
+      run: gcloud auth configure-docker --quiet
+
+    - name: Build and Push Docker image
+      run: |
+        docker build -t $REGISTRY_PATH/$IMAGE:$GITHUB_SHA .
+        docker push $REGISTRY_PATH/$IMAGE:$GITHUB_SHA
+
+    - name: Deploy to Cloud Run on GKE
+      uses: google-github-actions/deploy-cloudrun@v2
+      with:
+        service: ${{ env.IMAGE }}
+        image: ${{ env.REGISTRY_PATH }}/${{ env.IMAGE }}:${{ github.sha }}
+        # GKE specific settings
+        cluster: ${{ env.GKE_CLUSTER }}
+        cluster_location: ${{ env.GKE_ZONE }}
+        # Since it is GKE, we might need platform: gke if supported or defined by context
+        # The deploy-cloudrun action handles the platform via cluster/cluster_location inputs.
