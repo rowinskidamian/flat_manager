@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.damianrowinski.flat_manager.listeners.BaseEntityOwnerListener;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @MappedSuperclass
 @Getter

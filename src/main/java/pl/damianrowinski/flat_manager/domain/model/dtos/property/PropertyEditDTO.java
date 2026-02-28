@@ -4,7 +4,7 @@ import lombok.Data;
 import pl.damianrowinski.flat_manager.domain.model.entities.common.BaseEntityState;
 import pl.damianrowinski.flat_manager.domain.model.entities.Room;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import java.util.List;
 
 @Data

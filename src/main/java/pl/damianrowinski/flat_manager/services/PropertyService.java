@@ -19,7 +19,7 @@ import pl.damianrowinski.flat_manager.domain.repositories.PropertyRepository;
 import pl.damianrowinski.flat_manager.domain.repositories.RoomRepository;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

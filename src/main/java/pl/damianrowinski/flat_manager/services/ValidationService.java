@@ -8,7 +8,7 @@ import pl.damianrowinski.flat_manager.domain.model.entities.User;
 import pl.damianrowinski.flat_manager.domain.repositories.TenantRepository;
 import pl.damianrowinski.flat_manager.domain.repositories.UserRepository;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 
 @Service

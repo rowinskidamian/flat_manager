@@ -14,7 +14,7 @@ import pl.damianrowinski.flat_manager.services.PropertyService;
 import pl.damianrowinski.flat_manager.services.TenantService;
 import pl.damianrowinski.flat_manager.utils.LoggedUsername;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @Controller

@@ -8,8 +8,8 @@ import pl.damianrowinski.flat_manager.validation.groups.AddTenantGroup;
 import pl.damianrowinski.flat_manager.validation.groups.AddressValidationGroup;
 import pl.damianrowinski.flat_manager.validation.groups.EditTenantGroup;
 
-import javax.persistence.Transient;
-import javax.validation.constraints.*;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.*;
 
 @Data
 @CheckLeaseDates

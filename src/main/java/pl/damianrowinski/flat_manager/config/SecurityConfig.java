@@ -1,20 +1,22 @@
+
 package pl.damianrowinski.flat_manager.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     private final DataSource dataSource;
 
@@ -25,31 +27,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/scripts/**",
     };
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers(staticResources).permitAll()
-                .antMatchers("/").permitAll()
-                .antMatchers("/register").permitAll()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/login").anonymous()
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(staticResources).permitAll()
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/register").permitAll()
+                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/login").anonymous()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
+        )
+        .formLogin(formLogin -> formLogin
                 .loginPage("/login")
                 .defaultSuccessUrl("/")
-                .and()
-                .logout()
-                .logoutSuccessUrl("/");
+        )
+        .logout(logout -> logout
+                .logoutSuccessUrl("/")
+        );
+        return http.build();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("SELECT login, password, active FROM users WHERE login = ?")
-                .authoritiesByUsernameQuery("SELECT login, role FROM users WHERE login = ?");
+    @Bean
+    public UserDetailsManager userDetailsManager(DataSource dataSource) {
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+        jdbcUserDetailsManager.setUsersByUsernameQuery("SELECT login, password, active FROM users WHERE login = ?");
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("SELECT login, role FROM users WHERE login = ?");
+        return jdbcUserDetailsManager;
     }
 
     @Bean

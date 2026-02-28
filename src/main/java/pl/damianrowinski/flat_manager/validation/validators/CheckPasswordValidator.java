@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import pl.damianrowinski.flat_manager.domain.model.dtos.user.UserAddDTO;
 import pl.damianrowinski.flat_manager.validation.constraints.CheckPassword;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 @Component
 @Slf4j
